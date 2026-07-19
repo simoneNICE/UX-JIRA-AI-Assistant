@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROVO Prompts by Simone</title>
+<meta name="description" content="Rovo Chat prompt library for the UX team: monitor and manage work on Jira. Designers, Researchers, Managers.">
+<style>
+  /* Atlassian Design System tokens */
+  :root {
+    --bg: #f7f8f9;               /* elevation.surface.sunken */
+    --surface: #ffffff;          /* elevation.surface */
+    --surface-2: #f1f2f4;        /* background.neutral */
+    --border: #dcdfe4;           /* color.border */
+    --text: #172b4d;             /* color.text */
+    --text-dim: #44546f;         /* color.text.subtle */
+    --text-subtlest: #626f86;    /* color.text.subtlest */
+    --accent: #0c66e4;           /* background.brand.bold */
+    --accent-hover: #0055cc;     /* background.brand.bold.hovered */
+    --accent-soft: #e9f2ff;      /* background.selected / blue subtlest */
+    --nav: #0c66e4;              /* Jira global-nav bar (blue, same in light/dark) */
+    --neutral-btn: #ebecf0;      /* background.neutral (button subtle) */
+    --neutral-btn-hover: #dcdfe4;
+    --ok: #22a06b;               /* color.text.success */
+    --radius: 8px;               /* radius.medium (cards) */
+    --radius-sm: 3px;            /* radius.small (controls, lozenges) */
+    --shadow: 0 1px 1px rgba(9,30,66,.25), 0 0 1px rgba(9,30,66,.31); /* elevation.shadow.raised */
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101214;             /* elevation.surface.sunken (dark) */
+      --surface: #1d2125;        /* elevation.surface (dark) */
+      --surface-2: #282e33;      /* background.neutral (dark) */
+      --border: #2c333a;         /* color.border (dark) */
+      --text: #c7d1db;           /* color.text (dark) */
+      --text-dim: #9fadbc;       /* color.text.subtle (dark) */
+      --text-subtlest: #8c9bab;  /* color.text.subtlest (dark) */
+      --accent: #579dff;         /* background.brand.bold (dark) */
+      --accent-hover: #85b8ff;   /* hovered (dark) */
+      --accent-soft: #1c2b41;    /* background.selected (dark) */
+      --neutral-btn: #a1bdd914;
+      --neutral-btn-hover: #a6c5e229;
+      --ok: #4bce97;
+      --shadow: 0 1px 1px rgba(3,4,4,.5), 0 0 1px rgba(3,4,4,.6);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.428 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px 80px; }
+
+  /* Jira-style global navigation (blue bar, white content) */
+  .topbar { position: sticky; top: 0; z-index: 50; background: var(--nav); color: #fff; }
+  .topbar-inner { padding: 0 16px; height: 48px; display: flex; align-items: center; gap: 4px; }
+  .tb-brand { flex: 1; min-width: 0; display: inline-flex; align-items: center; gap: 8px; padding: 6px 8px; font-weight: 600; font-size: 16px; color: #fff; }
+  .tb-brand svg { flex: none; fill: #fff; }
+  .tb-brand .brand-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tb-spacer { flex: 1; }
+  .tb-search { flex: 0 1 480px; margin: 0 8px; position: relative; }
+  .tb-search input { width: 100%; height: 32px; padding: 0 12px 0 34px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,.45); background: #fff; color: var(--text); font-size: 14px; outline: none; }
+  .tb-search input:focus { box-shadow: 0 0 0 2px rgba(255,255,255,.55); }
+  .tb-search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-subtlest); }
+  @media (max-width: 560px) { .tb-brand .brand-text { display: none; } }
+
+  header.hero {
+    padding: 24px 0 12px;
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 14px;
+  }
+  .eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--accent);
+    padding: 2px 8px; background: var(--accent-soft); border-radius: var(--radius-sm);
+  }
+  h1 { font-size: 22px; line-height: 1.15; margin: 0; letter-spacing: -.01em; }
+  .lede { font-size: 14px; color: var(--text-dim); margin: 0; flex-basis: 100%; }
+  .integrations { flex-basis: 100%; display: flex; align-items: center; gap: 9px; margin-top: 4px; font-size: 12px; color: var(--text-dim); }
+  .integrations .il { display: inline-flex; align-items: center; gap: 5px; font-weight: 600; color: var(--text); }
+  .integrations .sep { opacity: .45; }
+  .ilogo { display: block; flex: none; }
+
+  .search { margin: 16px 0 4px; position: relative; max-width: 340px; }
+  .search input {
+    width: 100%; padding: 8px 12px 8px 34px; font-size: 14px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    color: var(--text); outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  .search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .search svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-dim); }
+
+  .tabs {
+    display: flex; gap: 8px; margin: 18px 0 20px; flex-wrap: wrap;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    appearance: none; background: none; border: none; cursor: pointer;
+    font: inherit; font-weight: 600; color: var(--text-dim);
+    padding: 10px 12px; border-radius: var(--radius-sm) var(--radius-sm) 0 0; position: relative;
+    display: inline-flex; align-items: center; gap: 8px; transition: color .15s, background .15s;
+  }
+  .tab:hover { color: var(--text); background: var(--surface-2); }
+  .tab.active { color: var(--accent); }
+  .tab.active::after {
+    content: ""; position: absolute; left: 12px; right: 12px; bottom: -1px; height: 2px;
+    background: var(--accent); border-radius: 2px;
+  }
+  .tab-icon { font-size: 17px; }
+  .tab-count {
+    font-size: 12px; font-weight: 700; background: var(--surface-2); color: var(--text-dim);
+    padding: 1px 8px; border-radius: 999px; min-width: 22px; text-align: center;
+  }
+  .tab.active .tab-count { background: var(--accent-soft); color: var(--accent); }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade .2s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .cat-desc { color: var(--text-dim); margin: 0 0 20px; font-size: 14px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column;
+    transition: transform .15s, border-color .15s;
+  }
+  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .card h3 { font-size: 17px; margin: 0; letter-spacing: -.01em; }
+  .src { font-size: 11px; color: var(--text-dim); background: var(--surface-2); padding: 2px 7px; border-radius: 6px; white-space: nowrap; }
+  .blurb { color: var(--text-dim); font-size: 14px; margin: 10px 0 14px; flex: 1; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag {
+    font-size: 11px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase;
+    color: var(--text-dim); background: var(--surface-2); padding: 2px 6px; border-radius: var(--radius-sm);
+  }
+  .card-actions { display: flex; gap: 8px; }
+  .btn {
+    appearance: none; font: inherit; font-weight: 500; font-size: 14px; cursor: pointer;
+    border-radius: var(--radius-sm); padding: 7px 12px; border: none; transition: background .1s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-primary.copied { background: var(--ok); }
+  .btn-ghost { background: var(--neutral-btn); color: var(--text-dim); }
+  .btn-ghost:hover { background: var(--neutral-btn-hover); color: var(--text); }
+  .prompt-body {
+    margin: 14px 0 0; padding: 14px; background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); font: 12.5px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    white-space: pre-wrap; word-break: break-word; max-height: 380px; overflow-y: auto; color: var(--text);
+  }
+  .empty {
+    grid-column: 1 / -1; text-align: center; padding: 56px 20px; color: var(--text-dim);
+    background: var(--surface); border: 1px dashed var(--border); border-radius: var(--radius);
+  }
+  .empty-icon { font-size: 40px; margin-bottom: 8px; }
+  .empty-sub { font-size: 14px; margin-top: 4px; }
+  .empty code { background: var(--surface-2); padding: 1px 6px; border-radius: 5px; }
+
+  footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 13px; }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .no-results { display: none; text-align: center; color: var(--text-dim); padding: 40px; }
+</style>
+</head>
+<body>
+<nav class="topbar">
+  <div class="topbar-inner">
+    <span class="tb-brand">
+      <svg viewBox="0 0 24 24" width="22" height="22" role="img" aria-label="Jira"><path d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0Z"/></svg>
+      <span class="brand-text">ROVO Prompts by Simone</span>
+    </span>
+    <div class="tb-search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="search" id="search" placeholder="Search prompts&hellip;" autocomplete="off">
+    </div>
+    <div class="tb-spacer"></div>
+  </div>
+</nav>
+<div class="wrap">
+  <header class="hero">
+    <h1>ROVO Prompts by Simone</h1>
+    <p class="lede">Ready-to-use Rovo Chat prompts to monitor and manage UX work on Jira. Pick a category, copy the prompt, paste it into Rovo. <b>8</b> available.</p>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="designers" role="tab" aria-selected="true"><span class="tab-icon">&#127912;</span> Designers <span class="tab-count">3</span></button>
+<button class="tab" data-tab="researchers" role="tab" aria-selected="false"><span class="tab-icon">&#128300;</span> Researchers <span class="tab-count">0</span></button>
+<button class="tab" data-tab="managers" role="tab" aria-selected="false"><span class="tab-icon">&#128202;</span> Managers <span class="tab-count">5</span></button>
+  </nav>
+
+  <section class="panel active" id="panel-designers" role="tabpanel"><p class="cat-desc">Self-service prompts for your day-to-day work: create epics, check your health, review your year.</p><div class="grid">
+        <article class="card" data-search="create a ux epic (guided) creates a ux epic under a capability in cxux, with guided task selection. step by step, never writes anything without your confirmation. writes guided">
+          <div class="card-head">
+            <h3>Create a UX Epic (guided)</h3>
+            <code class="src">ux-epic-prompt.md</code>
+          </div>
+          <p class="blurb">Creates a UX Epic under a Capability in CXUX, with guided task selection. Step by step, never writes anything without your confirmation.</p>
+          <div class="tags"><span class="tag">writes</span><span class="tag">guided</span></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-0" hidden>You are helping me create a UX Epic in Jira project CXUX. Follow this process exactly — do not skip steps or create anything until I explicitly confirm.
+
+CAPABILITY: [paste capability key, e.g. CXUX-12754, OR capability name here]
+
+CONTEXT — CXUX hierarchy:
+Initiative (level 3) → Capability (level 2) → Epic (level 1) → Task (level 0).
+An Epic&#x27;s parent MUST be a Capability (level 2) — Jira will reject an Epic without one.
+
+STEP 1 — Identify the parent Capability
+- If I gave you a Capability key: open it and confirm its issue type is Capability (level 2). If it&#x27;s actually an Initiative or something else, tell me and stop — ask me for a valid Capability key.
+- If I gave you only a name (no key): ask me for the Capability key before doing anything else. Do not guess or search for it yourself.
+- Keep the Capability&#x27;s summary text — you&#x27;ll reuse it verbatim as the &quot;capability name&quot; in later steps. Never invent or reword it.
+
+STEP 2 — Draft the Business Requirement description
+- Read the Capability&#x27;s description and synthesize a clear Epic description from it.
+- Write for a reader who has never opened the Capability. Each section should be 1-2 clear, specific sentences in plain English, based on the Capability&#x27;s actual content — not placeholders or generic filler.
+- Include only sections that add value. Do not repeat fields Jira already shows (parent, status, assignee). Omit anything with no real content.
+- Show me the full drafted description and wait for me to approve or edit it. Do NOT proceed to Step 3 until I confirm.
+
+STEP 3 — Pick the component
+- Ask me which component applies, from this list:
+  Actions, Admin, Agent, Agent Assist Hub, Agent Copilot, Agentic Analytics, AI Manager, Analytics Hub, APA, Autopilot, CEA Feedback Management, CXBI, CXone CEA, CXone Cross, CXone Desktop Discovery, CXone Recording, CXone Studio, CXone WFM, CXOne XO, CXOnePM, Dashboard, Data Policies, Design System, EEM, Engage, Experience Optimization, Experiences, Explore, General UX/UI, Interaction Analytics, Interactions (Recording), Knowledge Hub, Management, Monitoring Gateway, Nexidia, NPM, Observability Dashboard, Open Recording, Orchestrator, Player, Playvox, QM, RTIG, Screen Intelligence, ScreenAgent Manager, Summary, Supervisor, Unplugged, User Hub.
+- If I&#x27;m not sure, suggest &quot;General UX/UI&quot;.
+
+STEP 4 — Create the Epic (only after I approve the description and pick a component)
+- Project: CXUX, issue type: Epic
+- Summary: &quot;UX Epic / [Capability name]&quot; — using the Capability&#x27;s summary verbatim
+- Parent: the Capability from Step 1
+- Assignee: me (the current user)
+- Component: the one I picked in Step 3
+- Description: the approved text from Step 2, properly formatted (rich text, not literal \n)
+- Tell me the new Epic key once created.
+
+STEP 5 — Select which tasks to create
+Ask me two SEPARATE questions, one at a time — wait for my answer to the first before asking the second. Both are multi-select, and I may pick none.
+- Question A — Research tasks: Discovery, Ideation, Usability test, Validation
+- Question B — Design &amp; Delivery tasks: Design Spec, Build Review, Other
+Only create the tasks I actually select. If I select none, just confirm the Epic and stop here.
+
+STEP 6 — Create the selected tasks
+For each task I selected, create a Jira Task with:
+- Project: CXUX, issue type: Task
+- Summary: &quot;[Task Type] / [Capability name]&quot; — same capability name as the Epic
+- Parent: the new Epic from Step 4
+- Assignee: me
+- Task Type field: set to the exact selected value
+- Description: use the matching template below, properly formatted (rich text, not literal \n):
+  - Discovery → Goal · Users/Context · Method · Open Questions · Expected Output
+  - Ideation → Goal · Role/Persona · Constraints · References · Expected Output
+  - Usability test → Goal · Artifact · Participants · Tasks/Scenarios · Expected Output
+  - Validation → Goal · Stakeholders/Users · Method · Expected Output
+  - Design Spec → Solution · Figma · Prototype · Edge Cases · Acceptance Criteria
+  - Build Review → Review checklist: Design System · Accessibility · Layout
+  - Other → Goal · Details · Expected Output
+Fill each template section with real content synthesized from the Epic&#x27;s description — don&#x27;t leave placeholder headers with no content.
+
+STEP 7 — Confirm
+Summarize what you created: the Epic key (linked under its Capability), and the list of task keys with their types. Confirm everything is assigned to me in CXUX.
+
+Jira states available (for reference, no native &quot;Blocked&quot;): New, In Progress, Done.</pre>
+        </article>
+
+        <article class="card" data-search="my health check self-service health check on your own active work, across all projects. flags idle, overload, stalled tasks and epics. self-service read-only">
+          <div class="card-head">
+            <h3>My health check</h3>
+            <code class="src">ux-my-health-prompt.md</code>
+          </div>
+          <p class="blurb">Self-service health check on your own active work, across all projects. Flags idle, overload, stalled tasks and epics.</p>
+          <div class="tags"><span class="tag">self-service</span><span class="tag">read-only</span></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-1">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-1" hidden>You are helping me check the health of my own active work in Jira. Scope is ALL projects I work in (not just CXUX) — do not restrict by project. Measure everything against my own assignee identity in this workspace.
+
+HEALTH MODEL — apply these exact rules:
+
+My In Progress task count (the band):
+- 0 tasks → 🔴 idle — nothing active.
+- 1 task → 🟠 under-engaged.
+- 2–4 tasks → ✅ ok.
+- 5+ tasks → 🔴 too many in progress.
+
+Other flags:
+- 🟠 stalled task — a task that has been In Progress for more than 14 days.
+- 🟠 epic out of sync — one of my tasks is In Progress or Done while its parent Epic is still &quot;New&quot;.
+- 🟠 stalled epic — a parent Epic of mine that has been In Progress for more than 45 days.
+
+Sprint-phase lens:
+- Find the active sprint&#x27;s end date (project CXUX). If 7 days or fewer remain, we&#x27;re in the last week:
+  - &quot;too many in progress&quot; becomes a won&#x27;t-finish risk → elevate it.
+  - &quot;under-engaged&quot; is expected that week → suppress that flag.
+
+STEPS:
+1. Find all of my tasks currently In Progress, across all projects. For each, note the parent Epic and its status.
+2. Apply the In Progress band.
+3. Flag any task In Progress for more than 14 days.
+4. Flag any task whose parent Epic is still &quot;New&quot; while my task is In Progress or Done.
+5. For my distinct parent Epics that are In Progress, check how long each has been In Progress; flag any over 45 days.
+6. Check the active sprint&#x27;s end date (project CXUX) and apply the sprint-phase lens if within 7 days of the end.
+7. Present:
+
+```
+# My health check
+*All projects · today &lt;date&gt;*
+🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only if ≤7 days remain
+
+🔴 / 🟠 / ✅ &lt;overall verdict&gt;
+&lt;one sentence per flag, each issue key labelled: task CXUX-NNNNN / epic CXUX-NNNNN&gt;
+```
+
+Lead with the most severe flag. Read-only — do not create, edit, or transition any issues.</pre>
+        </article>
+
+        <article class="card" data-search="my annual report breakdown of your closed work for a year, by task type and story points, with average sp/task. self-service read-only">
+          <div class="card-head">
+            <h3>My annual report</h3>
+            <code class="src">ux-my-report-prompt.md</code>
+          </div>
+          <p class="blurb">Breakdown of your closed work for a year, by Task Type and Story Points, with average SP/task.</p>
+          <div class="tags"><span class="tag">self-service</span><span class="tag">read-only</span></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-2">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-2" hidden>You are helping me build a breakdown of my own closed Jira work for a given year, in project CXUX only.
+
+YEAR: [e.g. 2025 — ask me if I don&#x27;t specify]
+
+Window: Tasks resolved between &lt;year&gt;-01-01 and &lt;year&gt;-12-31 inclusive.
+
+STEPS:
+1. Find all Tasks in project CXUX assigned to me, with status category Done, resolved within that window.
+2. For each, read its Task Type field and its Story Points (treat missing/null Story Points as 0).
+3. Bucket by Task Type — one column per type:
+   Discovery · Ideation · Usability test · Validation · Design Spec · Build Review · Marketing activities · Sol migration · Other · (no type, i.e. field empty/null).
+   Fold any unexpected/unrecognized Task Type value into &quot;Other&quot; and note it in a footnote.
+4. Compute average Story Points per task, EXCLUDING Build Review tasks:
+   sum(SP of tasks where type ≠ Build Review) / count(tasks where type ≠ Build Review), rounded to 1 decimal. Show &quot;—&quot; if there are no non-Build-Review tasks.
+5. Present:
+
+   | Task Type | Count | SP |
+   |-----------|------:|---:|
+   | Ideation  | 5     | 20 |
+   | …         |       |    |
+
+   Summary line: `Total: N tasks · X SP · Avg SP/task (excl. Build Review): Y.Z`
+
+   Footnotes: count of tasks with no Task Type set, and any unexpected types folded into Other.
+
+Read-only — do not create, edit, or transition any issues.</pre>
+        </article></div></section>
+<section class="panel" id="panel-researchers" role="tabpanel"><p class="cat-desc">Research-specific prompts. Coming soon — we're writing them.</p><div class="grid"><div class="empty"><div class="empty-icon">&#128220;</div><p>No prompts ready in this category yet.</p><p class="empty-sub">We're writing them &mdash; see the status in <code>prompts-status.md</code>.</p></div></div></section>
+<section class="panel" id="panel-managers" role="tabpanel"><p class="cat-desc">Team and portfolio views: overview, health checks, annual reports, LOB readiness.</p><div class="grid">
+        <article class="card" data-search="team overview active-sprint snapshot per designer: tasks by status (new / in progress / done) and story points. asks first: whole team, a region, or a single designer. team read-only">
+          <div class="card-head">
+            <h3>Team overview</h3>
+            <code class="src">ux-overview-prompt.md</code>
+          </div>
+          <p class="blurb">Active-sprint snapshot per designer: tasks by status (New / In Progress / Done) and Story Points. Asks first: whole team, a region, or a single designer.</p>
+          <div class="tags"><span class="tag">team</span><span class="tag">read-only</span></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-3">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-3" hidden>You are helping me get an active-sprint snapshot of my UX designers&#x27; work in Jira, grouped by designer. Scope is project CXUX only, current active sprint only. Measure by task assignee.
+
+SCOPE — ask me first. Before running any query, ask me exactly this and wait for my answer:
+&quot;Which scope do you want? (1) the whole team, (2) a specific region — Israel or India, or (3) a single designer (tell me the name)?&quot;
+Do not query Jira until I reply.
+- Whole team → both rosters combined (no overlap between Israel and India); include a Team column labelling each person.
+- A region → only that region&#x27;s roster (Israel or India); no Team column.
+- A single designer → just that one person, resolved from the rosters; no Team column. If the name isn&#x27;t in the rosters or is ambiguous, tell me and ask again.
+
+ROSTER — Israel designers:
+Yaara Bar, Chelsea Franz, Assaf Zinger, Eitan Koren, Tali Silon-Shacham, Galit Atoll, Erez Bar, Michael Dalal, Yoav Chen, Libi Becker Tidhar, Sveta Fomchenko, Lee Winkler, Lihi Shrem, Tal Segev.
+
+ROSTER — India designers:
+Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan Rajput, Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole, Shikha Shukla, Shilpa Sarkar, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam, Kalpesh Gurav, Nirmitee Sisodia, Nutan Doiphode.
+
+The &quot;roster&quot; below refers to whichever set the scope resolved to: both rosters (whole team), one region&#x27;s roster, or the single designer.
+
+STEPS:
+1. Find all Tasks in project CXUX assigned to anyone in the roster, in the currently active sprint.
+2. Group by assignee: count tasks by status (New / In Progress / Done) and sum Story Points (treat missing as 0). Roster members with zero tasks still appear, with all-zero counts.
+3. Note separately any tasks in the active sprint assigned to someone NOT in the roster (don&#x27;t fold them into the table).
+4. Present a table sorted by Total Story Points descending:
+
+   | Designer | Team | New | In Progress | Done | Total | SP |
+   |----------|------|----:|------------:|-----:|------:|---:|
+
+   Show the Team column only when the scope is the whole team; omit it for a single region or a single designer. Add a final TOTAL row.
+
+Read-only — do not create, edit, or transition any issues.</pre>
+        </article>
+
+        <article class="card" data-search="designer health check health check across designers, all projects. overload, idle, stalls, out-of-sync epics, with a sprint-phase lens. asks first: whole team, a region, or a single designer. team read-only">
+          <div class="card-head">
+            <h3>Designer health check</h3>
+            <code class="src">ux-designer-health-prompt.md</code>
+          </div>
+          <p class="blurb">Health check across designers, all projects. Overload, idle, stalls, out-of-sync epics, with a sprint-phase lens. Asks first: whole team, a region, or a single designer.</p>
+          <div class="tags"><span class="tag">team</span><span class="tag">read-only</span></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-4">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-4" hidden>You are helping me run a health check across my UX designers&#x27; active work in Jira. Scope is **all projects** the designers work in (CXUX, CXQM, CXDV, CXREC, CXWFM, PMN, CXDSCVR, VOC, etc.) — do NOT restrict to project = CXUX. Measure everything **by task assignee** (the task is the unit of work for designers).
+
+SCOPE — ask me first. Before running any query, ask me exactly this and wait for my answer:
+&quot;Which scope do you want? (1) the whole team, (2) a specific region — Israel or India, or (3) a single designer (tell me the name)?&quot;
+Do not query Jira until I reply.
+- Whole team → both rosters combined; label each person&#x27;s team in the output.
+- A region → only that region&#x27;s roster (Israel or India).
+- A single designer → just that one person, resolved from the rosters. If the name isn&#x27;t in the rosters or is ambiguous, tell me and ask again.
+
+ROSTER — Israel designers (account_id in parentheses):
+Yaara Bar (557058:f02910b4-7a33-4532-ae52-65b2d02fc245), Chelsea Franz (712020:65c25382-da24-4a4f-9c1a-b9794892207f), Assaf Zinger (712020:0861d082-a1db-4b17-aeba-563afe001639), Eitan Koren (712020:5e21d1f2-366c-4c8e-90fe-3bfb9247687d), Tali Silon-Shacham (70121:f9675544-965d-4261-8c69-dd0b5af1f36b), Galit Atoll (622baa5049c90000702451d9), Erez Bar (63ea3e479e626e54cc5ab8fd), Michael Dalal (712020:e6a03127-1281-4a20-a573-1cc6d59fcf0d), Yoav Chen (61151844627b5600688e908b), Libi Becker Tidhar (61190114650a26006e0f1823), Sveta Fomchenko (712020:d95bc91f-6277-4ae6-988a-bf4a191b66be), Lee Winkler (62cd77d61e326fd9301283b1), Lihi Shrem (712020:b7ff7587-41a6-4539-ba06-e2da1ca0810c), Tal Segev (712020:826cc4e2-1cd8-4e8e-ac09-c37294c8d27e).
+
+ROSTER — India designers (account_id in parentheses):
+Advait Patil (712020:7514f68a-9d45-45f5-8c66-991834165754), Ajit Vaidya (63adc588741248746bf6bdcc), Deepa Bhamare (62b16a22cebad33432f6b5c6), Deepak Badgujar (622ba91e8a4bb60068f70032), Dinesh Koli (712020:721636e8-4f81-48c0-aa3e-d38298047b60), Gajanan Rajput (712020:aa37b218-7608-4133-9500-aac224528ebc), Manashree Thokal (712020:ddc645bb-ccd2-41f5-9cc4-c019304c84e0), Mayur Chaudhari (712020:d488a8df-551b-4325-aa41-7d8e1dababca), Parimal Khanolkar (712020:27f92cd9-b054-4cf2-9ef0-56b974e21536), Prafull Mane (62cdb715dcf59ca4ad0145d2), Sheetal Barge-Gole (712020:c7abe286-b08a-4898-a5c1-9276f430c8df), Shikha Shukla (62baf1fbd752af0e54ebfa75), Shilpa Sarkar (712020:89eeca07-0de1-40bc-b3b2-1c87271ff292), Sushanth Civi (712020:df95749d-30dc-4c39-b333-aa73a4742b7a), Tapas Chowdhury (626094579506d6006fd9fec6), Umajit Mongjam (70121:d43b183a-1a5a-41a1-87ec-cc0e549e8adc), Kalpesh Gurav (712020:8dab633f-0bed-41cd-b93a-d7d95746b0b5), Nirmitee Sisodia (712020:2f630343-f304-4df5-bcb2-ea638aaa72b5), Nutan Doiphode (712020:43f68da3-a554-4afc-ae7d-06fd5df96380).
+
+Apply the health model only to the people the scope resolved to: both rosters (whole team), one region&#x27;s roster, or the single designer. For a single designer, drop the &quot;team&quot; labelling in the output header (use their name).
+
+HEALTH MODEL — apply these exact rules per person:
+
+Per-person In Progress task count (the band):
+- 0 tasks → 🔴 idle — nothing active.
+- 1 task → 🟠 under-engaged.
+- 2–4 tasks → ✅ ok.
+- 5+ tasks → 🔴 too many in progress.
+
+Other flags:
+- 🟠 stalled task — a task that has been In Progress for more than 14 days.
+- 🟠 epic out of sync — a task is In Progress or Done while its parent Epic is still in &quot;New&quot; status (the epic&#x27;s status doesn&#x27;t reflect the work happening inside it).
+- 🟠 stalled epic — an Epic that has been In Progress for more than 45 days.
+
+Sprint-phase lens (not a hard rule — context to apply on top):
+- Find the end date of the currently active sprint. If 7 days or fewer remain, we&#x27;re in the &quot;last week&quot; of the sprint:
+  - &quot;too many in progress&quot; becomes a won&#x27;t-finish risk → treat as more severe.
+  - &quot;under-engaged&quot; is expected that week (work has converged toward Done) → suppress that flag entirely for the last week.
+
+STEPS:
+
+1. For every person in scope, find their Jira tasks currently In Progress (issue type = Task, status = In Progress, assignee = that person, across ALL projects — no project filter). For each, note the parent Epic and that Epic&#x27;s current status. Anyone in the roster with zero In Progress tasks is idle (0 tasks), even if you have to check them explicitly.
+2. Apply the In Progress band per person from the Health model above.
+3. Flag any task that has been In Progress for more than 14 days (stalled task).
+4. Flag any task whose parent Epic is still &quot;New&quot; while the task itself is In Progress or Done (epic out of sync).
+5. For the distinct parent Epics that are In Progress, check how long each has been In Progress; flag any epic over 45 days (stalled epic).
+6. Check the active sprint&#x27;s end date and apply the sprint-phase lens if we&#x27;re in the last 7 days.
+7. Present the result exactly in this format, most severe first, English only, every issue key labelled with its type (e.g. &quot;task CXUX-12345&quot; / &quot;epic CXUX-6789&quot;):
+
+```
+# &lt;Team&gt; — health
+*All projects · today &lt;date&gt;*
+🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only include this line if ≤7 days remain
+
+## 🔴 Overloaded
+- &lt;Name&gt; — N tasks in progress; M stalled &gt;14d; epic out of sync: epic KEY
+
+## 🔴 Idle
+- &lt;Name&gt; — 0 tasks in progress
+
+## 🟠 Watch
+- &lt;Name&gt; — &lt;under-engaged / stalled task KEY / epic KEY out of sync&gt;
+
+*No issues:* &lt;names with no flags, one line&gt;
+```
+
+8. If a flag is pervasive across most of the team (e.g. most people have an out-of-sync epic), say so once at the top as a process-level note instead of repeating it for every person.
+
+Do not create, edit, or transition any Jira issues — this is read-only reporting.</pre>
+        </article>
+
+        <article class="card" data-search="researchers health check health check on the ux researches portfolio (under cxux-12163), per researcher, on their research tasks. team research read-only">
+          <div class="card-head">
+            <h3>Researchers health check</h3>
+            <code class="src">ux-research-health-prompt.md</code>
+          </div>
+          <p class="blurb">Health check on the UX Researches portfolio (under CXUX-12163), per researcher, on their research tasks.</p>
+          <div class="tags"><span class="tag">team</span><span class="tag">research</span><span class="tag">read-only</span></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-5" hidden>You are helping me run a health check on the UX Researches portfolio in Jira project CXUX.
+
+HIERARCHY &amp; SCOPE:
+- Root Initiative: CXUX-12163 (&quot;UX Researches Initiative&quot;).
+- Its child Capabilities (one is the &quot;current&quot; semester capability, e.g. &quot;UX Researches / s2.2026&quot; — it rotates, don&#x27;t assume a fixed key, discover it as a child of CXUX-12163).
+- Each Capability&#x27;s child Epics = individual &quot;researches&quot;. In scope: Epics with status In Progress or New only (exclude Done and Removed).
+- Each Epic&#x27;s child Tasks = research tasks.
+- A research&#x27;s owner = its Epic&#x27;s assignee. Only report researches owned by someone in the researcher roster below — other owners under the same Capabilities (other names, or unassigned) are out of scope, skip them in the per-researcher breakdown.
+- Ignore the test epic CXUX-12409 entirely.
+- Flag any in-scope research Epic with no assignee separately (unassigned research), don&#x27;t attribute it to any researcher.
+
+RESEARCHER ROSTER:
+Andrew Wong (andrew.wong@niceincontact.com), Sveta Fomchenko (sveta.fomchenko@nice.com), Lee Winkler (lee.winkler@nice.com), Serena Yang (serena.yang@niceincontact.com).
+
+HEALTH MODEL — same rules as any health check, applied per researcher using their research TASKS (not epics) as the unit of work:
+
+Per-person In Progress task count (the band):
+- 0 tasks → 🔴 idle.
+- 1 task → 🟠 under-engaged.
+- 2–4 tasks → ✅ ok.
+- 5+ tasks → 🔴 too many in progress.
+
+Other flags:
+- 🟠 stalled task — In Progress for more than 14 days.
+- 🟠 epic out of sync — a task is In Progress or Done while its parent (research) Epic is still New.
+- 🟠 stalled epic — a research Epic In Progress for more than 45 days.
+
+Sprint-phase lens: active sprint end date (project CXUX). If ≤7 days remain: elevate &quot;too many in progress&quot; as a won&#x27;t-finish risk, suppress &quot;under-engaged&quot; that week.
+
+STEPS:
+1. Resolve the tree: Capabilities under CXUX-12163 → their child Epics (keep only those owned by the roster, status In Progress or New, excluding CXUX-12409) → those Epics&#x27; child Tasks.
+2. Check the active sprint&#x27;s end date.
+3. Among the in-scope tasks, find any In Progress for more than 14 days (stalled task).
+4. Find any in-scope research Epic that has been In Progress for more than 45 days (stalled epic).
+5. Per researcher: apply the In Progress task band, stalled tasks, out-of-sync epics, stalled epics, and the sprint-phase lens.
+6. Present, one block per researcher, most severe first:
+
+```
+# Researchers — health
+*Researches under CXUX-12163 · today &lt;date&gt;*
+🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only if ≤7 days remain
+
+🔴 &lt;Name&gt; — &lt;verdict&gt;
+&lt;one sentence, every key labelled: task CXUX-NNNNN / epic CXUX-NNNNN&gt;
+```
+
+Healthy researchers: one 🟢 line, or omit entirely. Mention any unassigned researches once, separately, at the end.
+
+Read-only — do not create, edit, or transition any issues.</pre>
+        </article>
+
+        <article class="card" data-search="annual report per designer breakdown of work closed in a year, per designer and per task type. includes people who closed zero tasks. asks first: whole team, a region, or a single designer. team read-only">
+          <div class="card-head">
+            <h3>Annual report per designer</h3>
+            <code class="src">ux-annual-report-prompt.md</code>
+          </div>
+          <p class="blurb">Breakdown of work closed in a year, per designer and per Task Type. Includes people who closed zero tasks. Asks first: whole team, a region, or a single designer.</p>
+          <div class="tags"><span class="tag">team</span><span class="tag">read-only</span></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-6">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-6" hidden>You are helping me build a per-designer breakdown of Jira Tasks closed in a given year, in project CXUX only.
+
+SCOPE — ask me first. Before running any query, ask me these two things and wait for my answer:
+1. &quot;Which year?&quot; (e.g. 2025)
+2. &quot;Which scope? (1) the whole team, (2) a specific region — Israel or India, or (3) a single designer (tell me the name)?&quot;
+Do not query Jira until I reply to both.
+- Whole team → the union of all rosters below, counting each person ONCE (dedup by identity, not name string).
+- A region → only that region&#x27;s roster (Israel or India).
+- A single designer → just that one person, resolved from the rosters. If the name isn&#x27;t in the rosters or is ambiguous, tell me and ask again.
+
+Window: Tasks resolved between &lt;year&gt;-01-01 and &lt;year&gt;-12-31 inclusive. Scope of &quot;closed&quot; = issue type Task, status category Done, resolved in that window.
+
+ROSTER — Researchers:
+Andrew Wong, Sveta Fomchenko, Lee Winkler, Serena Yang.
+
+ROSTER — Israel designers:
+Yaara Bar, Chelsea Franz, Assaf Zinger, Eitan Koren, Tali Silon-Shacham, Galit Atoll, Erez Bar, Michael Dalal, Yoav Chen, Libi Becker Tidhar, Sveta Fomchenko, Lee Winkler, Lihi Shrem, Tal Segev.
+
+ROSTER — India designers:
+Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan Rajput, Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole, Shikha Shukla, Shilpa Sarkar, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam, Kalpesh Gurav, Nirmitee Sisodia, Nutan Doiphode.
+
+Note: Sveta Fomchenko and Lee Winkler appear in BOTH Researchers and Israel — they do research and design work. For the whole team, use the union of all three rosters, counting each person ONCE (dedup by identity, not by name string), and attribute Sveta and Lee to their designer team (Israel) rather than double-counting them under Researchers too.
+
+STEPS:
+1. Find all Tasks in project CXUX assigned to anyone in the roster(s) in scope, with status category Done and resolved within the year window.
+2. For each, read Task Type and Story Points (missing SP = 0).
+3. Bucket per designer, one column per Task Type:
+   Discovery · Ideation · Usability test · Validation · Design Spec · Build Review · Marketing activities · Sol migration · Other · (no type).
+   Fold unexpected values into Other, note in a footnote. Keep the Sol migration column even if empty for everyone.
+4. Per designer, compute average SP/task EXCLUDING Build Review tasks (same formula as above), 1 decimal, &quot;—&quot; if no eligible tasks.
+5. Include every roster member even if they closed zero tasks that year (all-zero row).
+6. Present a table sorted by Total SP descending, one column per task type, plus a TOTAL row (team-wide average = total SP excl. Build Review / total tasks excl. Build Review):
+
+   | Designer | Team | Disc | Ideation | Usab.test | Valid | Design Spec | Build Rev | Mktg | Sol mig | Other | (no type) | Tasks | SP | Avg SP/task¹ |
+   |----------|------|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+
+   Show the Team column only when the scope is the whole team; omit it for a single region or a single designer. `¹` = excluding Build Review.
+
+   Footnotes: total tasks, count of (no type), unexpected types folded into Other, roster members with zero closed tasks.
+
+Read-only — do not create, edit, or transition any issues.</pre>
+        </article>
+
+        <article class="card" data-search="lob executive summary design readiness across all lob projects for the current and next release. product view (traffic light per capability), not per person. portfolio read-only">
+          <div class="card-head">
+            <h3>LOB Executive Summary</h3>
+            <code class="src">ux-lob-summary-prompt.md</code>
+          </div>
+          <p class="blurb">Design readiness across all LOB projects for the current and next release. Product view (traffic light per capability), not per person.</p>
+          <div class="tags"><span class="tag">portfolio</span><span class="tag">read-only</span></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-7">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-7" hidden>You are helping me build an executive summary of UX design coverage and readiness across all LOB (line-of-business) projects, for the current and next release.
+
+STEP 1 — Determine target releases
+RELEASES: [optional — give me two release codes like &quot;26.3 26.4&quot; if you want to override; otherwise compute them]
+If not given: compute today&#x27;s current release (Q+1) and next release (Q+2) in &quot;YY.Q&quot; format, where Q1=Jan–Mar, Q2=Apr–Jun, Q3=Jul–Sep, Q4=Oct–Dec (after X.4 comes (X+1).1).
+Design deadline per release = first day of its work quarter minus 2 months, where work quarter = release quarter − 1.
+Example: release 26.3 → work starts 1 Apr 2026 → design deadline 1 Feb 2026.
+Example: release 26.4 → work starts 1 Jul 2026 → design deadline 1 May 2026.
+
+STEP 2 — Fetch Capabilities in scope
+Find all issues of type Capability, across all projects, with fixVersion matching either of the two target releases, status not &quot;Removed&quot;. Skip Capabilities that belong to project CXUX itself (that&#x27;s the UX-internal project, not a LOB project). For each, keep: key, summary, status, fix version(s), project.
+
+STEP 3 — Fetch UX Epics
+Find Epics in project CXUX whose parent is one of the Capabilities from Step 2 — this is the definition of a &quot;UX Epic&quot; here (don&#x27;t filter by summary text/prefix, naming isn&#x27;t consistent across teams). Keep only Capabilities that have at least one UX Epic; silently discard Capabilities with none. For each UX Epic keep: key, summary, status, parent, assignee.
+
+STEP 4 — Fetch UX Tasks
+Find Tasks in project CXUX whose parent is one of the UX Epics from Step 3. Keep: key, summary, status, parent, assignee.
+
+STEP 5 — Apply red-light logic
+For each Capability → UX Epic → its Tasks:
+- task_count = number of tasks under the epic
+- done_count = tasks with status Done
+- design_ready = (task_count &gt; 0 AND done_count == task_count) OR (task_count == 0 AND epic status == Done)
+- has_no_tasks = (task_count == 0 AND epic status != Done)
+- epic_unassigned = epic has no assignee
+- tasks_unassigned = any task under it has no assignee
+
+Collect ALL applicable red flags:
+- 🔴 &quot;Design overdue&quot; — today is past the design deadline AND NOT design_ready
+- 🔴 &quot;Dev ahead of design&quot; — Capability status is In Progress or Done AND NOT design_ready
+- 🟠 &quot;No tasks&quot; — has_no_tasks
+- 🟠 &quot;Epic unassigned&quot; — epic_unassigned
+- 🟠 &quot;Task(s) unassigned&quot; — tasks_unassigned
+
+Overall traffic light = 🔴 if any 🔴 flag, else 🟠 if any 🟠 flag, else 🟢.
+Notes column = comma-separated list of the triggered flag names.
+
+Status emoji: Done → 🟢 · In Progress / In Definition → 🟡 · New / Ready for Dev → 🟦 · Removed → ⚪.
+
+STEP 6 — Output
+Group results by: product category → project name → fix version (current release first). Within each group, order 🔴 first, then 🟠, then 🟢.
+
+Header:
+```
+# UX Design Readiness — Releases &lt;R1&gt; &amp; &lt;R2&gt;
+*Generated: &lt;date&gt; | Scope: N capabilities across M projects*
+Design deadlines: &lt;R1&gt; → &lt;date&gt; · &lt;R2&gt; → &lt;date&gt;
+```
+
+Table per project + release:
+```
+| 🚦 | Capability | Fix | Cap. Status | UX Epic | Tasks | Notes |
+```
+Example row: `| 🔴 | [CXREC-133289] iHub – hourly deletion | 26.4 | 🟦 New | CXUX-12690 🟦 New | 0/3 | Design overdue, Epic unassigned |`
+
+After each project&#x27;s table, one summary line: `**&lt;Project name&gt; (&lt;release&gt;):** N capabilities — X 🔴 · Y 🟠 · Z 🟢`
+
+Close with a **⚠️ Needs Attention** section: a flat list of every 🔴 item across all projects, sorted by project then capability key — this is the section I should read first.
+
+Final summary table across everything:
+```
+| Product Area | Project | &lt;R1&gt; 🔴 | &lt;R1&gt; 🟢 | &lt;R2&gt; 🔴 | &lt;R2&gt; 🟢 |
+```
+
+Read-only — do not create, edit, or transition any issues.</pre>
+        </article></div></section>
+
+  <p class="no-results" id="noResults">No prompts match your search.</p>
+
+  <footer>
+    <p>Every prompt ends with &ldquo;read-only&rdquo; where applicable: they're built for reporting and don't modify Jira (except <em>Create a UX Epic</em>, which only writes after your confirmation).</p>
+    <p>Site generated by <code>build-site.py</code> &middot; prompt source in <code>ROVO Prompts/</code> &middot; status in <code>prompts-status.md</code>.</p>
+  </footer>
+</div>
+
+<script>
+  // Tabs
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    panels.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    runSearch();
+  }));
+
+  // Copy
+  document.addEventListener('click', e => {
+    const copyBtn = e.target.closest('[data-copy]');
+    if (copyBtn) {
+      const text = document.getElementById(copyBtn.dataset.copy).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = copyBtn.textContent;
+        copyBtn.textContent = 'Copied \u2713';
+        copyBtn.classList.add('copied');
+        setTimeout(() => { copyBtn.textContent = orig; copyBtn.classList.remove('copied'); }, 1600);
+      });
+    }
+  });
+
+  // Search (filters within the active panel)
+  const search = document.getElementById('search');
+  const noResults = document.getElementById('noResults');
+  function runSearch() {
+    const q = search.value.trim().toLowerCase();
+    const activePanel = document.querySelector('.panel.active');
+    let visible = 0;
+    activePanel.querySelectorAll('.card').forEach(card => {
+      const match = !q || card.dataset.search.includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    const hasCards = activePanel.querySelectorAll('.card').length > 0;
+    noResults.style.display = (q && hasCards && visible === 0) ? 'block' : 'none';
+  }
+  search.addEventListener('input', runSearch);
+</script>
+</body>
+</html>
