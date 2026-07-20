@@ -30,6 +30,8 @@ MANIFEST = [
         "category": "designers",
         "title": "Create a UX Epic (guided)",
         "blurb": "Builds a UX Epic under a Capability in CXUX, one step at a time. Writes only after you confirm.",
+        "inputs": "Capability key or name (e.g. CXUX-12754)",
+        "metrics": "None — guided creation, not measurement",
         "tags": ["writes", "guided"],
     },
     {
@@ -37,6 +39,7 @@ MANIFEST = [
         "category": "designers",
         "title": "My health check",
         "blurb": "How your own workload looks right now, across all projects. Flags idle, overload, and stalled tasks or epics.",
+        "metrics": "In-progress band (0 / 1 / 2–4 / 5+) · stalled task >14d · stalled epic >45d · epic out-of-sync",
         "tags": ["self-service", "read-only"],
     },
     {
@@ -44,6 +47,8 @@ MANIFEST = [
         "category": "designers",
         "title": "My annual report",
         "blurb": "Your closed work for a year, by Task Type and Story Points, with average SP per task.",
+        "inputs": "Year (e.g. 2025)",
+        "metrics": "Task count · Story Points · avg SP/task (excl. Build Review) · by Task Type",
         "tags": ["self-service", "read-only"],
     },
     # --- Researchers ---
@@ -54,6 +59,8 @@ MANIFEST = [
         "category": "managers",
         "title": "Team overview",
         "blurb": "How much work each designer has this sprint — tasks by status and Story Points. CXUX only. Asks first: team, region, or one person.",
+        "inputs": "Scope: whole team, a region, or one designer (the prompt asks)",
+        "metrics": "Task count by status (New / In Progress / Done) · Story Points",
         "tags": ["team", "read-only"],
     },
     {
@@ -61,6 +68,8 @@ MANIFEST = [
         "category": "managers",
         "title": "Designer health check",
         "blurb": "Whether anyone's overloaded, idle, or stalled — across all projects, with a sprint-phase lens. Asks first: team, region, or one person.",
+        "inputs": "Scope: whole team, a region, or one designer (the prompt asks)",
+        "metrics": "In-progress band (0 / 1 / 2–4 / 5+) · stalled task >14d · stalled epic >45d · epic out-of-sync",
         "tags": ["team", "read-only"],
     },
     {
@@ -68,6 +77,7 @@ MANIFEST = [
         "category": "managers",
         "title": "Researchers health check",
         "blurb": "The same health check, for researchers — on the UX Research portfolio under CXUX-12163.",
+        "metrics": "In-progress band (0 / 1 / 2–4 / 5+) · stalled task >14d · stalled epic >45d · on research tasks",
         "tags": ["team", "research", "read-only"],
     },
     {
@@ -75,13 +85,26 @@ MANIFEST = [
         "category": "managers",
         "title": "Annual report per designer",
         "blurb": "Work closed in a year, per designer and Task Type. Includes who closed nothing. Asks first: team, region, or one person.",
+        "inputs": "Year · scope: team, region, or one designer (the prompt asks)",
+        "metrics": "Task count · Story Points · avg SP/task (excl. Build Review) · by Task Type",
         "tags": ["team", "read-only"],
     },
     {
         "file": "ux-lob-summary-prompt.md",
         "category": "managers",
-        "title": "LOB Executive Summary",
-        "blurb": "Design readiness across all LOB projects for this release and next. A traffic light per capability, not per person.",
+        "title": "Design Readiness",
+        "blurb": "A traffic light showing which capabilities are design-ready for this release and next, across all LOB projects. Per capability, not per person.",
+        "inputs": "Optional — two release codes like 26.3 and 26.4 (auto-computed if omitted)",
+        "metrics": "Design-ready (done/total tasks) · design-deadline flags · 🔴 / 🟠 / 🟢 traffic light",
+        "tags": ["portfolio", "read-only"],
+    },
+    {
+        "file": "ux-release-workload-prompt.md",
+        "category": "managers",
+        "title": "Release Workload",
+        "blurb": "Sizes one project's release: how many Capabilities, how many carry UX work, the Story Points behind it, who owns it, and the status of both.",
+        "inputs": "Project key + fix version (e.g. CXREC, 26.4)",
+        "metrics": "Capabilities in release · with a CXUX Epic · total Story Points · epic assignees · capability & epic status",
         "tags": ["portfolio", "read-only"],
     },
 ]
@@ -100,6 +123,19 @@ CATEGORIES = [
         "desc": "Team and portfolio views: overview, health checks, annual reports, LOB readiness.",
     },
 ]
+
+
+def spec_block(css_class: str, label: str, text: str) -> str:
+    """Render a labelled bullet list (Inputs / KPIs & Metrics) from a '·'-separated string.
+    `label` is inserted as-is (may contain safe entities like &amp;); items are escaped."""
+    if not text:
+        return ""
+    items = "".join(
+        f"<li>{html.escape(item.strip())}</li>"
+        for item in text.split("·")
+        if item.strip()
+    )
+    return f'<div class="{css_class}"><b>{label}</b><ul>{items}</ul></div>'
 
 
 def extract_body(md_text: str) -> str:
@@ -137,12 +173,20 @@ def build():
     cards_by_cat = {c["id"]: [] for c in CATEGORIES}
     for idx, p in enumerate(prompts):
         pid = f"p-{idx}"
+        inputs_html = spec_block("inputs", "Inputs", p.get("inputs", ""))
+        metrics_html = spec_block("metrics", "Output", p.get("metrics", ""))
+        search_text = " ".join(
+            [p["title"], p["blurb"], p.get("inputs", ""), p.get("metrics", "")]
+            + p.get("tags", [])
+        )
         card = f"""
-        <article class="card" data-search="{html.escape((p['title'] + ' ' + p['blurb'] + ' ' + ' '.join(p.get('tags', []))).lower())}">
+        <article class="card" data-search="{html.escape(search_text.lower())}">
           <div class="card-head">
             <h3>{html.escape(p['title'])}</h3>
           </div>
           <p class="blurb">{html.escape(p['blurb'])}</p>
+          {inputs_html}
+          {metrics_html}
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="{pid}">Copy prompt</button>
           </div>
@@ -323,6 +367,12 @@ TEMPLATE = """<!DOCTYPE html>
   .card-head {{ display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }}
   .card h3 {{ font-size: 17px; margin: 0; letter-spacing: -.01em; }}
   .blurb {{ color: var(--text-dim); font-size: 14px; margin: 10px 0 14px; flex: 1; }}
+  .inputs, .metrics {{ font-size: 12.5px; color: var(--text-subtlest); margin: 0 0 14px; }}
+  .inputs b, .metrics b {{ display: block; margin-bottom: 6px; font-size: 11px; font-weight: 700;
+                text-transform: uppercase; letter-spacing: .04em; color: var(--text-dim); }}
+  .inputs ul, .metrics ul {{ margin: 0; padding: 0; list-style: none; }}
+  .inputs li, .metrics li {{ position: relative; padding-left: 14px; line-height: 1.55; }}
+  .inputs li::before, .metrics li::before {{ content: "\\2022"; position: absolute; left: 3px; color: var(--accent); }}
   .card-actions {{ display: flex; gap: 8px; margin-top: 16px; }}
   .btn {{
     appearance: none; font: inherit; font-weight: 500; font-size: 14px; cursor: pointer;
