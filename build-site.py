@@ -88,16 +88,10 @@ MANIFEST = [
 
 CATEGORIES = [
     {
-        "id": "designers",
-        "label": "Designers",
-        "icon": "&#127912;",  # 🎨
+        "id": "designers",  # designers + researchers (individual contributors)
+        "label": "Designers & Researchers",
+        "icon": "",
         "desc": "Self-service prompts for your day-to-day work: create epics, check your health, review your year.",
-    },
-    {
-        "id": "researchers",
-        "label": "Researchers",
-        "icon": "&#128300;",  # 🔬
-        "desc": "Research-specific prompts. Coming soon — we're writing them.",
     },
     {
         "id": "managers",
@@ -150,7 +144,6 @@ def build():
         <article class="card" data-search="{html.escape((p['title'] + ' ' + p['blurb'] + ' ' + ' '.join(p.get('tags', []))).lower())}">
           <div class="card-head">
             <h3>{html.escape(p['title'])}</h3>
-            <code class="src">{html.escape(p['file'])}</code>
           </div>
           <p class="blurb">{html.escape(p['blurb'])}</p>
           <div class="tags">{tags_html}</div>
@@ -169,7 +162,7 @@ def build():
         n = counts[cid]
         tabs.append(
             f'<button class="tab{active}" data-tab="{cid}" role="tab" aria-selected="{"true" if i==0 else "false"}">'
-            f'<span class="tab-icon">{c["icon"]}</span> {c["label"]} <span class="tab-count">{n}</span></button>'
+            f'{c["label"]} <span class="tab-count">{n}</span></button>'
         )
         cards = "\n".join(cards_by_cat[cid])
         if not cards.strip():
@@ -333,7 +326,6 @@ TEMPLATE = """<!DOCTYPE html>
   .card:hover {{ transform: translateY(-2px); border-color: var(--accent); }}
   .card-head {{ display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }}
   .card h3 {{ font-size: 17px; margin: 0; letter-spacing: -.01em; }}
-  .src {{ font-size: 11px; color: var(--text-dim); background: var(--surface-2); padding: 2px 7px; border-radius: 6px; white-space: nowrap; }}
   .blurb {{ color: var(--text-dim); font-size: 14px; margin: 10px 0 14px; flex: 1; }}
   .tags {{ display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }}
   .tag {{
@@ -385,7 +377,6 @@ TEMPLATE = """<!DOCTYPE html>
 </nav>
 <div class="wrap">
   <header class="hero">
-    <h1>ROVO Prompts by Simone</h1>
     <p class="lede">Ready-to-use Rovo Chat prompts to monitor and manage UX work on Jira. Pick a category, copy the prompt, paste it into Rovo. <b>{total}</b> available.</p>
   </header>
 
