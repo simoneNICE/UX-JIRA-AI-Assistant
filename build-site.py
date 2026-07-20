@@ -29,21 +29,21 @@ MANIFEST = [
         "file": "ux-epic-prompt.md",
         "category": "designers",
         "title": "Create a UX Epic (guided)",
-        "blurb": "Creates a UX Epic under a Capability in CXUX, with guided task selection. Step by step, never writes anything without your confirmation.",
+        "blurb": "Builds a UX Epic under a Capability in CXUX, one step at a time. Writes only after you confirm.",
         "tags": ["writes", "guided"],
     },
     {
         "file": "ux-my-health-prompt.md",
         "category": "designers",
         "title": "My health check",
-        "blurb": "Self-service health check on your own active work, across all projects. Flags idle, overload, stalled tasks and epics.",
+        "blurb": "How your own workload looks right now, across all projects. Flags idle, overload, and stalled tasks or epics.",
         "tags": ["self-service", "read-only"],
     },
     {
         "file": "ux-my-report-prompt.md",
         "category": "designers",
         "title": "My annual report",
-        "blurb": "Breakdown of your closed work for a year, by Task Type and Story Points, with average SP/task.",
+        "blurb": "Your closed work for a year, by Task Type and Story Points, with average SP per task.",
         "tags": ["self-service", "read-only"],
     },
     # --- Researchers ---
@@ -53,35 +53,35 @@ MANIFEST = [
         "file": "ux-overview-prompt.md",
         "category": "managers",
         "title": "Team overview",
-        "blurb": "Active-sprint snapshot per designer: tasks by status (New / In Progress / Done) and Story Points. Asks first: whole team, a region, or a single designer.",
+        "blurb": "How much work each designer has this sprint — tasks by status and Story Points. CXUX only. Asks first: team, region, or one person.",
         "tags": ["team", "read-only"],
     },
     {
         "file": "ux-designer-health-prompt.md",
         "category": "managers",
         "title": "Designer health check",
-        "blurb": "Health check across designers, all projects. Overload, idle, stalls, out-of-sync epics, with a sprint-phase lens. Asks first: whole team, a region, or a single designer.",
+        "blurb": "Whether anyone's overloaded, idle, or stalled — across all projects, with a sprint-phase lens. Asks first: team, region, or one person.",
         "tags": ["team", "read-only"],
     },
     {
         "file": "ux-research-health-prompt.md",
         "category": "managers",
         "title": "Researchers health check",
-        "blurb": "Health check on the UX Researches portfolio (under CXUX-12163), per researcher, on their research tasks.",
+        "blurb": "The same health check, for researchers — on the UX Research portfolio under CXUX-12163.",
         "tags": ["team", "research", "read-only"],
     },
     {
         "file": "ux-annual-report-prompt.md",
         "category": "managers",
         "title": "Annual report per designer",
-        "blurb": "Breakdown of work closed in a year, per designer and per Task Type. Includes people who closed zero tasks. Asks first: whole team, a region, or a single designer.",
+        "blurb": "Work closed in a year, per designer and Task Type. Includes who closed nothing. Asks first: team, region, or one person.",
         "tags": ["team", "read-only"],
     },
     {
         "file": "ux-lob-summary-prompt.md",
         "category": "managers",
         "title": "LOB Executive Summary",
-        "blurb": "Design readiness across all LOB projects for the current and next release. Product view (traffic light per capability), not per person.",
+        "blurb": "Design readiness across all LOB projects for this release and next. A traffic light per capability, not per person.",
         "tags": ["portfolio", "read-only"],
     },
 ]
@@ -137,16 +137,12 @@ def build():
     cards_by_cat = {c["id"]: [] for c in CATEGORIES}
     for idx, p in enumerate(prompts):
         pid = f"p-{idx}"
-        tags_html = "".join(
-            f'<span class="tag">{html.escape(t)}</span>' for t in p.get("tags", [])
-        )
         card = f"""
         <article class="card" data-search="{html.escape((p['title'] + ' ' + p['blurb'] + ' ' + ' '.join(p.get('tags', []))).lower())}">
           <div class="card-head">
             <h3>{html.escape(p['title'])}</h3>
           </div>
           <p class="blurb">{html.escape(p['blurb'])}</p>
-          <div class="tags">{tags_html}</div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="{pid}">Copy prompt</button>
           </div>
@@ -327,12 +323,7 @@ TEMPLATE = """<!DOCTYPE html>
   .card-head {{ display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }}
   .card h3 {{ font-size: 17px; margin: 0; letter-spacing: -.01em; }}
   .blurb {{ color: var(--text-dim); font-size: 14px; margin: 10px 0 14px; flex: 1; }}
-  .tags {{ display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }}
-  .tag {{
-    font-size: 11px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase;
-    color: var(--text-dim); background: var(--surface-2); padding: 2px 6px; border-radius: var(--radius-sm);
-  }}
-  .card-actions {{ display: flex; gap: 8px; }}
+  .card-actions {{ display: flex; gap: 8px; margin-top: 16px; }}
   .btn {{
     appearance: none; font: inherit; font-weight: 500; font-size: 14px; cursor: pointer;
     border-radius: var(--radius-sm); padding: 7px 12px; border: none; transition: background .1s;
