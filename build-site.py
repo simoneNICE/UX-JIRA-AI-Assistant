@@ -22,7 +22,7 @@ SITE_DIR = ROOT / "site"
 OUT = SITE_DIR / "index.html"
 
 # --- Manifest: order, category, clean title and short blurb for each prompt ---
-# category: "designers" | "researchers" | "managers"
+# category: "designers" | "researchers" | "managers" | "leadership"
 MANIFEST = [
     # --- Designers ---
     {
@@ -107,6 +107,16 @@ MANIFEST = [
         "metrics": "Capabilities in release · with a CXUX Epic · total Story Points · epic assignees · capability & epic status",
         "tags": ["portfolio", "read-only"],
     },
+    # --- Leadership (VP) ---
+    {
+        "file": "ux-capacity-demand-prompt.md",
+        "category": "leadership",
+        "title": "Capacity vs Demand (DRAFT)",
+        "blurb": "DRAFT, not validated. Forward look: does the team's historical throughput cover the design work in the next releases? Demand and capacity both in Story Points on CXUX Epics.",
+        "inputs": "Look-ahead releases (default 3) + baseline releases (default 4)",
+        "metrics": "Demand SP per release · baseline capacity (avg SP/release closed) · load % & gap · unestimated epics · Israel/India split",
+        "tags": ["draft", "portfolio", "read-only"],
+    },
 ]
 
 CATEGORIES = [
@@ -121,6 +131,12 @@ CATEGORIES = [
         "label": "Managers",
         "icon": "&#128202;",  # 📊
         "desc": "Team and portfolio views: overview, health checks, annual reports, LOB readiness.",
+    },
+    {
+        "id": "leadership",
+        "label": "Leadership (VP)",
+        "icon": "&#127919;",  # 🎯
+        "desc": "Org-wide forward views for UX leadership: capacity vs demand, strategic risk, trends.",
     },
 ]
 

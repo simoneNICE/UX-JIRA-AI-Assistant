@@ -130,6 +130,12 @@
   .card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
   .card h3 { font-size: 17px; margin: 0; letter-spacing: -.01em; }
   .blurb { color: var(--text-dim); font-size: 14px; margin: 10px 0 14px; flex: 1; }
+  .inputs, .metrics { font-size: 12.5px; color: var(--text-subtlest); margin: 0 0 14px; }
+  .inputs b, .metrics b { display: block; margin-bottom: 6px; font-size: 11px; font-weight: 700;
+                text-transform: uppercase; letter-spacing: .04em; color: var(--text-dim); }
+  .inputs ul, .metrics ul { margin: 0; padding: 0; list-style: none; }
+  .inputs li, .metrics li { position: relative; padding-left: 14px; line-height: 1.55; }
+  .inputs li::before, .metrics li::before { content: "\2022"; position: absolute; left: 3px; color: var(--accent); }
   .card-actions { display: flex; gap: 8px; margin-top: 16px; }
   .btn {
     appearance: none; font: inherit; font-weight: 500; font-size: 14px; cursor: pointer;
@@ -175,20 +181,23 @@
 </nav>
 <div class="wrap">
   <header class="hero">
-    <p class="lede">Ready-to-use Rovo Chat prompts to monitor and manage UX work on Jira. Pick a category, copy the prompt, paste it into Rovo. <b>8</b> available.</p>
+    <p class="lede">Ready-to-use Rovo Chat prompts to monitor and manage UX work on Jira. Pick a category, copy the prompt, paste it into Rovo. <b>10</b> available.</p>
   </header>
 
   <nav class="tabs" role="tablist">
     <button class="tab active" data-tab="designers" role="tab" aria-selected="true">Designers & Researchers <span class="tab-count">3</span></button>
-<button class="tab" data-tab="managers" role="tab" aria-selected="false">Managers <span class="tab-count">5</span></button>
+<button class="tab" data-tab="managers" role="tab" aria-selected="false">Managers <span class="tab-count">6</span></button>
+<button class="tab" data-tab="leadership" role="tab" aria-selected="false">Leadership (VP) <span class="tab-count">1</span></button>
   </nav>
 
   <section class="panel active" id="panel-designers" role="tabpanel"><p class="cat-desc">Self-service prompts for your day-to-day work: create epics, check your health, review your year.</p><div class="grid">
-        <article class="card" data-search="create a ux epic (guided) builds a ux epic under a capability in cxux, one step at a time. writes only after you confirm. writes guided">
+        <article class="card" data-search="create a ux epic (guided) builds a ux epic under a capability in cxux, one step at a time. writes only after you confirm. capability key or name (e.g. cxux-12754) none — guided creation, not measurement writes guided">
           <div class="card-head">
             <h3>Create a UX Epic (guided)</h3>
           </div>
           <p class="blurb">Builds a UX Epic under a Capability in CXUX, one step at a time. Writes only after you confirm.</p>
+          <div class="inputs"><b>Inputs</b><ul><li>Capability key or name (e.g. CXUX-12754)</li></ul></div>
+          <div class="metrics"><b>Output</b><ul><li>None — guided creation, not measurement</li></ul></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
           </div>
@@ -254,11 +263,13 @@ Summarize what you created: the Epic key (linked under its Capability), and the 
 Jira states available (for reference, no native &quot;Blocked&quot;): New, In Progress, Done.</pre>
         </article>
 
-        <article class="card" data-search="my health check how your own workload looks right now, across all projects. flags idle, overload, and stalled tasks or epics. self-service read-only">
+        <article class="card" data-search="my health check how your own workload looks right now, across all projects. flags idle, overload, and stalled tasks or epics.  in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · epic out-of-sync self-service read-only">
           <div class="card-head">
             <h3>My health check</h3>
           </div>
           <p class="blurb">How your own workload looks right now, across all projects. Flags idle, overload, and stalled tasks or epics.</p>
+          
+          <div class="metrics"><b>Output</b><ul><li>In-progress band (0 / 1 / 2–4 / 5+)</li><li>stalled task &gt;14d</li><li>stalled epic &gt;45d</li><li>epic out-of-sync</li></ul></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-1">Copy prompt</button>
           </div>
@@ -303,11 +314,13 @@ STEPS:
 Lead with the most severe flag. Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="my annual report your closed work for a year, by task type and story points, with average sp per task. self-service read-only">
+        <article class="card" data-search="my annual report your closed work for a year, by task type and story points, with average sp per task. year (e.g. 2025) task count · story points · avg sp/task (excl. build review) · by task type self-service read-only">
           <div class="card-head">
             <h3>My annual report</h3>
           </div>
           <p class="blurb">Your closed work for a year, by Task Type and Story Points, with average SP per task.</p>
+          <div class="inputs"><b>Inputs</b><ul><li>Year (e.g. 2025)</li></ul></div>
+          <div class="metrics"><b>Output</b><ul><li>Task count</li><li>Story Points</li><li>avg SP/task (excl. Build Review)</li><li>by Task Type</li></ul></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-2">Copy prompt</button>
           </div>
@@ -339,11 +352,13 @@ STEPS:
 Read-only — do not create, edit, or transition any issues.</pre>
         </article></div></section>
 <section class="panel" id="panel-managers" role="tabpanel"><p class="cat-desc">Team and portfolio views: overview, health checks, annual reports, LOB readiness.</p><div class="grid">
-        <article class="card" data-search="team overview how much work each designer has this sprint — tasks by status and story points. cxux only. asks first: team, region, or one person. team read-only">
+        <article class="card" data-search="team overview how much work each designer has this sprint — tasks by status and story points. cxux only. asks first: team, region, or one person. scope: whole team, a region, or one designer (the prompt asks) task count by status (new / in progress / done) · story points team read-only">
           <div class="card-head">
             <h3>Team overview</h3>
           </div>
           <p class="blurb">How much work each designer has this sprint — tasks by status and Story Points. CXUX only. Asks first: team, region, or one person.</p>
+          <div class="inputs"><b>Inputs</b><ul><li>Scope: whole team, a region, or one designer (the prompt asks)</li></ul></div>
+          <div class="metrics"><b>Output</b><ul><li>Task count by status (New / In Progress / Done)</li><li>Story Points</li></ul></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-3">Copy prompt</button>
           </div>
@@ -378,11 +393,13 @@ STEPS:
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="designer health check whether anyone&#x27;s overloaded, idle, or stalled — across all projects, with a sprint-phase lens. asks first: team, region, or one person. team read-only">
+        <article class="card" data-search="designer health check whether anyone&#x27;s overloaded, idle, or stalled — across all projects, with a sprint-phase lens. asks first: team, region, or one person. scope: whole team, a region, or one designer (the prompt asks) in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · epic out-of-sync team read-only">
           <div class="card-head">
             <h3>Designer health check</h3>
           </div>
           <p class="blurb">Whether anyone&#x27;s overloaded, idle, or stalled — across all projects, with a sprint-phase lens. Asks first: team, region, or one person.</p>
+          <div class="inputs"><b>Inputs</b><ul><li>Scope: whole team, a region, or one designer (the prompt asks)</li></ul></div>
+          <div class="metrics"><b>Output</b><ul><li>In-progress band (0 / 1 / 2–4 / 5+)</li><li>stalled task &gt;14d</li><li>stalled epic &gt;45d</li><li>epic out-of-sync</li></ul></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-4">Copy prompt</button>
           </div>
@@ -453,11 +470,13 @@ STEPS:
 Do not create, edit, or transition any Jira issues — this is read-only reporting.</pre>
         </article>
 
-        <article class="card" data-search="researchers health check the same health check, for researchers — on the ux research portfolio under cxux-12163. team research read-only">
+        <article class="card" data-search="researchers health check the same health check, for researchers — on the ux research portfolio under cxux-12163.  in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · on research tasks team research read-only">
           <div class="card-head">
             <h3>Researchers health check</h3>
           </div>
           <p class="blurb">The same health check, for researchers — on the UX Research portfolio under CXUX-12163.</p>
+          
+          <div class="metrics"><b>Output</b><ul><li>In-progress band (0 / 1 / 2–4 / 5+)</li><li>stalled task &gt;14d</li><li>stalled epic &gt;45d</li><li>on research tasks</li></ul></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
           </div>
@@ -512,11 +531,13 @@ Healthy researchers: one 🟢 line, or omit entirely. Mention any unassigned res
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="annual report per designer work closed in a year, per designer and task type. includes who closed nothing. asks first: team, region, or one person. team read-only">
+        <article class="card" data-search="annual report per designer work closed in a year, per designer and task type. includes who closed nothing. asks first: team, region, or one person. year · scope: team, region, or one designer (the prompt asks) task count · story points · avg sp/task (excl. build review) · by task type team read-only">
           <div class="card-head">
             <h3>Annual report per designer</h3>
           </div>
           <p class="blurb">Work closed in a year, per designer and Task Type. Includes who closed nothing. Asks first: team, region, or one person.</p>
+          <div class="inputs"><b>Inputs</b><ul><li>Year</li><li>scope: team, region, or one designer (the prompt asks)</li></ul></div>
+          <div class="metrics"><b>Output</b><ul><li>Task count</li><li>Story Points</li><li>avg SP/task (excl. Build Review)</li><li>by Task Type</li></ul></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-6">Copy prompt</button>
           </div>
@@ -563,11 +584,13 @@ STEPS:
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="lob executive summary design readiness across all lob projects for this release and next. a traffic light per capability, not per person. portfolio read-only">
+        <article class="card" data-search="design readiness a traffic light showing which capabilities are design-ready for this release and next, across all lob projects. per capability, not per person. optional — two release codes like 26.3 and 26.4 (auto-computed if omitted) design-ready (done/total tasks) · design-deadline flags · 🔴 / 🟠 / 🟢 traffic light portfolio read-only">
           <div class="card-head">
-            <h3>LOB Executive Summary</h3>
+            <h3>Design Readiness</h3>
           </div>
-          <p class="blurb">Design readiness across all LOB projects for this release and next. A traffic light per capability, not per person.</p>
+          <p class="blurb">A traffic light showing which capabilities are design-ready for this release and next, across all LOB projects. Per capability, not per person.</p>
+          <div class="inputs"><b>Inputs</b><ul><li>Optional — two release codes like 26.3 and 26.4 (auto-computed if omitted)</li></ul></div>
+          <div class="metrics"><b>Output</b><ul><li>Design-ready (done/total tasks)</li><li>design-deadline flags</li><li>🔴 / 🟠 / 🟢 traffic light</li></ul></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-7">Copy prompt</button>
           </div>
@@ -636,6 +659,153 @@ Final summary table across everything:
 ```
 
 Read-only — do not create, edit, or transition any issues.</pre>
+        </article>
+
+        <article class="card" data-search="release workload sizes one project&#x27;s release: how many capabilities, how many carry ux work, the story points behind it, who owns it, and the status of both. project key + fix version (e.g. cxrec, 26.4) capabilities in release · with a cxux epic · total story points · epic assignees · capability &amp; epic status portfolio read-only">
+          <div class="card-head">
+            <h3>Release Workload</h3>
+          </div>
+          <p class="blurb">Sizes one project&#x27;s release: how many Capabilities, how many carry UX work, the Story Points behind it, who owns it, and the status of both.</p>
+          <div class="inputs"><b>Inputs</b><ul><li>Project key + fix version (e.g. CXREC, 26.4)</li></ul></div>
+          <div class="metrics"><b>Output</b><ul><li>Capabilities in release</li><li>with a CXUX Epic</li><li>total Story Points</li><li>epic assignees</li><li>capability &amp; epic status</li></ul></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-8">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-8" hidden>You are helping me size the UX workload for one project in one release. This is read-only — do not create, edit, or transition any issue.
+
+INPUT — two values I must give you:
+PROJECT: [leave blank or paste the project key, e.g. CXREC]
+FIX VERSION: [leave blank or paste the release/fix version exactly as in Jira, e.g. 26.4]
+
+Before doing anything: if either PROJECT or FIX VERSION is blank or still shows the placeholder text, STOP and ask me for the missing one(s) — ask for both if both are missing — and wait for my answer. Do not guess, do not proceed with an empty value, do not run any search until you have both.
+
+CONTEXT — CXUX hierarchy:
+Capabilities live in the line-of-business (LOB) projects. UX design work lives in project CXUX. A &quot;CXUX Epic&quot; here means an Epic in project CXUX whose PARENT is one of those Capabilities — that is the link between a Capability and its UX work. Naming isn&#x27;t consistent across teams, so match on the parent relationship, never on summary text or prefix.
+
+STEP 1 — Fetch the Capabilities in scope
+Find all issues in PROJECT of type Capability with fixVersion = FIX VERSION and status not &quot;Removed&quot;. For each keep: key, summary, status, fix version(s). This is the set for output metric #1.
+
+STEP 2 — Find the CXUX Epics under each Capability
+For each Capability from Step 1, find Epics in project CXUX whose parent is that Capability. For each such Epic keep: key, summary, status, parent (the Capability), assignee, Story Points.
+A Capability &quot;has UX work&quot; if it has at least one CXUX Epic child. Capabilities with zero CXUX Epics still count in metric #1 but not in metric #2.
+
+STEP 3 — Sum the Story Points
+Sum the Story Points field across all CXUX Epics found in Step 2 (all Capabilities combined). Treat an Epic with no Story Points value as 0, and note separately how many Epics had no value set (so the total isn&#x27;t read as complete when it isn&#x27;t).
+
+STEP 4 — Output
+Header:
+```
+# Release Workload — &lt;PROJECT&gt; · &lt;FIX VERSION&gt;
+*Generated: &lt;date&gt; | Read-only*
+```
+
+Then the four headline numbers, up top and unmissable:
+- **Capabilities in release:** N  (project &lt;PROJECT&gt;, fixVersion &lt;FIX VERSION&gt;)
+- **…with a CXUX Epic:** M  (of N — the rest have no UX work attached)
+- **Total Story Points (CXUX Epics):** P  (across Q epics; R epics had no SP set)
+- **Assignees (CXUX Epics):** the distinct people the CXUX Epics are assigned to, each with their epic count, e.g. &quot;Jane Doe (3), John Smith (1)&quot;. Note any unassigned epics as &quot;Unassigned (K)&quot;.
+
+Status emoji: Done → 🟢 · In Progress / In Definition → 🟡 · New / Ready for Dev → 🟦 · Removed → ⚪.
+
+Then a table of every Capability in scope, Capabilities WITH a CXUX Epic first:
+```
+| Capability | Cap. Status | CXUX Epics | Epic Status | Assignee | Story Points |
+```
+- One row per Capability. If it has several CXUX Epics, list each epic key + status in the &quot;Epic Status&quot; column and its assignee in the &quot;Assignee&quot; column (aligned to the same epic), and put the summed SP for that Capability in &quot;Story Points&quot;.
+- Capabilities with no CXUX Epic: show &quot;—&quot; in the CXUX Epics / Epic Status / Assignee / Story Points columns so the gap is visible.
+Example row: `| [CXREC-133289] iHub – hourly deletion | 🟦 New | CXUX-12690 | 🟡 In Progress | Jane Doe | 8 |`
+
+Close with a one-line recap:
+`**&lt;PROJECT&gt; · &lt;FIX VERSION&gt;:** N capabilities · M with UX work · P Story Points across Q epics.`</pre>
+        </article></div></section>
+<section class="panel" id="panel-leadership" role="tabpanel"><p class="cat-desc">Org-wide forward views for UX leadership: capacity vs demand, strategic risk, trends.</p><div class="grid">
+        <article class="card" data-search="capacity vs demand (draft) draft, not validated. forward look: does the team&#x27;s historical throughput cover the design work in the next releases? demand and capacity both in story points on cxux epics. look-ahead releases (default 3) + baseline releases (default 4) demand sp per release · baseline capacity (avg sp/release closed) · load % &amp; gap · unestimated epics · israel/india split draft portfolio read-only">
+          <div class="card-head">
+            <h3>Capacity vs Demand (DRAFT)</h3>
+          </div>
+          <p class="blurb">DRAFT, not validated. Forward look: does the team&#x27;s historical throughput cover the design work in the next releases? Demand and capacity both in Story Points on CXUX Epics.</p>
+          <div class="inputs"><b>Inputs</b><ul><li>Look-ahead releases (default 3) + baseline releases (default 4)</li></ul></div>
+          <div class="metrics"><b>Output</b><ul><li>Demand SP per release</li><li>baseline capacity (avg SP/release closed)</li><li>load % &amp; gap</li><li>unestimated epics</li><li>Israel/India split</li></ul></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-9">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-9" hidden>You are helping me forecast whether the UX team is sized for the incoming roadmap.
+This is read-only — do not create, edit, or transition any issue.
+
+CONTEXT — CXUX hierarchy:
+Capabilities live in the line-of-business (LOB) projects. UX design work lives in
+project CXUX. A &quot;CXUX Epic&quot; is an Epic in project CXUX whose PARENT is a Capability —
+that parent link is how a Capability connects to its UX work. Naming isn&#x27;t consistent
+across teams, so match on the parent relationship, never on summary text or prefix.
+
+UNIT — everything is measured in Story Points on CXUX Epics, on both sides of the
+comparison. Do NOT mix in Task-level Story Points; that would make demand and capacity
+non-comparable. Treat an Epic with no Story Points as 0, and always report how many
+Epics had no value set so the totals aren&#x27;t read as complete.
+
+INPUT — you may override, otherwise use the defaults:
+LOOK-AHEAD: [how many upcoming releases to size, default 3]
+BASELINE: [how many completed releases to average for capacity, default 4]
+
+STEP 1 — Determine releases
+Compute release codes in &quot;YY.Q&quot; format, where Q1=Jan–Mar, Q2=Apr–Jun, Q3=Jul–Sep,
+Q4=Oct–Dec (after X.4 comes (X+1).1).
+- Demand window = the next LOOK-AHEAD releases starting from the current one (Q+1).
+- Baseline window = the BASELINE releases immediately before the current one.
+List both sets explicitly before querying so I can confirm they&#x27;re right.
+
+STEP 2 — Demand (forward)
+For each release in the demand window:
+a. Find all issues of type Capability, across ALL projects, with fixVersion = that
+   release and status not &quot;Removed&quot;. Exclude Capabilities that belong to project CXUX
+   itself. Keep: key, status, project.
+b. For each Capability, find Epics in project CXUX whose parent is that Capability.
+c. Per release, report: capability count, how many have ≥1 CXUX Epic, total CXUX Epic
+   count, summed Epic Story Points, and count of Epics with no SP set.
+
+STEP 3 — Capacity baseline (historical)
+For each release in the baseline window:
+a. Find Epics in project CXUX that were completed for that release — status category
+   Done AND fixVersion = that release. (If an Epic carries no fixVersion, fall back to
+   resolution date falling inside that release&#x27;s work quarter.)
+b. Per release, sum the Epic Story Points closed. Also split the sum by region using
+   the Epic assignee against the rosters below (Epics assigned outside both rosters, or
+   unassigned, go in an &quot;Other&quot; bucket noted separately — do not silently drop them).
+c. Compute the average SP closed per release across the baseline window = capacity baseline.
+
+STEP 4 — Gap
+For each demand-window release: load % = demand SP / baseline avg SP, and gap =
+baseline avg − demand SP. Traffic light: 🔴 if load &gt; 110%, 🟠 if 90–110%, 🟢 if &lt; 90%.
+
+STEP 5 — Output
+Header:
+`# UX Capacity vs Demand — Forecast`
+`*Generated: &lt;date&gt; | Read-only | Unit: Story Points on CXUX Epics*`
+
+Then a &quot;## Headline&quot; block: baseline capacity (avg SP/release), demand per upcoming
+release, gap per release with traffic light, and one ⚠️ confidence line stating how many
+upcoming Epics have no SP set (real demand is higher than shown).
+
+Then &quot;## Demand — upcoming releases&quot;: a table with columns
+| Release | Capabilities | …with CXUX Epic | CXUX Epics | SP (set) | Epics w/o SP | Load vs baseline |
+
+Then &quot;## Capacity baseline — last &lt;BASELINE&gt; completed releases&quot;: a table with columns
+| Release | Epics closed | SP closed | Israel | India | (Other) |
+plus an **Avg** row.
+
+Close with a one-line **Bottom line** naming which releases are over capacity and
+whether unestimated Epics would push it further.
+
+ROSTER — Israel designers:
+Yaara Bar, Chelsea Franz, Assaf Zinger, Eitan Koren, Tali Silon-Shacham, Erez Bar,
+Michael Dalal, Yoav Chen, Libi Becker Tidhar, Sveta Fomchenko, Lee Winkler, Lihi Shrem,
+Tal Segev.
+
+ROSTER — India designers:
+Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan Rajput,
+Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole,
+Shikha Shukla, Shilpa Sarkar, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam,
+Kalpesh Gurav, Nirmitee Sisodia, Nutan Doiphode.</pre>
         </article></div></section>
 
   <p class="no-results" id="noResults">No prompts match your search.</p>

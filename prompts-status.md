@@ -58,6 +58,22 @@ Last updated: 2026-07-20
 
 ---
 
+## 🎯 Leadership (VP)
+
+| Prompt | File | Status | Notes |
+|--------|------|:------:|-------|
+| Capacity vs Demand | `ux-capacity-demand-prompt.md` | 🚧 | **DRAFT — not validated.** Demand vs baseline throughput, both in Story Points on CXUX Epics. Logic and thresholds not yet confirmed against real data. |
+
+### To do — Leadership
+| Prompt | Status | Idea |
+|--------|:------:|------|
+| UX Blind Spots | 💡 | Capabilities entering a release with NO CXUX Epic — the seat-at-the-table gap, complement of `ux-lob-summary` |
+| Throughput & Trend | 💡 | Closures per quarter × region × type over the last 4–6 quarters, with deltas |
+| Portfolio load & bus-factor | 💡 | Israel vs India load across releases, chronic over-allocation, single-person dependencies |
+| VP Executive One-Pager | 💡 | Board-ready recap: delivered + top red risks + ask (orchestrates the above) |
+
+---
+
 ## Maintenance
 
 - **Add a prompt:** create the `.md` in `ROVO Prompts/`, add the entry to the `MANIFEST` in `build-site.py` (category, title, blurb, tags), re-run `python3 build-site.py`, update this table.
