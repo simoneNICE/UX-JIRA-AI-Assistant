@@ -148,17 +148,7 @@ MANIFEST = [
         "tags": ["portfolio", "read-only"],
     },
     # --- Leadership (VP) ---
-    {
-        "file": "ux-capacity-demand-prompt.md",
-        "category": "leadership",
-        "title": "Capacity vs demand",
-        "what_for": "A forward look — does the team's historical throughput cover the design work in the next releases?",
-        "input": "Optional — look-ahead releases (default 3) and baseline releases (default 4).",
-        "does": "Compares how much design work is coming up against how much the team has usually delivered, to see whether the next releases are over or under what the team can handle.",
-        "output": "A headline with baseline capacity, demand per release, and gap with a traffic light, plus two tables.",
-        "note": "DRAFT and data-limited — only ~35% of epics have Story Points set, so the forecast is indicative only.",
-        "tags": ["draft", "portfolio", "read-only"],
-    },
+    # (no leadership prompt ready yet — see prompts-status.md)
 ]
 
 CATEGORIES = [
@@ -178,7 +168,7 @@ CATEGORIES = [
         "id": "leadership",
         "label": "Leadership (VP)",
         "icon": "&#127919;",  # 🎯
-        "desc": "Org-wide forward views for UX leadership: capacity vs demand, strategic risk, trends.",
+        "desc": "Org-wide forward views for UX leadership: strategic risk, blind spots, trends.",
     },
 ]
 
