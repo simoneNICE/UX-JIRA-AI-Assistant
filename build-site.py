@@ -10,10 +10,16 @@ Usage:
 
 To add/edit a prompt: edit the .md in `ROVO Prompts/`, update the MANIFEST below
 (category, title, blurb, tags) and re-run this script.
+
+Each card shows an "Updated" date. It is derived automatically from git (see
+`last_updated`) — there is nothing to bump by hand. Editing a prompt and
+re-running this script is enough: the date tracks the file's last change.
 """
 
+import datetime
 import html
 import pathlib
+import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent
@@ -79,6 +85,15 @@ MANIFEST = [
         "blurb": "The same health check, for researchers — on the UX Research portfolio under CXUX-12163.",
         "metrics": "In-progress band (0 / 1 / 2–4 / 5+) · stalled task >14d · stalled epic >45d · on research tasks",
         "tags": ["team", "research", "read-only"],
+    },
+    {
+        "file": "ux-capability-review-prompt.md",
+        "category": "managers",
+        "title": "Research capability review (DRAFT)",
+        "blurb": "DRAFT, not validated. Reviews every research Epic in the current semester Capability: status counts, how long each is in progress, stalls, out-of-sync tasks, researches per app, thematic categories, and possible duplicate researches.",
+        "inputs": "Optional — a Capability key (defaults to the current semester Capability under CXUX-12163)",
+        "metrics": "Epic counts New/In Progress/Done · days-in-progress per epic · stalled epic >45d / task >14d · out-of-sync · researches per app (Component) · thematic categories · overlap detection",
+        "tags": ["draft", "team", "research", "portfolio", "read-only"],
     },
     {
         "file": "ux-annual-report-prompt.md",
@@ -165,6 +180,43 @@ def extract_body(md_text: str) -> str:
     return md_text.strip()
 
 
+def last_updated(path: pathlib.Path) -> str:
+    """ISO date (YYYY-MM-DD) of the prompt's last real change — the card's
+    "Updated" date.
+
+    STANDARD: the date auto-tracks git, so there is nothing to bump by hand.
+    A committed prompt shows its last commit date; a prompt with uncommitted
+    edits shows today. So every time we edit a prompt and re-run this script,
+    the card date is current — no manual step. Falls back to the file's
+    modification time when git isn't available (e.g. outside a repo)."""
+    rel = str(path)
+    try:
+        dirty = subprocess.run(
+            ["git", "status", "--porcelain", "--", rel],
+            cwd=ROOT, capture_output=True, text=True, timeout=5,
+        )
+        if dirty.returncode == 0 and dirty.stdout.strip():
+            return datetime.date.today().isoformat()
+        log = subprocess.run(
+            ["git", "log", "-1", "--format=%cs", "--", rel],
+            cwd=ROOT, capture_output=True, text=True, timeout=5,
+        )
+        date = log.stdout.strip()
+        if log.returncode == 0 and date:
+            return date
+    except Exception:
+        pass
+    return datetime.date.fromtimestamp(path.stat().st_mtime).isoformat()
+
+
+def human_date(iso: str) -> str:
+    """'2026-07-19' -> 'Jul 19, 2026' for display; passthrough on parse error."""
+    try:
+        return datetime.date.fromisoformat(iso).strftime("%b %-d, %Y")
+    except ValueError:
+        return iso
+
+
 def build():
     if not PROMPTS_DIR.is_dir():
         sys.exit(f"Prompts folder not found: {PROMPTS_DIR}")
@@ -176,7 +228,7 @@ def build():
         if not path.is_file():
             sys.exit(f"Prompt missing from manifest: {path}")
         body = extract_body(path.read_text(encoding="utf-8"))
-        prompts.append({**entry, "body": body})
+        prompts.append({**entry, "body": body, "updated": last_updated(path)})
 
     # Counts per category
     counts = {c["id"]: 0 for c in CATEGORIES}
@@ -191,8 +243,9 @@ def build():
         pid = f"p-{idx}"
         inputs_html = spec_block("inputs", "Inputs", p.get("inputs", ""))
         metrics_html = spec_block("metrics", "Output", p.get("metrics", ""))
+        updated_iso = p["updated"]
         search_text = " ".join(
-            [p["title"], p["blurb"], p.get("inputs", ""), p.get("metrics", "")]
+            [p["title"], p["blurb"], p.get("inputs", ""), p.get("metrics", ""), updated_iso]
             + p.get("tags", [])
         )
         card = f"""
@@ -205,6 +258,7 @@ def build():
           {metrics_html}
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="{pid}">Copy prompt</button>
+            <span class="updated" title="Last updated {updated_iso}">Updated {html.escape(human_date(updated_iso))}</span>
           </div>
           <pre class="prompt-body" id="{pid}" hidden>{html.escape(p['body'])}</pre>
         </article>"""
@@ -389,7 +443,8 @@ TEMPLATE = """<!DOCTYPE html>
   .inputs ul, .metrics ul {{ margin: 0; padding: 0; list-style: none; }}
   .inputs li, .metrics li {{ position: relative; padding-left: 14px; line-height: 1.55; }}
   .inputs li::before, .metrics li::before {{ content: "\\2022"; position: absolute; left: 3px; color: var(--accent); }}
-  .card-actions {{ display: flex; gap: 8px; margin-top: 16px; }}
+  .card-actions {{ display: flex; align-items: center; gap: 8px; margin-top: 16px; }}
+  .updated {{ margin-left: auto; font-size: 11.5px; color: var(--text-subtlest); white-space: nowrap; }}
   .btn {{
     appearance: none; font: inherit; font-weight: 500; font-size: 14px; cursor: pointer;
     border-radius: var(--radius-sm); padding: 7px 12px; border: none; transition: background .1s;

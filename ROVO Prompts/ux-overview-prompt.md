@@ -8,10 +8,10 @@ Paste into Rovo Chat. Rosters embedded below.
 You are helping me get an active-sprint snapshot of my UX designers' work in Jira, grouped by designer. Scope is project CXUX only, current active sprint only. Measure by task assignee.
 
 SCOPE — ask me first. Before running any query, ask me exactly this and wait for my answer:
-"Which scope do you want? (1) the whole team, (2) a specific region — Israel or India, or (3) a single designer (tell me the name)?"
+"Which scope do you want? (1) the whole team, (2) a specific region — Israel, India, or USA, or (3) a single designer (tell me the name)?"
 Do not query Jira until I reply.
-- Whole team → both rosters combined (no overlap between Israel and India); include a Team column labelling each person.
-- A region → only that region's roster (Israel or India); no Team column.
+- Whole team → all rosters combined (no overlap between regions); include a Team column labelling each person.
+- A region → only that region's roster (Israel, India, or USA); no Team column.
 - A single designer → just that one person, resolved from the rosters; no Team column. If the name isn't in the rosters or is ambiguous, tell me and ask again.
 
 ROSTER — Israel designers:
@@ -20,7 +20,10 @@ Yaara Bar, Chelsea Franz, Assaf Zinger, Eitan Koren, Tali Silon-Shacham, Erez Ba
 ROSTER — India designers:
 Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan Rajput, Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole, Shikha Shukla, Shilpa Sarkar, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam, Kalpesh Gurav, Nirmitee Sisodia, Nutan Doiphode.
 
-The "roster" below refers to whichever set the scope resolved to: both rosters (whole team), one region's roster, or the single designer.
+ROSTER — USA designers:
+Doug Clement, Janet Gonzales, David Stoker, Sara Evans, Lorina Binning, Serena Yang, Andrew Wong.
+
+The "roster" below refers to whichever set the scope resolved to: all rosters (whole team), one region's roster, or the single designer.
 
 STEPS:
 1. Find all Tasks in project CXUX assigned to anyone in the roster, in the currently active sprint.

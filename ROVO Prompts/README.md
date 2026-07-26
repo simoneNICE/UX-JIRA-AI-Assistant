@@ -17,7 +17,7 @@ bracketed parameter at the top.
 | File | Converted from | What it does |
 |------|-----------------|---------------|
 | [ux-overview-prompt.md](ux-overview-prompt.md) | `/ux-overview <team\|all>` | Active-sprint snapshot per designer |
-| [ux-designer-health-prompt.md](ux-designer-health-prompt.md) | `/ux-designer-health <team\|all>` | Health check across designers (Israel/India/all) |
+| [ux-designer-health-prompt.md](ux-designer-health-prompt.md) | `/ux-designer-health <team\|all>` | Health check across designers (Israel/India/USA/all) |
 | [ux-research-health-prompt.md](ux-research-health-prompt.md) | `/ux-research-health` | Health check on the UX Researches portfolio |
 | [ux-annual-report-prompt.md](ux-annual-report-prompt.md) | `/ux-annual-report <team\|all> <year>` | Per-designer closed-work breakdown for a year |
 | [ux-lob-summary-prompt.md](ux-lob-summary-prompt.md) | `/ux-lob-summary [release1 release2]` | Design readiness across all LOB projects/releases |

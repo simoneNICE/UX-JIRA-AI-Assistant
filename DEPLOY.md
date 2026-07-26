@@ -42,6 +42,10 @@ Then **Settings → Pages → Branch: `main` / `/ (root)`**.
 2. `python3 build-site.py`
 3. With Option A: `cp -r site/. docs/` then commit & push. With Option B: commit & push from `site/`.
 
+Each card carries an **Updated** date. It's derived automatically from git — no
+manual field to maintain. A committed prompt shows its last commit date; a prompt
+with uncommitted edits shows today, so the date is always current at build time.
+
 ## Notes
 - The "Copy prompt" button uses `navigator.clipboard`, which requires **HTTPS** — GitHub Pages is already HTTPS, so it works. Locally over `file://` copy may fail in some browsers: to test locally run `python3 -m http.server` inside `site/`.
 - The site is public: anyone with the URL sees the prompts. The manager prompts contain the **rosters with designer names and account IDs** (needed because Rovo can't read files). If that's a privacy concern, options: a private repo with Pages on a plan that supports it, or removing the account IDs from the manager prompts before publishing.

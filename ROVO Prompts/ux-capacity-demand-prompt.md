@@ -50,7 +50,7 @@ a. Find Epics in project CXUX that were completed for that release — status ca
    Done AND fixVersion = that release. (If an Epic carries no fixVersion, fall back to
    resolution date falling inside that release's work quarter.)
 b. Per release, sum the Epic Story Points closed. Also split the sum by region using
-   the Epic assignee against the rosters below (Epics assigned outside both rosters, or
+   the Epic assignee against the rosters below (Epics assigned outside all rosters, or
    unassigned, go in an "Other" bucket noted separately — do not silently drop them).
 c. Compute the average SP closed per release across the baseline window = capacity baseline.
 
@@ -71,7 +71,7 @@ Then "## Demand — upcoming releases": a table with columns
 | Release | Capabilities | …with CXUX Epic | CXUX Epics | SP (set) | Epics w/o SP | Load vs baseline |
 
 Then "## Capacity baseline — last <BASELINE> completed releases": a table with columns
-| Release | Epics closed | SP closed | Israel | India | (Other) |
+| Release | Epics closed | SP closed | Israel | India | USA | (Other) |
 plus an **Avg** row.
 
 Close with a one-line **Bottom line** naming which releases are over capacity and
@@ -87,3 +87,7 @@ Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan 
 Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole,
 Shikha Shukla, Shilpa Sarkar, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam,
 Kalpesh Gurav, Nirmitee Sisodia, Nutan Doiphode.
+
+ROSTER — USA designers:
+Doug Clement, Janet Gonzales, David Stoker, Sara Evans, Lorina Binning, Serena Yang,
+Andrew Wong.

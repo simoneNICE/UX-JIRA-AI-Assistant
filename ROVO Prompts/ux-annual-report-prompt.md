@@ -9,10 +9,10 @@ You are helping me build a per-designer breakdown of Jira Tasks closed in a give
 
 SCOPE — ask me first. Before running any query, ask me these two things and wait for my answer:
 1. "Which year?" (e.g. 2025)
-2. "Which scope? (1) the whole team, (2) a specific region — Israel or India, or (3) a single designer (tell me the name)?"
+2. "Which scope? (1) the whole team, (2) a specific region — Israel, India, or USA, or (3) a single designer (tell me the name)?"
 Do not query Jira until I reply to both.
 - Whole team → the union of all rosters below, counting each person ONCE (dedup by identity, not name string).
-- A region → only that region's roster (Israel or India).
+- A region → only that region's roster (Israel, India, or USA).
 - A single designer → just that one person, resolved from the rosters. If the name isn't in the rosters or is ambiguous, tell me and ask again.
 
 Window: Tasks resolved between <year>-01-01 and <year>-12-31 inclusive. Scope of "closed" = issue type Task, status category Done, resolved in that window.
@@ -26,7 +26,10 @@ Yaara Bar, Chelsea Franz, Assaf Zinger, Eitan Koren, Tali Silon-Shacham, Erez Ba
 ROSTER — India designers:
 Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan Rajput, Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole, Shikha Shukla, Shilpa Sarkar, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam, Kalpesh Gurav, Nirmitee Sisodia, Nutan Doiphode.
 
-Note: Sveta Fomchenko and Lee Winkler appear in BOTH Researchers and Israel — they do research and design work. For the whole team, use the union of all three rosters, counting each person ONCE (dedup by identity, not by name string), and attribute Sveta and Lee to their designer team (Israel) rather than double-counting them under Researchers too.
+ROSTER — USA designers:
+Doug Clement, Janet Gonzales, David Stoker, Sara Evans, Lorina Binning, Serena Yang, Andrew Wong.
+
+Note: Sveta Fomchenko and Lee Winkler appear in BOTH Researchers and Israel; Serena Yang and Andrew Wong appear in BOTH Researchers and USA — they do research and design work. For the whole team, use the union of all rosters, counting each person ONCE (dedup by identity, not by name string), and attribute each to their designer team (Sveta and Lee → Israel; Serena and Andrew → USA) rather than double-counting them under Researchers too.
 
 STEPS:
 1. Find all Tasks in project CXUX assigned to anyone in the roster(s) in scope, with status category Done and resolved within the year window.
