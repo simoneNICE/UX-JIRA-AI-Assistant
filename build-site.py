@@ -438,9 +438,12 @@ TEMPLATE = """<!DOCTYPE html>
   .search input:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }}
   .search svg {{ position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-dim); }}
 
+  .tabbar {{
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+    flex-wrap: wrap; margin: 18px 0 20px; border-bottom: 1px solid var(--border);
+  }}
   .tabs {{
-    display: flex; gap: 8px; margin: 18px 0 20px; flex-wrap: wrap;
-    border-bottom: 1px solid var(--border);
+    display: flex; gap: 8px; flex-wrap: wrap;
   }}
   .tab {{
     appearance: none; background: none; border: none; cursor: pointer;
@@ -466,7 +469,7 @@ TEMPLATE = """<!DOCTYPE html>
   @keyframes fade {{ from {{ opacity: 0; transform: translateY(4px); }} to {{ opacity: 1; transform: none; }} }}
   .cat-desc {{ color: var(--text-dim); margin: 0 0 20px; font-size: 14px; }}
 
-  .controls {{ display: flex; align-items: center; gap: 8px; margin: 0 0 20px; }}
+  .controls {{ display: flex; align-items: center; gap: 8px; padding-bottom: 6px; }}
   .sort-ctl {{ font-size: 12px; font-weight: 600; color: var(--text-subtlest);
                text-transform: uppercase; letter-spacing: .04em; }}
   #sort {{
@@ -550,17 +553,18 @@ TEMPLATE = """<!DOCTYPE html>
     <p class="lede">Ready-to-use Rovo Chat prompts to monitor and manage UX work on Jira. Pick a category, copy the prompt, paste it into Rovo. <b>{total}</b> available.</p>
   </header>
 
-  <nav class="tabs" role="tablist">
-    {tabs}
-  </nav>
-
-  <div class="controls">
-    <label class="sort-ctl" for="sort">Sort by</label>
-    <select id="sort">
-      <option value="title" selected>Title (A&ndash;Z)</option>
-      <option value="added">Date added</option>
-      <option value="modified">Date modified</option>
-    </select>
+  <div class="tabbar">
+    <nav class="tabs" role="tablist">
+      {tabs}
+    </nav>
+    <div class="controls">
+      <label class="sort-ctl" for="sort">Sort by</label>
+      <select id="sort">
+        <option value="title" selected>Title (A&ndash;Z)</option>
+        <option value="added">Date added</option>
+        <option value="modified">Date modified</option>
+      </select>
+    </div>
   </div>
 
   {panels}
