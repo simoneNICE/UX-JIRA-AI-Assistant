@@ -157,7 +157,8 @@
   .ex-val { font-size: 13px; line-height: 1.5; color: var(--text-dim); }
   .ex-note .ex-val { font-style: italic; color: var(--text-subtlest); }
   .card-actions { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
-  .updated { margin-left: auto; font-size: 11.5px; color: var(--text-subtlest); white-space: nowrap; }
+  .updated { font-size: 11.5px; color: var(--text-subtlest); white-space: nowrap; }
+  .card-actions .btn-primary { margin-left: auto; }
   .btn {
     appearance: none; font: inherit; font-weight: 500; font-size: 14px; cursor: pointer;
     border-radius: var(--radius-sm); padding: 7px 12px; border: none; transition: background .1s;
@@ -229,8 +230,8 @@
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">Create a well-structured UX Epic under a Capability in CXUX, without building it by hand.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">A Capability key (e.g. CXUX-12754).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Confirms the key is a Capability, drafts the Epic description from it, picks a fitting Component, creates the Epic (parent = the Capability, assigned to you), then stops to ask which tasks to add and creates them with ready-filled templates.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">The new Epic plus the chosen tasks, all linked and assigned to you.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">The only prompt that writes to Jira — and only after you confirm the tasks.</div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-1">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <button class="btn btn-primary" data-copy="p-1">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-1" hidden>You are helping me create a UX Epic in Jira project CXUX. Run the whole process in one go.
 The ONLY time you stop for my input is the task-selection question in Step 5. Everywhere
@@ -322,8 +323,8 @@ New items start as &quot;New&quot;.</pre>
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See your closed work for a year, broken down by task type.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">The year (e.g. 2025).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Finds your Done (non-cancelled) tasks in CXUX for that year, groups them by Task Type and sums Story Points, with the average SP per task (excluding Build Review).</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A Task Type / Count / SP table plus a total line.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Read-only; uses the exact “Story Points” field and excludes cancelled tasks.</div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-5" hidden>You are helping me build a breakdown of my own closed Jira work for a given year, in project CXUX only.
 
@@ -371,8 +372,8 @@ Read-only — do not create, edit, or transition any issues.</pre>
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See in seconds whether your current workload is healthy.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — it looks at your own issues across all projects.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Counts your in-progress items into a band (0 idle · 1 light · 2–4 ok · 5+ too many) and flags tasks stalled &gt;14d, epics stalled &gt;45d, and epics out of sync.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A short verdict, most severe flag first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Counts only leaf work items (not Epics/Capabilities); ages measured from the status-change date.</div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-6">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <button class="btn btn-primary" data-copy="p-6">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-6" hidden>You are helping me check the health of my own active work in Jira. Scope is ALL projects I work in (not just CXUX) — do not restrict by project. Measure everything against my own assignee identity in this workspace.
 
@@ -426,8 +427,8 @@ Lead with the most severe flag. Read-only — do not create, edit, or transition
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">A traffic light of design readiness per capability, for one LOB project + release.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Project key + fix version (e.g. CXREC, 26.4) — asks if missing.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Takes the project&#x27;s capabilities in that release, finds the UX Epic under each (in CXUX) and its tasks, then computes whether design is ready and raises flags (No UX Epic, Design overdue, Dev ahead of design).</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">One table with a red/amber/green light per capability, plus a “Needs Attention” red list.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Matches fix versions by prefix (catches names like 26.4-CSA); ignores cancelled tasks.</div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-2">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <button class="btn btn-primary" data-copy="p-2">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-2" hidden>You are helping me build a design-readiness summary for ONE line-of-business (LOB) project in ONE release: for each Capability in that project+release, is the UX design ready?
 
@@ -502,8 +503,8 @@ Read-only — do not create, edit, or transition any issues.</pre>
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The manager version of the annual report — closed work in a year for every designer.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Year + scope: whole team, a region, or a single designer (the prompt asks).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Like “My annual report” but across the roster, one row per person per Task Type, including who closed zero.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A table sorted by total SP, with a TOTAL row and team average.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Uses the exact Story Points field, excludes cancelled tasks, works in small batches to stay reliable.</div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-3">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <button class="btn btn-primary" data-copy="p-3">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-3" hidden>You are helping me build a per-designer breakdown of Jira Tasks closed in a given year, in project CXUX only.
 
@@ -562,8 +563,8 @@ Read-only — do not create, edit, or transition any issues.</pre>
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The team version of the personal health check — who&#x27;s overloaded, idle, or stalled.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Scope: whole team, a region, or a single designer (the prompt asks).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">For each person, across all projects, applies the in-progress band plus the stalled and out-of-sync flags.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">Overloaded / Idle / Watch lists, plus who&#x27;s fine.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Sprint-phase lens only applies to a single designer; out-of-sync now checks both directions.</div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-4">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <button class="btn btn-primary" data-copy="p-4">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-4" hidden>You are helping me run a health check across my UX designers&#x27; active work in Jira. Scope is **all projects** the designers work in (CXUX, CXQM, CXDV, CXREC, CXWFM, PMN, CXDSCVR, VOC, etc.) — do NOT restrict to project = CXUX. Measure everything **by task assignee** (the task is the unit of work for designers).
 
@@ -643,8 +644,8 @@ Do not create, edit, or transition any Jira issues — this is read-only reporti
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">Size the UX workload of one project in one release.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Project key + fix version (e.g. CXREC, 26.4).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Counts the release&#x27;s capabilities, how many have a linked CXUX Epic (via parent), sums those epics&#x27; Story Points, and who owns them.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">Four headline numbers plus a per-capability table.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">The Capability↔UX Epic link is by parent, not by name; uses the exact Story Points field.</div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-7">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <button class="btn btn-primary" data-copy="p-7">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-7" hidden>You are helping me size the UX workload for one project in one release. This is read-only — do not create, edit, or transition any issue.
 
@@ -701,8 +702,8 @@ Close with a one-line recap:
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">Review all the researches inside the current-semester Capability — a portfolio view, not per person.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Optional — a Capability key (defaults to the current one under CXUX-12163).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Counts epics by status; buckets in-progress age (&gt;45d stalled, &gt;30d ageing); flags stalled and out-of-sync tasks; groups researches per app (Component) and per theme (from the title); spots possible duplicates.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A report with status counts, health, researches-per-app, categories, and overlap candidates.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">DRAFT, not validated. Overlap detection is advisory AI judgment; age is shown in buckets, not exact days.</div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-8">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <button class="btn btn-primary" data-copy="p-8">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-8" hidden>You are helping me review all the research Epics inside the current UX Researches
 Capability in Jira project CXUX.
@@ -799,8 +800,8 @@ Read-only — do not create, edit, or transition any issues.</pre>
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The same health check on the Research portfolio (Epics under CXUX-12163), for researchers.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — the researcher roster is built into the prompt.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Resolves the tree Initiative → current-semester Capability → Epics (the “researches”) → tasks, and applies the health model per researcher.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">One block per researcher, most severe first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Read-only; counts a researcher&#x27;s tasks under their Epics regardless of the task&#x27;s own assignee.</div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-9">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <button class="btn btn-primary" data-copy="p-9">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-9" hidden>You are helping me run a health check on the UX Researches portfolio in Jira project CXUX.
 
@@ -862,8 +863,8 @@ Read-only — do not create, edit, or transition any issues.</pre>
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">A snapshot of the active sprint — how much work each designer has right now.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Asks your scope first: whole team, a region, or a single designer.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">In CXUX, on the active sprint, counts tasks by status (New / In Progress / Done) and sums Story Points per person; people with zero still appear.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A per-designer table sorted by Story Points, with a total row.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Excludes “Removed” tasks; uses the exact Story Points field.</div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-10">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <button class="btn btn-primary" data-copy="p-10">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-10" hidden>You are helping me get an active-sprint snapshot of my UX designers&#x27; work in Jira, grouped by designer. Scope is project CXUX only, current active sprint only. Measure by task assignee.
 
@@ -908,8 +909,8 @@ Read-only — do not create, edit, or transition any issues.</pre>
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">A forward look — does the team&#x27;s historical throughput cover the design work in the next releases?</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Optional — look-ahead releases (default 3) and baseline releases (default 4).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Measures demand (Story Points on upcoming CXUX Epics) vs capacity (average SP closed per past release), compares them with a load % and an Israel/India split.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A headline with baseline capacity, demand per release, and gap with a traffic light, plus two tables.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">DRAFT and data-limited — only ~35% of epics have Story Points set, so the forecast is indicative only.</div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-0" hidden>You are helping me forecast whether the UX team is sized for the incoming roadmap.
 This is read-only — do not create, edit, or transition any issue.

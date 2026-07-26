@@ -327,8 +327,8 @@ def build():
           </div>
           {explain_html}
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="{pid}">Copy prompt</button>
             <span class="updated" title="Last updated {updated_iso}">Updated {html.escape(human_date(updated_iso))}</span>
+            <button class="btn btn-primary" data-copy="{pid}">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="{pid}" hidden>{html.escape(p['body'])}</pre>
         </article>"""
@@ -534,7 +534,8 @@ TEMPLATE = """<!DOCTYPE html>
   .ex-val {{ font-size: 13px; line-height: 1.5; color: var(--text-dim); }}
   .ex-note .ex-val {{ font-style: italic; color: var(--text-subtlest); }}
   .card-actions {{ display: flex; align-items: center; gap: 8px; margin-top: 16px; }}
-  .updated {{ margin-left: auto; font-size: 11.5px; color: var(--text-subtlest); white-space: nowrap; }}
+  .updated {{ font-size: 11.5px; color: var(--text-subtlest); white-space: nowrap; }}
+  .card-actions .btn-primary {{ margin-left: auto; }}
   .btn {{
     appearance: none; font: inherit; font-weight: 500; font-size: 14px; cursor: pointer;
     border-radius: var(--radius-sm); padding: 7px 12px; border: none; transition: background .1s;
