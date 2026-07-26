@@ -1,25 +1,28 @@
 # Rovo Chat prompt — Design readiness (manager)
 
-Converted from `/ux-lob-summary [release1 release2]` in
-`JIRA Agent/manager/agent-ux-manager.md`. Paste into Rovo Chat. This is a product view
-(design coverage/readiness by capability), not a per-person view.
+Converted from `/ux-lob-summary` in `JIRA Agent/manager/agent-ux-manager.md`.
+Paste into Rovo Chat. This is a product view (design coverage/readiness by capability
+for one LOB project + one release), not a per-person view.
 
 ---
 
-You are helping me build an executive summary of UX design coverage and readiness across all LOB (line-of-business) projects, for the current and next release.
+You are helping me build a design-readiness summary for ONE line-of-business (LOB) project in ONE release: for each Capability in that project+release, is the UX design ready?
 
-STEP 1 — Determine target releases
-RELEASES: [optional — give me two release codes like "26.3 26.4" if you want to override; otherwise compute them]
-If not given: compute today's current release (Q+1) and next release (Q+2) in "YY.Q" format, where Q1=Jan–Mar, Q2=Apr–Jun, Q3=Jul–Sep, Q4=Oct–Dec (after X.4 comes (X+1).1). Always compute from today's date — do NOT reuse the example release numbers shown below.
-Design deadline per release = first day of its work quarter minus 2 months, where work quarter = release quarter − 1.
-Example: release 26.3 → work starts 1 Apr 2026 → design deadline 1 Feb 2026.
+INPUT — two values I must give you:
+PROJECT: [leave blank or paste the LOB project key, e.g. CXREC]
+FIX VERSION: [leave blank or paste the release exactly as in Jira, e.g. 26.4]
+
+Before doing anything: if either PROJECT or FIX VERSION is blank or still shows the placeholder text, STOP and ask me for the missing one(s) — ask for both if both are missing — and wait for my answer. Do not guess, do not proceed with an empty value, do not run any search until you have both.
+
+STEP 1 — Design deadline for the release
+Compute the design deadline for FIX VERSION: first day of its work quarter minus 2 months, where work quarter = release quarter − 1. Release format is "YY.Q" (Q1=Jan–Mar, Q2=Apr–Jun, Q3=Jul–Sep, Q4=Oct–Dec).
 Example: release 26.4 → work starts 1 Jul 2026 → design deadline 1 May 2026.
 
 STEP 2 — Fetch Capabilities in scope
-Find all issues of type Capability, across all projects, whose fix version STARTS WITH either target release code, status not "Removed". Release names are NOT consistent across LOBs: some projects (e.g. CSA) use suffixed variants like "26.4-CSA" or "27.1-CSA". Match by prefix — for release 26.4, include "26.4", "26.4-CSA", and any other "26.4…" name — not only the exact string, or you will silently drop entire LOBs. Skip Capabilities that belong to project CXUX itself (that's the UX-internal project, not a LOB project). For each, keep: key, summary, status, fix version(s), project.
+Find all issues of type Capability in PROJECT whose fix version STARTS WITH the FIX VERSION code, status not "Removed". Release names are NOT always consistent: some projects (e.g. CSA) use suffixed variants like "27.1-CSA". Match by prefix — for 27.1 also include "27.1-CSA" and any other "27.1…" name — not only the exact string, or you may drop part of the release. For each, keep: key, summary, status, fix version(s).
 
 STEP 3 — Fetch UX Epics
-Find Epics in project CXUX whose parent is one of the Capabilities from Step 2 — this is the definition of a "UX Epic" here (don't filter by summary text/prefix, naming isn't consistent across teams). Keep only Capabilities that have at least one UX Epic; silently discard Capabilities with none. For each UX Epic keep: key, summary, status, parent, assignee.
+Find Epics in project CXUX whose parent is one of the Capabilities from Step 2 — this is the definition of a "UX Epic" here (don't filter by summary text/prefix, naming isn't consistent across teams). For each UX Epic keep: key, summary, status, parent, assignee. A Capability with no UX Epic still appears in the output (it means UX work was never attached) — flag it, don't discard it.
 
 STEP 4 — Fetch UX Tasks
 Find Tasks in project CXUX whose parent is one of the UX Epics from Step 3. Keep: key, summary, status, parent, assignee.
@@ -29,11 +32,13 @@ For each Capability → UX Epic → its Tasks (IMPORTANT: ignore tasks with stat
 - task_count = number of NON-Removed tasks under the epic
 - done_count = NON-Removed tasks with status Done
 - design_ready = (task_count > 0 AND done_count == task_count) OR (task_count == 0 AND epic status == Done)
-- has_no_tasks = (task_count == 0 AND epic status != Done)
+- no_ux_epic = the Capability has no UX Epic at all
+- has_no_tasks = (has a UX Epic but task_count == 0 AND epic status != Done)
 - epic_unassigned = epic has no assignee
 - tasks_unassigned = any task under it has no assignee
 
-Collect ALL applicable red flags:
+Collect ALL applicable flags:
+- 🔴 "No UX Epic" — no_ux_epic (UX work never attached to this Capability)
 - 🔴 "Design overdue" — today is past the design deadline AND NOT design_ready
 - 🔴 "Dev ahead of design" — Capability status is In Progress or Done AND NOT design_ready
 - 🟠 "No tasks" — has_no_tasks
@@ -46,28 +51,22 @@ Notes column = comma-separated list of the triggered flag names.
 Status emoji: Done → 🟢 · In Progress / In Definition → 🟡 · New / Ready for Dev → 🟦 · Removed → ⚪.
 
 STEP 6 — Output
-Group results by: product category → project name → fix version (current release first). Within each group, order 🔴 first, then 🟠, then 🟢.
-
 Header:
 ```
-# Design readiness — Releases <R1> & <R2>
-*Generated: <date> | Scope: N capabilities across M projects*
-Design deadlines: <R1> → <date> · <R2> → <date>
+# Design readiness — <PROJECT> · <FIX VERSION>
+*Generated: <date> | Read-only | Design deadline: <date>*
+Scope: N capabilities
 ```
 
-Table per project + release:
+One table, ordered 🔴 first, then 🟠, then 🟢:
 ```
-| 🚦 | Capability | Fix | Cap. Status | UX Epic | Tasks | Notes |
+| 🚦 | Capability | Cap. Status | UX Epic | Tasks | Notes |
 ```
-Example row: `| 🔴 | [CXREC-133289] iHub – hourly deletion | 26.4 | 🟦 New | CXUX-12690 🟦 New | 0/3 | Design overdue, Epic unassigned |`
+Example row: `| 🔴 | [CXREC-133289] iHub – hourly deletion | 🟦 New | CXUX-12690 🟦 New | 0/3 | Design overdue, Epic unassigned |`
+For a Capability with no UX Epic, show "—" in the UX Epic / Tasks columns and "No UX Epic" in Notes.
 
-After each project's table, one summary line: `**<Project name> (<release>):** N capabilities — X 🔴 · Y 🟠 · Z 🟢`
+One summary line: `**<PROJECT> · <FIX VERSION>:** N capabilities — X 🔴 · Y 🟠 · Z 🟢`
 
-Close with a **⚠️ Needs Attention** section: a flat list of every 🔴 item across all projects, sorted by project then capability key — this is the section I should read first.
-
-Final summary table across everything:
-```
-| Product Area | Project | <R1> 🔴 | <R1> 🟢 | <R2> 🔴 | <R2> 🟢 |
-```
+Close with a **⚠️ Needs Attention** section: a flat list of every 🔴 item, sorted by capability key — this is the section I should read first.
 
 Read-only — do not create, edit, or transition any issues.

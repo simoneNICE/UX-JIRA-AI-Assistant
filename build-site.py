@@ -111,9 +111,9 @@ MANIFEST = [
         "file": "ux-lob-summary-prompt.md",
         "category": "managers",
         "title": "Design readiness",
-        "blurb": "A traffic light showing which capabilities are design-ready for this release and next, across all LOB projects. Per capability, not per person.",
-        "inputs": "Optional — two release codes like 26.3 and 26.4 (auto-computed if omitted)",
-        "metrics": "Design-ready (done/total tasks) · design-deadline flags · 🔴 / 🟠 / 🟢 traffic light",
+        "blurb": "A traffic light showing which capabilities in one LOB project + release are design-ready. Flags capabilities with no UX epic, design overdue, or dev ahead of design. Per capability, not per person.",
+        "inputs": "Project key + release (e.g. CXREC, 26.4)",
+        "metrics": "Design-ready (done/total tasks) · no-UX-epic / design-overdue / dev-ahead flags · 🔴 / 🟠 / 🟢 traffic light",
         "tags": ["portfolio", "read-only"],
     },
     {
