@@ -10,13 +10,13 @@ You are helping me build an executive summary of UX design coverage and readines
 
 STEP 1 — Determine target releases
 RELEASES: [optional — give me two release codes like "26.3 26.4" if you want to override; otherwise compute them]
-If not given: compute today's current release (Q+1) and next release (Q+2) in "YY.Q" format, where Q1=Jan–Mar, Q2=Apr–Jun, Q3=Jul–Sep, Q4=Oct–Dec (after X.4 comes (X+1).1).
+If not given: compute today's current release (Q+1) and next release (Q+2) in "YY.Q" format, where Q1=Jan–Mar, Q2=Apr–Jun, Q3=Jul–Sep, Q4=Oct–Dec (after X.4 comes (X+1).1). Always compute from today's date — do NOT reuse the example release numbers shown below.
 Design deadline per release = first day of its work quarter minus 2 months, where work quarter = release quarter − 1.
 Example: release 26.3 → work starts 1 Apr 2026 → design deadline 1 Feb 2026.
 Example: release 26.4 → work starts 1 Jul 2026 → design deadline 1 May 2026.
 
 STEP 2 — Fetch Capabilities in scope
-Find all issues of type Capability, across all projects, with fixVersion matching either of the two target releases, status not "Removed". Skip Capabilities that belong to project CXUX itself (that's the UX-internal project, not a LOB project). For each, keep: key, summary, status, fix version(s), project.
+Find all issues of type Capability, across all projects, whose fix version STARTS WITH either target release code, status not "Removed". Release names are NOT consistent across LOBs: some projects (e.g. CSA) use suffixed variants like "26.4-CSA" or "27.1-CSA". Match by prefix — for release 26.4, include "26.4", "26.4-CSA", and any other "26.4…" name — not only the exact string, or you will silently drop entire LOBs. Skip Capabilities that belong to project CXUX itself (that's the UX-internal project, not a LOB project). For each, keep: key, summary, status, fix version(s), project.
 
 STEP 3 — Fetch UX Epics
 Find Epics in project CXUX whose parent is one of the Capabilities from Step 2 — this is the definition of a "UX Epic" here (don't filter by summary text/prefix, naming isn't consistent across teams). Keep only Capabilities that have at least one UX Epic; silently discard Capabilities with none. For each UX Epic keep: key, summary, status, parent, assignee.
@@ -25,9 +25,9 @@ STEP 4 — Fetch UX Tasks
 Find Tasks in project CXUX whose parent is one of the UX Epics from Step 3. Keep: key, summary, status, parent, assignee.
 
 STEP 5 — Apply red-light logic
-For each Capability → UX Epic → its Tasks:
-- task_count = number of tasks under the epic
-- done_count = tasks with status Done
+For each Capability → UX Epic → its Tasks (IMPORTANT: ignore tasks with status "Removed" — they are cancelled; counting them would make design_ready impossible and raise false red flags):
+- task_count = number of NON-Removed tasks under the epic
+- done_count = NON-Removed tasks with status Done
 - design_ready = (task_count > 0 AND done_count == task_count) OR (task_count == 0 AND epic status == Done)
 - has_no_tasks = (task_count == 0 AND epic status != Done)
 - epic_unassigned = epic has no assignee

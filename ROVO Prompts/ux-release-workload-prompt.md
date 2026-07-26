@@ -25,7 +25,7 @@ For each Capability from Step 1, find Epics in project CXUX whose parent is that
 A Capability "has UX work" if it has at least one CXUX Epic child. Capabilities with zero CXUX Epics still count in metric #1 but not in metric #2.
 
 STEP 3 — Sum the Story Points
-Sum the Story Points field across all CXUX Epics found in Step 2 (all Capabilities combined). Treat an Epic with no Story Points value as 0, and note separately how many Epics had no value set (so the total isn't read as complete when it isn't).
+Sum the Story Points field across all CXUX Epics found in Step 2 (all Capabilities combined). Use the field named exactly "Story Points" (customfield_10038) — NOT "Story point estimate" and NOT "Estimated Story Points", which are decoy fields that are empty on these epics and would collapse the total to ~0. Treat an Epic with no Story Points value as 0, and note separately how many Epics had no value set (so the total isn't read as complete when it isn't).
 
 STEP 4 — Output
 Header:

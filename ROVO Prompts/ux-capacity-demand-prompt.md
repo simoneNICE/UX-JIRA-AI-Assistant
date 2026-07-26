@@ -40,15 +40,24 @@ For each release in the demand window:
 a. Find all issues of type Capability, across ALL projects, with fixVersion = that
    release and status not "Removed". Exclude Capabilities that belong to project CXUX
    itself. Keep: key, status, project.
-b. For each Capability, find Epics in project CXUX whose parent is that Capability.
+b. Do NOT loop one query per Capability — there can be 1,000+ per release and Rovo
+   will time out or truncate. Instead collect the Capability keys, then find the CXUX
+   Epics in a single query: `project = CXUX AND issuetype = Epic AND parent in (<key
+   list>)`. If the key list is too large to pass at once, split into a few batches, or
+   cap the look-ahead to 1 release / ask me to narrow by LOB project.
 c. Per release, report: capability count, how many have ≥1 CXUX Epic, total CXUX Epic
-   count, summed Epic Story Points, and count of Epics with no SP set.
+   count, summed Epic Story Points (field named exactly "Story Points" = customfield_10038,
+   not the empty "Story point estimate" / "Estimated Story Points" decoys), and count of
+   Epics with no SP set.
 
 STEP 3 — Capacity baseline (historical)
 For each release in the baseline window:
-a. Find Epics in project CXUX that were completed for that release — status category
-   Done AND fixVersion = that release. (If an Epic carries no fixVersion, fall back to
-   resolution date falling inside that release's work quarter.)
+a. Find Epics in project CXUX that were genuinely completed for that release —
+   status = Done (NOT status category Done) AND fixVersion = that release, and EXCLUDE
+   status = "Removed". "Removed" shares the Done status category but is cancelled work,
+   so counting it would inflate capacity. (If an Epic carries no fixVersion, fall back
+   to resolution date inside that release's work quarter — and still exclude Removed on
+   that path too.)
 b. Per release, sum the Epic Story Points closed. Also split the sum by region using
    the Epic assignee against the rosters below (Epics assigned outside all rosters, or
    unassigned, go in an "Other" bucket noted separately — do not silently drop them).
@@ -64,7 +73,10 @@ Header:
 `*Generated: <date> | Read-only | Unit: Story Points on CXUX Epics*`
 
 Then a "## Headline" block: baseline capacity (avg SP/release), demand per upcoming
-release, gap per release with traffic light, and one ⚠️ confidence line stating how many
+release, gap per release with traffic light. LEAD with a coverage line: what % of
+in-scope Epics had Story Points set. Reality check — across CXUX only ~35% of Epics
+carry SP, so expect low coverage: if under ~60%, state plainly that the forecast is
+INDICATIVE ONLY and not a sizing decision. Keep the ⚠️ confidence line naming how many
 upcoming Epics have no SP set (real demand is higher than shown).
 
 Then "## Demand — upcoming releases": a table with columns

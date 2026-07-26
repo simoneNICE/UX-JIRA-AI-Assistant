@@ -28,11 +28,13 @@ Per-person In Progress task count (the band):
 - 5+ tasks → 🔴 too many in progress.
 
 Other flags:
-- 🟠 stalled task — In Progress for more than 14 days.
+- 🟠 stalled task — In Progress for more than 14 days. Measure from the status-change date (`status CHANGED TO "In Progress" BEFORE -14d`), NOT the Updated field.
 - 🟠 epic out of sync — a task is In Progress or Done while its parent (research) Epic is still New.
-- 🟠 stalled epic — a research Epic In Progress for more than 45 days.
+- 🟠 stalled epic — a research Epic In Progress for more than 45 days (status-change date, same rule).
 
-Sprint-phase lens: active sprint end date (project CXUX). If ≤7 days remain: elevate "too many in progress" as a won't-finish risk, suppress "under-engaged" that week.
+Task-count unit: count the In Progress TASKS that sit under each researcher's Epics, regardless of who the task itself is assigned to (the research owner is the Epic assignee; the tasks under it are that researcher's work).
+
+Sprint-phase lens: use project CXUX's active sprint. If more than one sprint is open, use the one with the soonest end date. If ≤7 days remain: elevate "too many in progress" as a won't-finish risk, suppress "under-engaged" that week.
 
 STEPS:
 1. Resolve the tree: Capabilities under CXUX-12163 → their child Epics (keep only those owned by the roster, status In Progress or New, excluding CXUX-12409) → those Epics' child Tasks.

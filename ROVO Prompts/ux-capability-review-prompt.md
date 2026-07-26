@@ -30,21 +30,33 @@ HEALTH THRESHOLDS (same model as the other health checks):
 STEPS:
 1. Resolve the tree: current Capability under CXUX-12163 → its child Epics
    (all statuses except Removed, excluding CXUX-12409) → those Epics' child Tasks.
+   For the task-level scan, reach tasks via all descendants of the Capability
+   (e.g. `issue in portfolioChildIssuesOf("<capability key>")`), but drop tasks whose
+   parent Epic is Removed or is CXUX-12409.
 2. Count the Epics by status: New / In Progress / Done.
-3. For each In Progress Epic, compute how long it has been In Progress (days since
-   it entered In Progress), and flag it 🟠 stalled if > 45 days.
-4. Scan the tasks: flag 🟠 stalled tasks (In Progress > 14 days) and 🟠 out-of-sync
-   epics (a task In Progress/Done under a New epic).
+3. For each In Progress Epic, bucket how long it has been In Progress using
+   status-change-date queries (NOT the Updated field, which any edit bumps): run
+   `status = "In Progress" AND status CHANGED TO "In Progress" BEFORE -45d` (stalled,
+   🟠) and `... BEFORE -30d` (ageing). Do NOT try to print an exact day count per
+   epic or sort by exact days — Rovo can't read per-issue status history reliably at
+   this scale; report the bucket instead.
+4. Scan the tasks: flag 🟠 stalled tasks (In Progress > 14 days, status-change date)
+   and 🟠 out-of-sync epics (a task In Progress/Done under a New epic).
 5. Per app (Component): group the research Epics by their Component field — each
    Component represents an app. Report how many researches fall under each app.
-   Note any Epic with no Component separately.
-6. Categorize the researches thematically: cluster them into the main research
-   categories from the Epic summaries (titles). Report how many researches fall in
-   each category.
-7. Detect similar / overlapping In Progress researches: compare the In Progress
-   Epics' titles and summaries and flag any pairs (or clusters) that look like they
-   cover the same topic or user problem — candidates for consolidation. Be
-   conservative: only flag genuine overlaps, and name both keys.
+   An Epic with several Components is counted under EACH — so per-app counts may sum
+   to more than the total; say so. Note any Epic with no Component separately.
+6. Categorize the researches thematically: research Epic titles follow the pattern
+   "UX Research / <Category> / <name>". Take the category from the 2nd path segment of
+   the title (e.g. Competitive Research, Concept Testing, Product Discovery, Journey
+   Mapping) rather than free-form clustering, so the grouping is reproducible. Report
+   how many researches fall in each category.
+7. Detect similar / overlapping researches: compare titles/summaries and flag any
+   pairs (or clusters) that look like the same topic — candidates for consolidation.
+   Compare across ALL non-Removed statuses, not only In Progress (genuine duplicates
+   are often a CLONE pair where one side is already Done). Be conservative: only flag
+   genuine overlaps, name both keys. This step is advisory LLM judgment — results are
+   not reproducible run-to-run; treat them as suggestions, not facts.
 
 Present in this order:
 
@@ -56,8 +68,10 @@ Present in this order:
 New <n> · In Progress <n> · Done <n>   (total <n>)
 
 ## In Progress — age & health
-🟠/🟢 <Epic CXUX-NNNNN> — <title> — In Progress <N>d <stalled? note>
-...(most days-in-progress first)
+🟠 stalled (>45d): <Epic CXUX-NNNNN> — <title>
+🟡 ageing (>30d): <Epic CXUX-NNNNN> — <title>
+🟢 recent (<30d): <Epic CXUX-NNNNN> — <title>
+(group by bucket; no exact day counts)
 
 ## Flags
 🟠 stalled epics: <keys or "none">

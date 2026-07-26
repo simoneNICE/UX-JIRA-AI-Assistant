@@ -35,12 +35,13 @@ Per-person In Progress task count (the band):
 - 5+ tasks → 🔴 too many in progress.
 
 Other flags:
-- 🟠 stalled task — a task that has been In Progress for more than 14 days.
-- 🟠 epic out of sync — a task is In Progress or Done while its parent Epic is still in "New" status (the epic's status doesn't reflect the work happening inside it).
-- 🟠 stalled epic — an Epic that has been In Progress for more than 45 days.
+- 🟠 stalled task — a task that has been In Progress for more than 14 days. Measure from the status-change date (`status CHANGED TO "In Progress" BEFORE -14d`), NOT the Updated field, which any edit bumps.
+- 🟠 epic out of sync — the epic's status doesn't reflect the work inside it. Flag BOTH directions: (a) a task is In Progress or Done while its parent Epic is still "New"; and (b) a task is still In Progress while its parent Epic is already "Done" (the common real case here). If a task has no parent Epic, skip this check for it.
+- 🟠 stalled epic — an Epic that has been In Progress for more than 45 days (status-change date, same rule as above).
 
 Sprint-phase lens (not a hard rule — context to apply on top):
-- Find the end date of the currently active sprint. If 7 days or fewer remain, we're in the "last week" of the sprint:
+- Because scope is all projects, there is usually NO single active sprint — designers' In Progress work mostly sits outside any sprint, and different boards have different sprint dates. Only apply this lens when the scope is a single designer who works mostly in one project (use that board's current sprint). Otherwise state "sprint lens not applicable (work spans multiple boards)" and skip it — do not guess one sprint's date for the whole roster.
+- When it does apply: find the end date of that board's active sprint. If 7 days or fewer remain, we're in the "last week" of the sprint:
   - "too many in progress" becomes a won't-finish risk → treat as more severe.
   - "under-engaged" is expected that week (work has converged toward Done) → suppress that flag entirely for the last week.
 

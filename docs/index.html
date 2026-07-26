@@ -239,7 +239,7 @@ CAPABILITY: [paste capability key, e.g. CXUX-12754]
 
 CONTEXT — CXUX hierarchy:
 Initiative (level 3) → Capability (level 2) → Epic (level 1) → Task (level 0).
-An Epic&#x27;s parent MUST be a Capability (level 2) — Jira will reject an Epic without one.
+Always set the Epic&#x27;s parent to a Capability (level 2); never leave it empty. (The Step 1 check that the key really is a Capability is the real safeguard here.)
 
 STEP 1 — Parent Capability
 - Open the key I gave and confirm its issue type is Capability (level 2). If it&#x27;s not a
@@ -258,7 +258,7 @@ STEP 2 — Description (no approval — write it and move on)
 STEP 3 — Component (you pick it — no approval, no asking)
 - Choose the best-fitting component yourself, based on the Capability&#x27;s content, from:
   Actions, Admin, Agent, Agent Assist Hub, Agent Copilot, Agentic Analytics, AI Manager,
-  Analytics Hub, APA, Autopilot, CEA Feedback Management, CXBI, CXone CEA, CXone Cross,
+  Anaytics Hub, APA, Autopilot, CEA Feedback Management, CXBI, CXone CEA, CXone Cross,
   CXone Desktop Discovery, CXone Recording, CXone Studio, CXone WFM, CXOne XO, CXOnePM,
   Dashboard, Data Policies, Design System, EEM, Engage, Experience Optimization, Experiences,
   Explore, General UX/UI, Interaction Analytics, Interactions (Recording), Knowledge Hub,
@@ -266,6 +266,9 @@ STEP 3 — Component (you pick it — no approval, no asking)
   Orchestrator, Player, Playvox, QM, RTIG, Screen Intelligence, ScreenAgent Manager, Summary,
   Supervisor, Unplugged, User Hub.
 - If nothing fits clearly, use &quot;General UX/UI&quot;. Remember your pick so you can flag it at the end.
+- Match the component name EXACTLY as Jira&#x27;s picker spells it (Component is required — an
+  unrecognized value fails the create). Note some names are misspelled in Jira, e.g.
+  &quot;Anaytics Hub&quot; (no first &quot;l&quot;); if a pick isn&#x27;t found, fall back to &quot;General UX/UI&quot;.
 
 STEP 4 — Create the Epic (no approval)
 - Project: CXUX, issue type: Epic
@@ -361,7 +364,7 @@ Footnotes: count of tasks with no Task Type set, and any unexpected types folded
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="my health check how your own workload looks right now, across all projects. flags idle, overload, and stalled tasks or epics.  in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · epic out-of-sync 2026-07-19 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-07-19">
+        <article class="card" data-search="my health check how your own workload looks right now, across all projects. flags idle, overload, and stalled tasks or epics.  in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · epic out-of-sync 2026-07-26 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
             <h3>My health check</h3>
             
@@ -370,11 +373,15 @@ Read-only — do not create, edit, or transition any issues.</pre>
           <div class="spec-table"><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">In-progress band (0 / 1 / 2–4 / 5+)</span><span class="spec-chip">stalled task &gt;14d</span><span class="spec-chip">stalled epic &gt;45d</span><span class="spec-chip">epic out-of-sync</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-6">Copy prompt</button>
-            <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
+            <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
           </div>
           <pre class="prompt-body" id="p-6" hidden>You are helping me check the health of my own active work in Jira. Scope is ALL projects I work in (not just CXUX) — do not restrict by project. Measure everything against my own assignee identity in this workspace.
 
 HEALTH MODEL — apply these exact rules:
+
+IMPORTANT — count only real hands-on work items. CXUX uses a portfolio hierarchy (Initiative &gt; Capability &gt; Epic &gt; Task) and a designer is often assigned at every level. The band must count ONLY leaf work items — issue type Task, Story, Sub-task, or Bug. EXCLUDE Epic, Capability, and Initiative from the &quot;In Progress count&quot;, or the band will read 5+ when you actually have one task in hand.
+
+To measure how long something has been In Progress (the 14d / 45d flags), use the status-change date, e.g. `status CHANGED TO &quot;In Progress&quot; BEFORE -14d` (tasks) / `BEFORE -45d` (epics). Do NOT use the Updated date — any edit bumps it.
 
 My In Progress task count (the band):
 - 0 tasks → 🔴 idle — nothing active.
@@ -384,8 +391,8 @@ My In Progress task count (the band):
 
 Other flags:
 - 🟠 stalled task — a task that has been In Progress for more than 14 days.
-- 🟠 epic out of sync — one of my tasks is In Progress or Done while its parent Epic is still &quot;New&quot;.
-- 🟠 stalled epic — a parent Epic of mine that has been In Progress for more than 45 days.
+- 🟠 parent out of sync — one of my tasks is In Progress or Done while its immediate parent is still &quot;New&quot;. The parent may be an Epic OR a Capability (my tasks sometimes hang directly off a Capability) — check the immediate parent regardless of its type, and label it by its actual type in the output. If a task has no parent, skip this check for it.
+- 🟠 stalled parent — a parent (Epic or Capability) of mine that has been In Progress for more than 45 days.
 
 Sprint-phase lens:
 - Find the active sprint&#x27;s end date (project CXUX). If 7 days or fewer remain, we&#x27;re in the last week:
@@ -393,11 +400,11 @@ Sprint-phase lens:
   - &quot;under-engaged&quot; is expected that week → suppress that flag.
 
 STEPS:
-1. Find all of my tasks currently In Progress, across all projects. For each, note the parent Epic and its status.
-2. Apply the In Progress band.
-3. Flag any task In Progress for more than 14 days.
-4. Flag any task whose parent Epic is still &quot;New&quot; while my task is In Progress or Done.
-5. For my distinct parent Epics that are In Progress, check how long each has been In Progress; flag any over 45 days.
+1. Find my leaf work items (issue type Task, Story, Sub-task, or Bug — NOT Epic/Capability/Initiative) currently In Progress, across all projects. For each, note its immediate parent and that parent&#x27;s status/type.
+2. Apply the In Progress band (leaf items only).
+3. Flag any task In Progress for more than 14 days (use the status-change date, not Updated).
+4. Flag any task whose immediate parent (Epic or Capability) is still &quot;New&quot; while my task is In Progress or Done.
+5. For my distinct parents that are In Progress, check how long each has been In Progress; flag any over 45 days.
 6. Check the active sprint&#x27;s end date (project CXUX) and apply the sprint-phase lens if within 7 days of the end.
 7. Present:
 
@@ -428,13 +435,13 @@ Lead with the most severe flag. Read-only — do not create, edit, or transition
 
 STEP 1 — Determine target releases
 RELEASES: [optional — give me two release codes like &quot;26.3 26.4&quot; if you want to override; otherwise compute them]
-If not given: compute today&#x27;s current release (Q+1) and next release (Q+2) in &quot;YY.Q&quot; format, where Q1=Jan–Mar, Q2=Apr–Jun, Q3=Jul–Sep, Q4=Oct–Dec (after X.4 comes (X+1).1).
+If not given: compute today&#x27;s current release (Q+1) and next release (Q+2) in &quot;YY.Q&quot; format, where Q1=Jan–Mar, Q2=Apr–Jun, Q3=Jul–Sep, Q4=Oct–Dec (after X.4 comes (X+1).1). Always compute from today&#x27;s date — do NOT reuse the example release numbers shown below.
 Design deadline per release = first day of its work quarter minus 2 months, where work quarter = release quarter − 1.
 Example: release 26.3 → work starts 1 Apr 2026 → design deadline 1 Feb 2026.
 Example: release 26.4 → work starts 1 Jul 2026 → design deadline 1 May 2026.
 
 STEP 2 — Fetch Capabilities in scope
-Find all issues of type Capability, across all projects, with fixVersion matching either of the two target releases, status not &quot;Removed&quot;. Skip Capabilities that belong to project CXUX itself (that&#x27;s the UX-internal project, not a LOB project). For each, keep: key, summary, status, fix version(s), project.
+Find all issues of type Capability, across all projects, whose fix version STARTS WITH either target release code, status not &quot;Removed&quot;. Release names are NOT consistent across LOBs: some projects (e.g. CSA) use suffixed variants like &quot;26.4-CSA&quot; or &quot;27.1-CSA&quot;. Match by prefix — for release 26.4, include &quot;26.4&quot;, &quot;26.4-CSA&quot;, and any other &quot;26.4…&quot; name — not only the exact string, or you will silently drop entire LOBs. Skip Capabilities that belong to project CXUX itself (that&#x27;s the UX-internal project, not a LOB project). For each, keep: key, summary, status, fix version(s), project.
 
 STEP 3 — Fetch UX Epics
 Find Epics in project CXUX whose parent is one of the Capabilities from Step 2 — this is the definition of a &quot;UX Epic&quot; here (don&#x27;t filter by summary text/prefix, naming isn&#x27;t consistent across teams). Keep only Capabilities that have at least one UX Epic; silently discard Capabilities with none. For each UX Epic keep: key, summary, status, parent, assignee.
@@ -443,9 +450,9 @@ STEP 4 — Fetch UX Tasks
 Find Tasks in project CXUX whose parent is one of the UX Epics from Step 3. Keep: key, summary, status, parent, assignee.
 
 STEP 5 — Apply red-light logic
-For each Capability → UX Epic → its Tasks:
-- task_count = number of tasks under the epic
-- done_count = tasks with status Done
+For each Capability → UX Epic → its Tasks (IMPORTANT: ignore tasks with status &quot;Removed&quot; — they are cancelled; counting them would make design_ready impossible and raise false red flags):
+- task_count = number of NON-Removed tasks under the epic
+- done_count = NON-Removed tasks with status Done
 - design_ready = (task_count &gt; 0 AND done_count == task_count) OR (task_count == 0 AND epic status == Done)
 - has_no_tasks = (task_count == 0 AND epic status != Done)
 - epic_unassigned = epic has no assignee
@@ -592,12 +599,13 @@ Per-person In Progress task count (the band):
 - 5+ tasks → 🔴 too many in progress.
 
 Other flags:
-- 🟠 stalled task — a task that has been In Progress for more than 14 days.
-- 🟠 epic out of sync — a task is In Progress or Done while its parent Epic is still in &quot;New&quot; status (the epic&#x27;s status doesn&#x27;t reflect the work happening inside it).
-- 🟠 stalled epic — an Epic that has been In Progress for more than 45 days.
+- 🟠 stalled task — a task that has been In Progress for more than 14 days. Measure from the status-change date (`status CHANGED TO &quot;In Progress&quot; BEFORE -14d`), NOT the Updated field, which any edit bumps.
+- 🟠 epic out of sync — the epic&#x27;s status doesn&#x27;t reflect the work inside it. Flag BOTH directions: (a) a task is In Progress or Done while its parent Epic is still &quot;New&quot;; and (b) a task is still In Progress while its parent Epic is already &quot;Done&quot; (the common real case here). If a task has no parent Epic, skip this check for it.
+- 🟠 stalled epic — an Epic that has been In Progress for more than 45 days (status-change date, same rule as above).
 
 Sprint-phase lens (not a hard rule — context to apply on top):
-- Find the end date of the currently active sprint. If 7 days or fewer remain, we&#x27;re in the &quot;last week&quot; of the sprint:
+- Because scope is all projects, there is usually NO single active sprint — designers&#x27; In Progress work mostly sits outside any sprint, and different boards have different sprint dates. Only apply this lens when the scope is a single designer who works mostly in one project (use that board&#x27;s current sprint). Otherwise state &quot;sprint lens not applicable (work spans multiple boards)&quot; and skip it — do not guess one sprint&#x27;s date for the whole roster.
+- When it does apply: find the end date of that board&#x27;s active sprint. If 7 days or fewer remain, we&#x27;re in the &quot;last week&quot; of the sprint:
   - &quot;too many in progress&quot; becomes a won&#x27;t-finish risk → treat as more severe.
   - &quot;under-engaged&quot; is expected that week (work has converged toward Done) → suppress that flag entirely for the last week.
 
@@ -663,7 +671,7 @@ For each Capability from Step 1, find Epics in project CXUX whose parent is that
 A Capability &quot;has UX work&quot; if it has at least one CXUX Epic child. Capabilities with zero CXUX Epics still count in metric #1 but not in metric #2.
 
 STEP 3 — Sum the Story Points
-Sum the Story Points field across all CXUX Epics found in Step 2 (all Capabilities combined). Treat an Epic with no Story Points value as 0, and note separately how many Epics had no value set (so the total isn&#x27;t read as complete when it isn&#x27;t).
+Sum the Story Points field across all CXUX Epics found in Step 2 (all Capabilities combined). Use the field named exactly &quot;Story Points&quot; (customfield_10038) — NOT &quot;Story point estimate&quot; and NOT &quot;Estimated Story Points&quot;, which are decoy fields that are empty on these epics and would collapse the total to ~0. Treat an Epic with no Story Points value as 0, and note separately how many Epics had no value set (so the total isn&#x27;t read as complete when it isn&#x27;t).
 
 STEP 4 — Output
 Header:
@@ -726,21 +734,33 @@ HEALTH THRESHOLDS (same model as the other health checks):
 STEPS:
 1. Resolve the tree: current Capability under CXUX-12163 → its child Epics
    (all statuses except Removed, excluding CXUX-12409) → those Epics&#x27; child Tasks.
+   For the task-level scan, reach tasks via all descendants of the Capability
+   (e.g. `issue in portfolioChildIssuesOf(&quot;&lt;capability key&gt;&quot;)`), but drop tasks whose
+   parent Epic is Removed or is CXUX-12409.
 2. Count the Epics by status: New / In Progress / Done.
-3. For each In Progress Epic, compute how long it has been In Progress (days since
-   it entered In Progress), and flag it 🟠 stalled if &gt; 45 days.
-4. Scan the tasks: flag 🟠 stalled tasks (In Progress &gt; 14 days) and 🟠 out-of-sync
-   epics (a task In Progress/Done under a New epic).
+3. For each In Progress Epic, bucket how long it has been In Progress using
+   status-change-date queries (NOT the Updated field, which any edit bumps): run
+   `status = &quot;In Progress&quot; AND status CHANGED TO &quot;In Progress&quot; BEFORE -45d` (stalled,
+   🟠) and `... BEFORE -30d` (ageing). Do NOT try to print an exact day count per
+   epic or sort by exact days — Rovo can&#x27;t read per-issue status history reliably at
+   this scale; report the bucket instead.
+4. Scan the tasks: flag 🟠 stalled tasks (In Progress &gt; 14 days, status-change date)
+   and 🟠 out-of-sync epics (a task In Progress/Done under a New epic).
 5. Per app (Component): group the research Epics by their Component field — each
    Component represents an app. Report how many researches fall under each app.
-   Note any Epic with no Component separately.
-6. Categorize the researches thematically: cluster them into the main research
-   categories from the Epic summaries (titles). Report how many researches fall in
-   each category.
-7. Detect similar / overlapping In Progress researches: compare the In Progress
-   Epics&#x27; titles and summaries and flag any pairs (or clusters) that look like they
-   cover the same topic or user problem — candidates for consolidation. Be
-   conservative: only flag genuine overlaps, and name both keys.
+   An Epic with several Components is counted under EACH — so per-app counts may sum
+   to more than the total; say so. Note any Epic with no Component separately.
+6. Categorize the researches thematically: research Epic titles follow the pattern
+   &quot;UX Research / &lt;Category&gt; / &lt;name&gt;&quot;. Take the category from the 2nd path segment of
+   the title (e.g. Competitive Research, Concept Testing, Product Discovery, Journey
+   Mapping) rather than free-form clustering, so the grouping is reproducible. Report
+   how many researches fall in each category.
+7. Detect similar / overlapping researches: compare titles/summaries and flag any
+   pairs (or clusters) that look like the same topic — candidates for consolidation.
+   Compare across ALL non-Removed statuses, not only In Progress (genuine duplicates
+   are often a CLONE pair where one side is already Done). Be conservative: only flag
+   genuine overlaps, name both keys. This step is advisory LLM judgment — results are
+   not reproducible run-to-run; treat them as suggestions, not facts.
 
 Present in this order:
 
@@ -752,8 +772,10 @@ Present in this order:
 New &lt;n&gt; · In Progress &lt;n&gt; · Done &lt;n&gt;   (total &lt;n&gt;)
 
 ## In Progress — age &amp; health
-🟠/🟢 &lt;Epic CXUX-NNNNN&gt; — &lt;title&gt; — In Progress &lt;N&gt;d &lt;stalled? note&gt;
-...(most days-in-progress first)
+🟠 stalled (&gt;45d): &lt;Epic CXUX-NNNNN&gt; — &lt;title&gt;
+🟡 ageing (&gt;30d): &lt;Epic CXUX-NNNNN&gt; — &lt;title&gt;
+🟢 recent (&lt;30d): &lt;Epic CXUX-NNNNN&gt; — &lt;title&gt;
+(group by bucket; no exact day counts)
 
 ## Flags
 🟠 stalled epics: &lt;keys or &quot;none&quot;&gt;
@@ -811,11 +833,13 @@ Per-person In Progress task count (the band):
 - 5+ tasks → 🔴 too many in progress.
 
 Other flags:
-- 🟠 stalled task — In Progress for more than 14 days.
+- 🟠 stalled task — In Progress for more than 14 days. Measure from the status-change date (`status CHANGED TO &quot;In Progress&quot; BEFORE -14d`), NOT the Updated field.
 - 🟠 epic out of sync — a task is In Progress or Done while its parent (research) Epic is still New.
-- 🟠 stalled epic — a research Epic In Progress for more than 45 days.
+- 🟠 stalled epic — a research Epic In Progress for more than 45 days (status-change date, same rule).
 
-Sprint-phase lens: active sprint end date (project CXUX). If ≤7 days remain: elevate &quot;too many in progress&quot; as a won&#x27;t-finish risk, suppress &quot;under-engaged&quot; that week.
+Task-count unit: count the In Progress TASKS that sit under each researcher&#x27;s Epics, regardless of who the task itself is assigned to (the research owner is the Epic assignee; the tasks under it are that researcher&#x27;s work).
+
+Sprint-phase lens: use project CXUX&#x27;s active sprint. If more than one sprint is open, use the one with the soonest end date. If ≤7 days remain: elevate &quot;too many in progress&quot; as a won&#x27;t-finish risk, suppress &quot;under-engaged&quot; that week.
 
 STEPS:
 1. Resolve the tree: Capabilities under CXUX-12163 → their child Epics (keep only those owned by the roster, status In Progress or New, excluding CXUX-12409) → those Epics&#x27; child Tasks.
@@ -870,8 +894,10 @@ Doug Clement, Janet Gonzales, David Stoker, Sara Evans, Lorina Binning, Serena Y
 
 The &quot;roster&quot; below refers to whichever set the scope resolved to: all rosters (whole team), one region&#x27;s roster, or the single designer.
 
+FIELD NOTE (this Jira has look-alikes): for Story Points use the field named exactly &quot;Story Points&quot; (customfield_10038). Do NOT use &quot;Story point estimate&quot; or &quot;Estimated Story Points&quot; — those are different fields, empty on these tasks, and would make every SP total come out as 0.
+
 STEPS:
-1. Find all Tasks in project CXUX assigned to anyone in the roster, in the currently active sprint.
+1. Find all Tasks in project CXUX assigned to anyone in the roster, in the currently active sprint. EXCLUDE tasks with status &quot;Removed&quot; (cancelled) — otherwise the New/In Progress/Done columns won&#x27;t sum to Total.
 2. Group by assignee: count tasks by status (New / In Progress / Done) and sum Story Points (treat missing as 0). Roster members with zero tasks still appear, with all-zero counts.
 3. Note separately any tasks in the active sprint assigned to someone NOT in the roster (don&#x27;t fold them into the table).
 4. Present a table sorted by Total Story Points descending:
@@ -925,15 +951,24 @@ For each release in the demand window:
 a. Find all issues of type Capability, across ALL projects, with fixVersion = that
    release and status not &quot;Removed&quot;. Exclude Capabilities that belong to project CXUX
    itself. Keep: key, status, project.
-b. For each Capability, find Epics in project CXUX whose parent is that Capability.
+b. Do NOT loop one query per Capability — there can be 1,000+ per release and Rovo
+   will time out or truncate. Instead collect the Capability keys, then find the CXUX
+   Epics in a single query: `project = CXUX AND issuetype = Epic AND parent in (&lt;key
+   list&gt;)`. If the key list is too large to pass at once, split into a few batches, or
+   cap the look-ahead to 1 release / ask me to narrow by LOB project.
 c. Per release, report: capability count, how many have ≥1 CXUX Epic, total CXUX Epic
-   count, summed Epic Story Points, and count of Epics with no SP set.
+   count, summed Epic Story Points (field named exactly &quot;Story Points&quot; = customfield_10038,
+   not the empty &quot;Story point estimate&quot; / &quot;Estimated Story Points&quot; decoys), and count of
+   Epics with no SP set.
 
 STEP 3 — Capacity baseline (historical)
 For each release in the baseline window:
-a. Find Epics in project CXUX that were completed for that release — status category
-   Done AND fixVersion = that release. (If an Epic carries no fixVersion, fall back to
-   resolution date falling inside that release&#x27;s work quarter.)
+a. Find Epics in project CXUX that were genuinely completed for that release —
+   status = Done (NOT status category Done) AND fixVersion = that release, and EXCLUDE
+   status = &quot;Removed&quot;. &quot;Removed&quot; shares the Done status category but is cancelled work,
+   so counting it would inflate capacity. (If an Epic carries no fixVersion, fall back
+   to resolution date inside that release&#x27;s work quarter — and still exclude Removed on
+   that path too.)
 b. Per release, sum the Epic Story Points closed. Also split the sum by region using
    the Epic assignee against the rosters below (Epics assigned outside all rosters, or
    unassigned, go in an &quot;Other&quot; bucket noted separately — do not silently drop them).
@@ -949,7 +984,10 @@ Header:
 `*Generated: &lt;date&gt; | Read-only | Unit: Story Points on CXUX Epics*`
 
 Then a &quot;## Headline&quot; block: baseline capacity (avg SP/release), demand per upcoming
-release, gap per release with traffic light, and one ⚠️ confidence line stating how many
+release, gap per release with traffic light. LEAD with a coverage line: what % of
+in-scope Epics had Story Points set. Reality check — across CXUX only ~35% of Epics
+carry SP, so expect low coverage: if under ~60%, state plainly that the forecast is
+INDICATIVE ONLY and not a sizing decision. Keep the ⚠️ confidence line naming how many
 upcoming Epics have no SP set (real demand is higher than shown).
 
 Then &quot;## Demand — upcoming releases&quot;: a table with columns

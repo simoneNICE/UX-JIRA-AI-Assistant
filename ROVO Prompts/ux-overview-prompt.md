@@ -25,8 +25,10 @@ Doug Clement, Janet Gonzales, David Stoker, Sara Evans, Lorina Binning, Serena Y
 
 The "roster" below refers to whichever set the scope resolved to: all rosters (whole team), one region's roster, or the single designer.
 
+FIELD NOTE (this Jira has look-alikes): for Story Points use the field named exactly "Story Points" (customfield_10038). Do NOT use "Story point estimate" or "Estimated Story Points" — those are different fields, empty on these tasks, and would make every SP total come out as 0.
+
 STEPS:
-1. Find all Tasks in project CXUX assigned to anyone in the roster, in the currently active sprint.
+1. Find all Tasks in project CXUX assigned to anyone in the roster, in the currently active sprint. EXCLUDE tasks with status "Removed" (cancelled) — otherwise the New/In Progress/Done columns won't sum to Total.
 2. Group by assignee: count tasks by status (New / In Progress / Done) and sum Story Points (treat missing as 0). Roster members with zero tasks still appear, with all-zero counts.
 3. Note separately any tasks in the active sprint assigned to someone NOT in the roster (don't fold them into the table).
 4. Present a table sorted by Total Story Points descending:

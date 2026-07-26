@@ -13,7 +13,7 @@ CAPABILITY: [paste capability key, e.g. CXUX-12754]
 
 CONTEXT — CXUX hierarchy:
 Initiative (level 3) → Capability (level 2) → Epic (level 1) → Task (level 0).
-An Epic's parent MUST be a Capability (level 2) — Jira will reject an Epic without one.
+Always set the Epic's parent to a Capability (level 2); never leave it empty. (The Step 1 check that the key really is a Capability is the real safeguard here.)
 
 STEP 1 — Parent Capability
 - Open the key I gave and confirm its issue type is Capability (level 2). If it's not a
@@ -32,7 +32,7 @@ STEP 2 — Description (no approval — write it and move on)
 STEP 3 — Component (you pick it — no approval, no asking)
 - Choose the best-fitting component yourself, based on the Capability's content, from:
   Actions, Admin, Agent, Agent Assist Hub, Agent Copilot, Agentic Analytics, AI Manager,
-  Analytics Hub, APA, Autopilot, CEA Feedback Management, CXBI, CXone CEA, CXone Cross,
+  Anaytics Hub, APA, Autopilot, CEA Feedback Management, CXBI, CXone CEA, CXone Cross,
   CXone Desktop Discovery, CXone Recording, CXone Studio, CXone WFM, CXOne XO, CXOnePM,
   Dashboard, Data Policies, Design System, EEM, Engage, Experience Optimization, Experiences,
   Explore, General UX/UI, Interaction Analytics, Interactions (Recording), Knowledge Hub,
@@ -40,6 +40,9 @@ STEP 3 — Component (you pick it — no approval, no asking)
   Orchestrator, Player, Playvox, QM, RTIG, Screen Intelligence, ScreenAgent Manager, Summary,
   Supervisor, Unplugged, User Hub.
 - If nothing fits clearly, use "General UX/UI". Remember your pick so you can flag it at the end.
+- Match the component name EXACTLY as Jira's picker spells it (Component is required — an
+  unrecognized value fails the create). Note some names are misspelled in Jira, e.g.
+  "Anaytics Hub" (no first "l"); if a pick isn't found, fall back to "General UX/UI".
 
 STEP 4 — Create the Epic (no approval)
 - Project: CXUX, issue type: Epic
