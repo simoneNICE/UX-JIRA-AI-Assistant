@@ -22,6 +22,9 @@ import pathlib
 import subprocess
 import sys
 
+# Flag every card as Draft (until each prompt is re-validated in Rovo). See use below.
+DRAFT_ALL = True
+
 ROOT = pathlib.Path(__file__).resolve().parent
 PROMPTS_DIR = ROOT / "ROVO Prompts"
 SITE_DIR = ROOT / "site"
@@ -275,7 +278,9 @@ def build():
     for idx, p in enumerate(prompts):
         pid = f"p-{idx}"
         spec_html = spec_table(p.get("inputs", ""), p.get("metrics", ""))
-        draft_badge = '<span class="badge-draft">Draft</span>' if "draft" in p.get("tags", []) else ""
+        # DRAFT_ALL: every prompt is flagged Draft until it's re-validated in Rovo after the
+        # hardening pass. Set to False to go back to per-prompt "draft" tags only.
+        draft_badge = '<span class="badge-draft">Draft</span>' if (DRAFT_ALL or "draft" in p.get("tags", [])) else ""
         updated_iso = p["updated"]
         added_iso = p["added"]
         search_text = " ".join(
