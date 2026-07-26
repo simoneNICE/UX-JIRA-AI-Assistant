@@ -440,10 +440,10 @@ TEMPLATE = """<!DOCTYPE html>
 
   .tabbar {{
     display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
-    flex-wrap: wrap; margin: 18px 0 20px; border-bottom: 1px solid var(--border);
+    flex-wrap: nowrap; margin: 18px 0 20px; border-bottom: 1px solid var(--border);
   }}
   .tabs {{
-    display: flex; gap: 8px; flex-wrap: wrap;
+    display: flex; gap: 8px; flex-wrap: wrap; flex: 1 1 auto; min-width: 0;
   }}
   .tab {{
     appearance: none; background: none; border: none; cursor: pointer;
@@ -469,7 +469,7 @@ TEMPLATE = """<!DOCTYPE html>
   @keyframes fade {{ from {{ opacity: 0; transform: translateY(4px); }} to {{ opacity: 1; transform: none; }} }}
   .cat-desc {{ color: var(--text-dim); margin: 0 0 20px; font-size: 14px; }}
 
-  .controls {{ display: flex; align-items: center; gap: 8px; padding-bottom: 6px; }}
+  .controls {{ display: flex; align-items: center; gap: 8px; padding-bottom: 6px; flex: none; }}
   .sort-ctl {{ font-size: 12px; font-weight: 600; color: var(--text-subtlest);
                text-transform: uppercase; letter-spacing: .04em; }}
   #sort {{
