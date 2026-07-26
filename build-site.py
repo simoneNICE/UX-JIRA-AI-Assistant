@@ -38,26 +38,33 @@ MANIFEST = [
         "file": "ux-epic-prompt.md",
         "category": "designers",
         "title": "Create a UX Epic",
-        "blurb": "Builds a UX Epic under a Capability in CXUX autonomously — you only choose which tasks to add at the end.",
-        "inputs": "Capability key or name (e.g. CXUX-12754)",
-        "metrics": "None — autonomous creation, not measurement",
+        "what_for": "Create a well-structured UX Epic under a Capability in CXUX, without building it by hand.",
+        "input": "A Capability key (e.g. CXUX-12754).",
+        "does": "Confirms the key is a Capability, drafts the Epic description from it, picks a fitting Component, creates the Epic (parent = the Capability, assigned to you), then stops to ask which tasks to add and creates them with ready-filled templates.",
+        "output": "The new Epic plus the chosen tasks, all linked and assigned to you.",
+        "note": "The only prompt that writes to Jira — and only after you confirm the tasks.",
         "tags": ["writes", "autonomous"],
     },
     {
         "file": "ux-my-health-prompt.md",
         "category": "designers",
         "title": "My health check",
-        "blurb": "How your own workload looks right now, across all projects. Flags idle, overload, and stalled tasks or epics.",
-        "metrics": "In-progress band (0 / 1 / 2–4 / 5+) · stalled task >14d · stalled epic >45d · epic out-of-sync",
+        "what_for": "See in seconds whether your current workload is healthy.",
+        "input": "None — it looks at your own issues across all projects.",
+        "does": "Counts your in-progress items into a band (0 idle · 1 light · 2–4 ok · 5+ too many) and flags tasks stalled >14d, epics stalled >45d, and epics out of sync.",
+        "output": "A short verdict, most severe flag first.",
+        "note": "Counts only leaf work items (not Epics/Capabilities); ages measured from the status-change date.",
         "tags": ["self-service", "read-only"],
     },
     {
         "file": "ux-my-report-prompt.md",
         "category": "designers",
         "title": "My annual report",
-        "blurb": "Your closed work for a year, by Task Type and Story Points, with average SP per task.",
-        "inputs": "Year (e.g. 2025)",
-        "metrics": "Task count · Story Points · avg SP/task (excl. Build Review) · by Task Type",
+        "what_for": "See your closed work for a year, broken down by task type.",
+        "input": "The year (e.g. 2025).",
+        "does": "Finds your Done (non-cancelled) tasks in CXUX for that year, groups them by Task Type and sums Story Points, with the average SP per task (excluding Build Review).",
+        "output": "A Task Type / Count / SP table plus a total line.",
+        "note": "Read-only; uses the exact “Story Points” field and excludes cancelled tasks.",
         "tags": ["self-service", "read-only"],
     },
     # --- Researchers ---
@@ -67,62 +74,77 @@ MANIFEST = [
         "file": "ux-overview-prompt.md",
         "category": "managers",
         "title": "Team sprint overview",
-        "blurb": "How much work each designer has this sprint — tasks by status and Story Points. CXUX only. Asks first: team, region, or one person.",
-        "inputs": "Scope: whole team, a region, or one designer (the prompt asks)",
-        "metrics": "Task count by status (New / In Progress / Done) · Story Points",
+        "what_for": "A snapshot of the active sprint — how much work each designer has right now.",
+        "input": "Asks your scope first: whole team, a region, or a single designer.",
+        "does": "In CXUX, on the active sprint, counts tasks by status (New / In Progress / Done) and sums Story Points per person; people with zero still appear.",
+        "output": "A per-designer table sorted by Story Points, with a total row.",
+        "note": "Excludes “Removed” tasks; uses the exact Story Points field.",
         "tags": ["team", "read-only"],
     },
     {
         "file": "ux-designer-health-prompt.md",
         "category": "managers",
         "title": "Designer health check",
-        "blurb": "Whether anyone's overloaded, idle, or stalled — across all projects, with a sprint-phase lens. Asks first: team, region, or one person.",
-        "inputs": "Scope: whole team, a region, or one designer (the prompt asks)",
-        "metrics": "In-progress band (0 / 1 / 2–4 / 5+) · stalled task >14d · stalled epic >45d · epic out-of-sync",
+        "what_for": "The team version of the personal health check — who's overloaded, idle, or stalled.",
+        "input": "Scope: whole team, a region, or a single designer (the prompt asks).",
+        "does": "For each person, across all projects, applies the in-progress band plus the stalled and out-of-sync flags.",
+        "output": "Overloaded / Idle / Watch lists, plus who's fine.",
+        "note": "Sprint-phase lens only applies to a single designer; out-of-sync now checks both directions.",
         "tags": ["team", "read-only"],
     },
     {
         "file": "ux-research-health-prompt.md",
         "category": "managers",
         "title": "Researcher health check",
-        "blurb": "Whether any researcher's overloaded, idle, or stalled — on the UX Research portfolio under CXUX-12163.",
-        "metrics": "In-progress band (0 / 1 / 2–4 / 5+) · stalled task >14d · stalled epic >45d · on research tasks",
+        "what_for": "The same health check on the Research portfolio (Epics under CXUX-12163), for researchers.",
+        "input": "None — the researcher roster is built into the prompt.",
+        "does": "Resolves the tree Initiative → current-semester Capability → Epics (the “researches”) → tasks, and applies the health model per researcher.",
+        "output": "One block per researcher, most severe first.",
+        "note": "Read-only; counts a researcher's tasks under their Epics regardless of the task's own assignee.",
         "tags": ["team", "research", "read-only"],
     },
     {
         "file": "ux-capability-review-prompt.md",
         "category": "managers",
         "title": "Research capability review (DRAFT)",
-        "blurb": "DRAFT, not validated. Reviews every research Epic in the current semester Capability: status counts, how long each is in progress, stalls, out-of-sync tasks, researches per app, thematic categories, and possible duplicate researches.",
-        "inputs": "Optional — a Capability key (defaults to the current semester Capability under CXUX-12163)",
-        "metrics": "Epic counts New/In Progress/Done · days-in-progress per epic · stalled epic >45d / task >14d · out-of-sync · researches per app (Component) · thematic categories · overlap detection",
+        "what_for": "Review all the researches inside the current-semester Capability — a portfolio view, not per person.",
+        "input": "Optional — a Capability key (defaults to the current one under CXUX-12163).",
+        "does": "Counts epics by status; buckets in-progress age (>45d stalled, >30d ageing); flags stalled and out-of-sync tasks; groups researches per app (Component) and per theme (from the title); spots possible duplicates.",
+        "output": "A report with status counts, health, researches-per-app, categories, and overlap candidates.",
+        "note": "DRAFT, not validated. Overlap detection is advisory AI judgment; age is shown in buckets, not exact days.",
         "tags": ["draft", "team", "research", "portfolio", "read-only"],
     },
     {
         "file": "ux-annual-report-prompt.md",
         "category": "managers",
         "title": "Designer annual report",
-        "blurb": "Work closed in a year, per designer and Task Type. Includes who closed nothing. Asks first: team, region, or one person.",
-        "inputs": "Year · scope: team, region, or one designer (the prompt asks)",
-        "metrics": "Task count · Story Points · avg SP/task (excl. Build Review) · by Task Type",
+        "what_for": "The manager version of the annual report — closed work in a year for every designer.",
+        "input": "Year + scope: whole team, a region, or a single designer (the prompt asks).",
+        "does": "Like “My annual report” but across the roster, one row per person per Task Type, including who closed zero.",
+        "output": "A table sorted by total SP, with a TOTAL row and team average.",
+        "note": "Uses the exact Story Points field, excludes cancelled tasks, works in small batches to stay reliable.",
         "tags": ["team", "read-only"],
     },
     {
         "file": "ux-lob-summary-prompt.md",
         "category": "managers",
         "title": "Design readiness",
-        "blurb": "A traffic light showing which capabilities in one LOB project + release are design-ready. Flags capabilities with no UX epic, design overdue, or dev ahead of design. Per capability, not per person.",
-        "inputs": "Project key + release (e.g. CXREC, 26.4)",
-        "metrics": "Design-ready (done/total tasks) · no-UX-epic / design-overdue / dev-ahead flags · 🔴 / 🟠 / 🟢 traffic light",
+        "what_for": "A traffic light of design readiness per capability, for one LOB project + release.",
+        "input": "Project key + fix version (e.g. CXREC, 26.4) — asks if missing.",
+        "does": "Takes the project's capabilities in that release, finds the UX Epic under each (in CXUX) and its tasks, then computes whether design is ready and raises flags (No UX Epic, Design overdue, Dev ahead of design).",
+        "output": "One table with a red/amber/green light per capability, plus a “Needs Attention” red list.",
+        "note": "Matches fix versions by prefix (catches names like 26.4-CSA); ignores cancelled tasks.",
         "tags": ["portfolio", "read-only"],
     },
     {
         "file": "ux-release-workload-prompt.md",
         "category": "managers",
         "title": "Release workload",
-        "blurb": "Sizes one project's release: how many Capabilities, how many carry UX work, the Story Points behind it, who owns it, and the status of both.",
-        "inputs": "Project key + fix version (e.g. CXREC, 26.4)",
-        "metrics": "Capabilities in release · with a CXUX Epic · total Story Points · epic assignees · capability & epic status",
+        "what_for": "Size the UX workload of one project in one release.",
+        "input": "Project key + fix version (e.g. CXREC, 26.4).",
+        "does": "Counts the release's capabilities, how many have a linked CXUX Epic (via parent), sums those epics' Story Points, and who owns them.",
+        "output": "Four headline numbers plus a per-capability table.",
+        "note": "The Capability↔UX Epic link is by parent, not by name; uses the exact Story Points field.",
         "tags": ["portfolio", "read-only"],
     },
     # --- Leadership (VP) ---
@@ -130,9 +152,11 @@ MANIFEST = [
         "file": "ux-capacity-demand-prompt.md",
         "category": "leadership",
         "title": "Capacity vs demand (DRAFT)",
-        "blurb": "DRAFT, not validated. Forward look: does the team's historical throughput cover the design work in the next releases? Demand and capacity both in Story Points on CXUX Epics.",
-        "inputs": "Look-ahead releases (default 3) + baseline releases (default 4)",
-        "metrics": "Demand SP per release · baseline capacity (avg SP/release closed) · load % & gap · unestimated epics · Israel/India split",
+        "what_for": "A forward look — does the team's historical throughput cover the design work in the next releases?",
+        "input": "Optional — look-ahead releases (default 3) and baseline releases (default 4).",
+        "does": "Measures demand (Story Points on upcoming CXUX Epics) vs capacity (average SP closed per past release), compares them with a load % and an Israel/India split.",
+        "output": "A headline with baseline capacity, demand per release, and gap with a traffic light, plus two tables.",
+        "note": "DRAFT and data-limited — only ~35% of epics have Story Points set, so the forecast is indicative only.",
         "tags": ["draft", "portfolio", "read-only"],
     },
 ]
@@ -159,26 +183,32 @@ CATEGORIES = [
 ]
 
 
-def spec_table(inputs: str, metrics: str) -> str:
-    """Render Inputs / Output as a compact two-column spec table (label | values).
-    Each value is a '·'-separated item shown as a chip. Rows with no text are skipped;
-    an empty table returns ''. Labels are inserted as-is; items are escaped."""
+EXPLAIN_ROWS = [
+    ("what_for", "What it's for"),
+    ("input", "Input"),
+    ("does", "What it does"),
+    ("output", "Output"),
+    ("note", "Note"),
+]
+
+
+def explain_block(entry: dict) -> str:
+    """Render the structured card body: a labelled two-column table
+    (What it's for / Input / What it does / Output / Note). Rows with no text
+    are skipped; the Note row gets a subtler style. Text is escaped."""
     rows = []
-    for label, text in (("Inputs", inputs), ("Output", metrics)):
+    for key, label in EXPLAIN_ROWS:
+        text = entry.get(key, "")
         if not text:
             continue
-        chips = "".join(
-            f'<span class="spec-chip">{html.escape(item.strip())}</span>'
-            for item in text.split("·")
-            if item.strip()
-        )
+        cls = "ex-row ex-note" if key == "note" else "ex-row"
         rows.append(
-            f'<div class="spec-row"><div class="spec-label">{label}</div>'
-            f'<div class="spec-vals">{chips}</div></div>'
+            f'<div class="{cls}"><div class="ex-label">{label}</div>'
+            f'<div class="ex-val">{html.escape(text)}</div></div>'
         )
     if not rows:
         return ""
-    return f'<div class="spec-table">{"".join(rows)}</div>'
+    return f'<div class="explain">{"".join(rows)}</div>'
 
 
 def extract_body(md_text: str) -> str:
@@ -277,14 +307,16 @@ def build():
     cards_by_cat = {c["id"]: [] for c in CATEGORIES}
     for idx, p in enumerate(prompts):
         pid = f"p-{idx}"
-        spec_html = spec_table(p.get("inputs", ""), p.get("metrics", ""))
+        explain_html = explain_block(p)
         # DRAFT_ALL: every prompt is flagged Draft until it's re-validated in Rovo after the
         # hardening pass. Set to False to go back to per-prompt "draft" tags only.
         draft_badge = '<span class="badge-draft">Draft</span>' if (DRAFT_ALL or "draft" in p.get("tags", [])) else ""
         updated_iso = p["updated"]
         added_iso = p["added"]
         search_text = " ".join(
-            [p["title"], p["blurb"], p.get("inputs", ""), p.get("metrics", ""), updated_iso]
+            [p["title"]]
+            + [p.get(k, "") for k, _ in EXPLAIN_ROWS]
+            + [updated_iso]
             + p.get("tags", [])
         )
         card = f"""
@@ -293,8 +325,7 @@ def build():
             <h3>{html.escape(p['title'])}</h3>
             {draft_badge}
           </div>
-          <p class="blurb">{html.escape(p['blurb'])}</p>
-          {spec_html}
+          {explain_html}
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="{pid}">Copy prompt</button>
             <span class="updated" title="Last updated {updated_iso}">Updated {html.escape(human_date(updated_iso))}</span>
@@ -494,16 +525,13 @@ TEMPLATE = """<!DOCTYPE html>
                   text-transform: uppercase; letter-spacing: .07em; color: #fff;
                   background: #d92d20; border-radius: 5px; padding: 2px 7px; line-height: 1.4;
                   white-space: nowrap; }}
-  .blurb {{ color: var(--text-dim); font-size: 14px; margin: 10px 0 14px; flex: 1; }}
-  .spec-table {{ margin: 0 0 14px; border-top: 1px solid var(--border); }}
-  .spec-row {{ display: grid; grid-template-columns: 68px 1fr; gap: 10px; align-items: start;
-               padding: 9px 0; border-bottom: 1px solid var(--border); }}
-  .spec-label {{ font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
-                 color: var(--text-dim); padding-top: 3px; }}
-  .spec-vals {{ display: flex; flex-wrap: wrap; gap: 5px; }}
-  .spec-chip {{ font-size: 11.5px; line-height: 1.45; color: var(--text-subtlest);
-                background: var(--surface-2); border: 1px solid var(--border);
-                border-radius: 5px; padding: 2px 7px; }}
+  .explain {{ margin: 12px 0 14px; border-top: 1px solid var(--border); flex: 1; }}
+  .ex-row {{ display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: start;
+             padding: 9px 0; border-bottom: 1px solid var(--border); }}
+  .ex-label {{ font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+               color: var(--text-subtlest); padding-top: 2px; }}
+  .ex-val {{ font-size: 13px; line-height: 1.5; color: var(--text-dim); }}
+  .ex-note .ex-val {{ font-style: italic; color: var(--text-subtlest); }}
   .card-actions {{ display: flex; align-items: center; gap: 8px; margin-top: 16px; }}
   .updated {{ margin-left: auto; font-size: 11.5px; color: var(--text-subtlest); white-space: nowrap; }}
   .btn {{

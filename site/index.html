@@ -148,16 +148,13 @@
                   text-transform: uppercase; letter-spacing: .07em; color: #fff;
                   background: #d92d20; border-radius: 5px; padding: 2px 7px; line-height: 1.4;
                   white-space: nowrap; }
-  .blurb { color: var(--text-dim); font-size: 14px; margin: 10px 0 14px; flex: 1; }
-  .spec-table { margin: 0 0 14px; border-top: 1px solid var(--border); }
-  .spec-row { display: grid; grid-template-columns: 68px 1fr; gap: 10px; align-items: start;
-               padding: 9px 0; border-bottom: 1px solid var(--border); }
-  .spec-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
-                 color: var(--text-dim); padding-top: 3px; }
-  .spec-vals { display: flex; flex-wrap: wrap; gap: 5px; }
-  .spec-chip { font-size: 11.5px; line-height: 1.45; color: var(--text-subtlest);
-                background: var(--surface-2); border: 1px solid var(--border);
-                border-radius: 5px; padding: 2px 7px; }
+  .explain { margin: 12px 0 14px; border-top: 1px solid var(--border); flex: 1; }
+  .ex-row { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: start;
+             padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .ex-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+               color: var(--text-subtlest); padding-top: 2px; }
+  .ex-val { font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+  .ex-note .ex-val { font-style: italic; color: var(--text-subtlest); }
   .card-actions { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
   .updated { margin-left: auto; font-size: 11.5px; color: var(--text-subtlest); white-space: nowrap; }
   .btn {
@@ -224,13 +221,12 @@
   </div>
 
   <section class="panel active" id="panel-designers" role="tabpanel"><p class="cat-desc">Self-service prompts for your day-to-day work: create epics, check your health, review your year.</p><div class="grid">
-        <article class="card" data-search="create a ux epic builds a ux epic under a capability in cxux autonomously — you only choose which tasks to add at the end. capability key or name (e.g. cxux-12754) none — autonomous creation, not measurement 2026-07-26 writes autonomous" data-title="create a ux epic" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="create a ux epic create a well-structured ux epic under a capability in cxux, without building it by hand. a capability key (e.g. cxux-12754). confirms the key is a capability, drafts the epic description from it, picks a fitting component, creates the epic (parent = the capability, assigned to you), then stops to ask which tasks to add and creates them with ready-filled templates. the new epic plus the chosen tasks, all linked and assigned to you. the only prompt that writes to jira — and only after you confirm the tasks. 2026-07-26 writes autonomous" data-title="create a ux epic" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Create a UX Epic</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <p class="blurb">Builds a UX Epic under a Capability in CXUX autonomously — you only choose which tasks to add at the end.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Capability key or name (e.g. CXUX-12754)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">None — autonomous creation, not measurement</span></div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">Create a well-structured UX Epic under a Capability in CXUX, without building it by hand.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">A Capability key (e.g. CXUX-12754).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Confirms the key is a Capability, drafts the Epic description from it, picks a fitting Component, creates the Epic (parent = the Capability, assigned to you), then stops to ask which tasks to add and creates them with ready-filled templates.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">The new Epic plus the chosen tasks, all linked and assigned to you.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">The only prompt that writes to Jira — and only after you confirm the tasks.</div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-1">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -318,13 +314,12 @@ Jira states available (for reference, no native &quot;Blocked&quot;): New, In Pr
 New items start as &quot;New&quot;.</pre>
         </article>
 
-        <article class="card" data-search="my annual report your closed work for a year, by task type and story points, with average sp per task. year (e.g. 2025) task count · story points · avg sp/task (excl. build review) · by task type 2026-07-26 self-service read-only" data-title="my annual report" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="my annual report see your closed work for a year, broken down by task type. the year (e.g. 2025). finds your done (non-cancelled) tasks in cxux for that year, groups them by task type and sums story points, with the average sp per task (excluding build review). a task type / count / sp table plus a total line. read-only; uses the exact “story points” field and excludes cancelled tasks. 2026-07-26 self-service read-only" data-title="my annual report" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
             <h3>My annual report</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <p class="blurb">Your closed work for a year, by Task Type and Story Points, with average SP per task.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Year (e.g. 2025)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count</span><span class="spec-chip">Story Points</span><span class="spec-chip">avg SP/task (excl. Build Review)</span><span class="spec-chip">by Task Type</span></div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See your closed work for a year, broken down by task type.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">The year (e.g. 2025).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Finds your Done (non-cancelled) tasks in CXUX for that year, groups them by Task Type and sums Story Points, with the average SP per task (excluding Build Review).</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A Task Type / Count / SP table plus a total line.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Read-only; uses the exact “Story Points” field and excludes cancelled tasks.</div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -368,13 +363,12 @@ Footnotes: count of tasks with no Task Type set, and any unexpected types folded
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="my health check how your own workload looks right now, across all projects. flags idle, overload, and stalled tasks or epics.  in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · epic out-of-sync 2026-07-26 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="my health check see in seconds whether your current workload is healthy. none — it looks at your own issues across all projects. counts your in-progress items into a band (0 idle · 1 light · 2–4 ok · 5+ too many) and flags tasks stalled &gt;14d, epics stalled &gt;45d, and epics out of sync. a short verdict, most severe flag first. counts only leaf work items (not epics/capabilities); ages measured from the status-change date. 2026-07-26 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
             <h3>My health check</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <p class="blurb">How your own workload looks right now, across all projects. Flags idle, overload, and stalled tasks or epics.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">In-progress band (0 / 1 / 2–4 / 5+)</span><span class="spec-chip">stalled task &gt;14d</span><span class="spec-chip">stalled epic &gt;45d</span><span class="spec-chip">epic out-of-sync</span></div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See in seconds whether your current workload is healthy.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — it looks at your own issues across all projects.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Counts your in-progress items into a band (0 idle · 1 light · 2–4 ok · 5+ too many) and flags tasks stalled &gt;14d, epics stalled &gt;45d, and epics out of sync.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A short verdict, most severe flag first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Counts only leaf work items (not Epics/Capabilities); ages measured from the status-change date.</div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-6">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -424,13 +418,12 @@ STEPS:
 Lead with the most severe flag. Read-only — do not create, edit, or transition any issues.</pre>
         </article></div></section>
 <section class="panel" id="panel-managers" role="tabpanel"><p class="cat-desc">Team and portfolio views: overview, health checks, annual reports, design readiness.</p><div class="grid">
-        <article class="card" data-search="design readiness a traffic light showing which capabilities in one lob project + release are design-ready. flags capabilities with no ux epic, design overdue, or dev ahead of design. per capability, not per person. project key + release (e.g. cxrec, 26.4) design-ready (done/total tasks) · no-ux-epic / design-overdue / dev-ahead flags · 🔴 / 🟠 / 🟢 traffic light 2026-07-26 portfolio read-only" data-title="design readiness" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="design readiness a traffic light of design readiness per capability, for one lob project + release. project key + fix version (e.g. cxrec, 26.4) — asks if missing. takes the project&#x27;s capabilities in that release, finds the ux epic under each (in cxux) and its tasks, then computes whether design is ready and raises flags (no ux epic, design overdue, dev ahead of design). one table with a red/amber/green light per capability, plus a “needs attention” red list. matches fix versions by prefix (catches names like 26.4-csa); ignores cancelled tasks. 2026-07-26 portfolio read-only" data-title="design readiness" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Design readiness</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <p class="blurb">A traffic light showing which capabilities in one LOB project + release are design-ready. Flags capabilities with no UX epic, design overdue, or dev ahead of design. Per capability, not per person.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Project key + release (e.g. CXREC, 26.4)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Design-ready (done/total tasks)</span><span class="spec-chip">no-UX-epic / design-overdue / dev-ahead flags</span><span class="spec-chip">🔴 / 🟠 / 🟢 traffic light</span></div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">A traffic light of design readiness per capability, for one LOB project + release.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Project key + fix version (e.g. CXREC, 26.4) — asks if missing.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Takes the project&#x27;s capabilities in that release, finds the UX Epic under each (in CXUX) and its tasks, then computes whether design is ready and raises flags (No UX Epic, Design overdue, Dev ahead of design).</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">One table with a red/amber/green light per capability, plus a “Needs Attention” red list.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Matches fix versions by prefix (catches names like 26.4-CSA); ignores cancelled tasks.</div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-2">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -501,13 +494,12 @@ Close with a **⚠️ Needs Attention** section: a flat list of every 🔴 item,
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="designer annual report work closed in a year, per designer and task type. includes who closed nothing. asks first: team, region, or one person. year · scope: team, region, or one designer (the prompt asks) task count · story points · avg sp/task (excl. build review) · by task type 2026-07-26 team read-only" data-title="designer annual report" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="designer annual report the manager version of the annual report — closed work in a year for every designer. year + scope: whole team, a region, or a single designer (the prompt asks). like “my annual report” but across the roster, one row per person per task type, including who closed zero. a table sorted by total sp, with a total row and team average. uses the exact story points field, excludes cancelled tasks, works in small batches to stay reliable. 2026-07-26 team read-only" data-title="designer annual report" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Designer annual report</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <p class="blurb">Work closed in a year, per designer and Task Type. Includes who closed nothing. Asks first: team, region, or one person.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Year</span><span class="spec-chip">scope: team, region, or one designer (the prompt asks)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count</span><span class="spec-chip">Story Points</span><span class="spec-chip">avg SP/task (excl. Build Review)</span><span class="spec-chip">by Task Type</span></div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The manager version of the annual report — closed work in a year for every designer.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Year + scope: whole team, a region, or a single designer (the prompt asks).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Like “My annual report” but across the roster, one row per person per Task Type, including who closed zero.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A table sorted by total SP, with a TOTAL row and team average.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Uses the exact Story Points field, excludes cancelled tasks, works in small batches to stay reliable.</div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-3">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -562,13 +554,12 @@ STEPS:
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="designer health check whether anyone&#x27;s overloaded, idle, or stalled — across all projects, with a sprint-phase lens. asks first: team, region, or one person. scope: whole team, a region, or one designer (the prompt asks) in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · epic out-of-sync 2026-07-26 team read-only" data-title="designer health check" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="designer health check the team version of the personal health check — who&#x27;s overloaded, idle, or stalled. scope: whole team, a region, or a single designer (the prompt asks). for each person, across all projects, applies the in-progress band plus the stalled and out-of-sync flags. overloaded / idle / watch lists, plus who&#x27;s fine. sprint-phase lens only applies to a single designer; out-of-sync now checks both directions. 2026-07-26 team read-only" data-title="designer health check" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Designer health check</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <p class="blurb">Whether anyone&#x27;s overloaded, idle, or stalled — across all projects, with a sprint-phase lens. Asks first: team, region, or one person.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Scope: whole team, a region, or one designer (the prompt asks)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">In-progress band (0 / 1 / 2–4 / 5+)</span><span class="spec-chip">stalled task &gt;14d</span><span class="spec-chip">stalled epic &gt;45d</span><span class="spec-chip">epic out-of-sync</span></div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The team version of the personal health check — who&#x27;s overloaded, idle, or stalled.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Scope: whole team, a region, or a single designer (the prompt asks).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">For each person, across all projects, applies the in-progress band plus the stalled and out-of-sync flags.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">Overloaded / Idle / Watch lists, plus who&#x27;s fine.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Sprint-phase lens only applies to a single designer; out-of-sync now checks both directions.</div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-4">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -644,13 +635,12 @@ STEPS:
 Do not create, edit, or transition any Jira issues — this is read-only reporting.</pre>
         </article>
 
-        <article class="card" data-search="release workload sizes one project&#x27;s release: how many capabilities, how many carry ux work, the story points behind it, who owns it, and the status of both. project key + fix version (e.g. cxrec, 26.4) capabilities in release · with a cxux epic · total story points · epic assignees · capability &amp; epic status 2026-07-26 portfolio read-only" data-title="release workload" data-added="2026-07-20" data-modified="2026-07-26">
+        <article class="card" data-search="release workload size the ux workload of one project in one release. project key + fix version (e.g. cxrec, 26.4). counts the release&#x27;s capabilities, how many have a linked cxux epic (via parent), sums those epics&#x27; story points, and who owns them. four headline numbers plus a per-capability table. the capability↔ux epic link is by parent, not by name; uses the exact story points field. 2026-07-26 portfolio read-only" data-title="release workload" data-added="2026-07-20" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Release workload</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <p class="blurb">Sizes one project&#x27;s release: how many Capabilities, how many carry UX work, the Story Points behind it, who owns it, and the status of both.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Project key + fix version (e.g. CXREC, 26.4)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Capabilities in release</span><span class="spec-chip">with a CXUX Epic</span><span class="spec-chip">total Story Points</span><span class="spec-chip">epic assignees</span><span class="spec-chip">capability &amp; epic status</span></div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">Size the UX workload of one project in one release.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Project key + fix version (e.g. CXREC, 26.4).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Counts the release&#x27;s capabilities, how many have a linked CXUX Epic (via parent), sums those epics&#x27; Story Points, and who owns them.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">Four headline numbers plus a per-capability table.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">The Capability↔UX Epic link is by parent, not by name; uses the exact Story Points field.</div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-7">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -703,13 +693,12 @@ Close with a one-line recap:
 `**&lt;PROJECT&gt; · &lt;FIX VERSION&gt;:** N capabilities · M with UX work · P Story Points across Q epics.`</pre>
         </article>
 
-        <article class="card" data-search="research capability review (draft) draft, not validated. reviews every research epic in the current semester capability: status counts, how long each is in progress, stalls, out-of-sync tasks, researches per app, thematic categories, and possible duplicate researches. optional — a capability key (defaults to the current semester capability under cxux-12163) epic counts new/in progress/done · days-in-progress per epic · stalled epic &gt;45d / task &gt;14d · out-of-sync · researches per app (component) · thematic categories · overlap detection 2026-07-26 draft team research portfolio read-only" data-title="research capability review (draft)" data-added="2026-07-26" data-modified="2026-07-26">
+        <article class="card" data-search="research capability review (draft) review all the researches inside the current-semester capability — a portfolio view, not per person. optional — a capability key (defaults to the current one under cxux-12163). counts epics by status; buckets in-progress age (&gt;45d stalled, &gt;30d ageing); flags stalled and out-of-sync tasks; groups researches per app (component) and per theme (from the title); spots possible duplicates. a report with status counts, health, researches-per-app, categories, and overlap candidates. draft, not validated. overlap detection is advisory ai judgment; age is shown in buckets, not exact days. 2026-07-26 draft team research portfolio read-only" data-title="research capability review (draft)" data-added="2026-07-26" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Research capability review (DRAFT)</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <p class="blurb">DRAFT, not validated. Reviews every research Epic in the current semester Capability: status counts, how long each is in progress, stalls, out-of-sync tasks, researches per app, thematic categories, and possible duplicate researches.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Optional — a Capability key (defaults to the current semester Capability under CXUX-12163)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Epic counts New/In Progress/Done</span><span class="spec-chip">days-in-progress per epic</span><span class="spec-chip">stalled epic &gt;45d / task &gt;14d</span><span class="spec-chip">out-of-sync</span><span class="spec-chip">researches per app (Component)</span><span class="spec-chip">thematic categories</span><span class="spec-chip">overlap detection</span></div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">Review all the researches inside the current-semester Capability — a portfolio view, not per person.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Optional — a Capability key (defaults to the current one under CXUX-12163).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Counts epics by status; buckets in-progress age (&gt;45d stalled, &gt;30d ageing); flags stalled and out-of-sync tasks; groups researches per app (Component) and per theme (from the title); spots possible duplicates.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A report with status counts, health, researches-per-app, categories, and overlap candidates.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">DRAFT, not validated. Overlap detection is advisory AI judgment; age is shown in buckets, not exact days.</div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-8">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -802,13 +791,12 @@ No component — &lt;n&gt;: &lt;keys&gt;   ← only if any
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="researcher health check whether any researcher&#x27;s overloaded, idle, or stalled — on the ux research portfolio under cxux-12163.  in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · on research tasks 2026-07-26 team research read-only" data-title="researcher health check" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="researcher health check the same health check on the research portfolio (epics under cxux-12163), for researchers. none — the researcher roster is built into the prompt. resolves the tree initiative → current-semester capability → epics (the “researches”) → tasks, and applies the health model per researcher. one block per researcher, most severe first. read-only; counts a researcher&#x27;s tasks under their epics regardless of the task&#x27;s own assignee. 2026-07-26 team research read-only" data-title="researcher health check" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Researcher health check</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <p class="blurb">Whether any researcher&#x27;s overloaded, idle, or stalled — on the UX Research portfolio under CXUX-12163.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">In-progress band (0 / 1 / 2–4 / 5+)</span><span class="spec-chip">stalled task &gt;14d</span><span class="spec-chip">stalled epic &gt;45d</span><span class="spec-chip">on research tasks</span></div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The same health check on the Research portfolio (Epics under CXUX-12163), for researchers.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — the researcher roster is built into the prompt.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Resolves the tree Initiative → current-semester Capability → Epics (the “researches”) → tasks, and applies the health model per researcher.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">One block per researcher, most severe first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Read-only; counts a researcher&#x27;s tasks under their Epics regardless of the task&#x27;s own assignee.</div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-9">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -866,13 +854,12 @@ Healthy researchers: one 🟢 line, or omit entirely. Mention any unassigned res
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="team sprint overview how much work each designer has this sprint — tasks by status and story points. cxux only. asks first: team, region, or one person. scope: whole team, a region, or one designer (the prompt asks) task count by status (new / in progress / done) · story points 2026-07-26 team read-only" data-title="team sprint overview" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="team sprint overview a snapshot of the active sprint — how much work each designer has right now. asks your scope first: whole team, a region, or a single designer. in cxux, on the active sprint, counts tasks by status (new / in progress / done) and sums story points per person; people with zero still appear. a per-designer table sorted by story points, with a total row. excludes “removed” tasks; uses the exact story points field. 2026-07-26 team read-only" data-title="team sprint overview" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Team sprint overview</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <p class="blurb">How much work each designer has this sprint — tasks by status and Story Points. CXUX only. Asks first: team, region, or one person.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Scope: whole team, a region, or one designer (the prompt asks)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count by status (New / In Progress / Done)</span><span class="spec-chip">Story Points</span></div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">A snapshot of the active sprint — how much work each designer has right now.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Asks your scope first: whole team, a region, or a single designer.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">In CXUX, on the active sprint, counts tasks by status (New / In Progress / Done) and sums Story Points per person; people with zero still appear.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A per-designer table sorted by Story Points, with a total row.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Excludes “Removed” tasks; uses the exact Story Points field.</div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-10">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -913,13 +900,12 @@ STEPS:
 Read-only — do not create, edit, or transition any issues.</pre>
         </article></div></section>
 <section class="panel" id="panel-leadership" role="tabpanel"><p class="cat-desc">Org-wide forward views for UX leadership: capacity vs demand, strategic risk, trends.</p><div class="grid">
-        <article class="card" data-search="capacity vs demand (draft) draft, not validated. forward look: does the team&#x27;s historical throughput cover the design work in the next releases? demand and capacity both in story points on cxux epics. look-ahead releases (default 3) + baseline releases (default 4) demand sp per release · baseline capacity (avg sp/release closed) · load % &amp; gap · unestimated epics · israel/india split 2026-07-26 draft portfolio read-only" data-title="capacity vs demand (draft)" data-added="2026-07-23" data-modified="2026-07-26">
+        <article class="card" data-search="capacity vs demand (draft) a forward look — does the team&#x27;s historical throughput cover the design work in the next releases? optional — look-ahead releases (default 3) and baseline releases (default 4). measures demand (story points on upcoming cxux epics) vs capacity (average sp closed per past release), compares them with a load % and an israel/india split. a headline with baseline capacity, demand per release, and gap with a traffic light, plus two tables. draft and data-limited — only ~35% of epics have story points set, so the forecast is indicative only. 2026-07-26 draft portfolio read-only" data-title="capacity vs demand (draft)" data-added="2026-07-23" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Capacity vs demand (DRAFT)</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <p class="blurb">DRAFT, not validated. Forward look: does the team&#x27;s historical throughput cover the design work in the next releases? Demand and capacity both in Story Points on CXUX Epics.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Look-ahead releases (default 3) + baseline releases (default 4)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Demand SP per release</span><span class="spec-chip">baseline capacity (avg SP/release closed)</span><span class="spec-chip">load % &amp; gap</span><span class="spec-chip">unestimated epics</span><span class="spec-chip">Israel/India split</span></div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">A forward look — does the team&#x27;s historical throughput cover the design work in the next releases?</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Optional — look-ahead releases (default 3) and baseline releases (default 4).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Measures demand (Story Points on upcoming CXUX Epics) vs capacity (average SP closed per past release), compares them with a load % and an Israel/India split.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A headline with baseline capacity, demand per release, and gap with a traffic light, plus two tables.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">DRAFT and data-limited — only ~35% of epics have Story Points set, so the forecast is indicative only.</div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
