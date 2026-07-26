@@ -106,7 +106,7 @@ MANIFEST = [
     {
         "file": "ux-capability-review-prompt.md",
         "category": "managers",
-        "title": "Research capability review (DRAFT)",
+        "title": "Research capability review",
         "what_for": "Review all the researches inside the current-semester Capability — a portfolio view, not per person.",
         "input": "Optional — a Capability key (defaults to the current one under CXUX-12163).",
         "does": "Goes through all the researches in the current cycle: how many are new, running, or done, which ones are dragging, how they split across apps and topics, and which look like duplicates.",
@@ -151,7 +151,7 @@ MANIFEST = [
     {
         "file": "ux-capacity-demand-prompt.md",
         "category": "leadership",
-        "title": "Capacity vs demand (DRAFT)",
+        "title": "Capacity vs demand",
         "what_for": "A forward look — does the team's historical throughput cover the design work in the next releases?",
         "input": "Optional — look-ahead releases (default 3) and baseline releases (default 4).",
         "does": "Compares how much design work is coming up against how much the team has usually delivered, to see whether the next releases are over or under what the team can handle.",
