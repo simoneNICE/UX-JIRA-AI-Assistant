@@ -1,4 +1,4 @@
-# Rovo Chat prompt — Designer health (all / Israel / India)
+# Rovo Chat prompt — Designer health check (manager)
 
 Converted from the Claude Code `/ux-designer-health <team|all>` routine
 (`JIRA Agent/manager/agent-ux-manager.md`). Paste into a Rovo Chat conversation.

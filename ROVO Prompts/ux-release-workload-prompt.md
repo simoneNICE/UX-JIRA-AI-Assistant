@@ -1,4 +1,4 @@
-# Rovo Chat prompt — Release Workload (manager)
+# Rovo Chat prompt — Release workload (manager)
 
 Read-only sizing of a single project's release: how many Capabilities are in it, how
 many have UX design work attached (a CXUX Epic as child), the Story Points that work
@@ -30,7 +30,7 @@ Sum the Story Points field across all CXUX Epics found in Step 2 (all Capabiliti
 STEP 4 — Output
 Header:
 ```
-# Release Workload — <PROJECT> · <FIX VERSION>
+# Release workload — <PROJECT> · <FIX VERSION>
 *Generated: <date> | Read-only*
 ```
 

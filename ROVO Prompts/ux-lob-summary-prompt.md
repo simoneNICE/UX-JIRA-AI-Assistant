@@ -1,4 +1,4 @@
-# Rovo Chat prompt — LOB Executive Summary (manager)
+# Rovo Chat prompt — Design readiness (manager)
 
 Converted from `/ux-lob-summary [release1 release2]` in
 `JIRA Agent/manager/agent-ux-manager.md`. Paste into Rovo Chat. This is a product view
@@ -50,7 +50,7 @@ Group results by: product category → project name → fix version (current rel
 
 Header:
 ```
-# UX Design Readiness — Releases <R1> & <R2>
+# Design readiness — Releases <R1> & <R2>
 *Generated: <date> | Scope: N capabilities across M projects*
 Design deadlines: <R1> → <date> · <R2> → <date>
 ```

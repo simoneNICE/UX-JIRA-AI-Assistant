@@ -1,4 +1,4 @@
-# Rovo Chat prompt — Researchers health (manager)
+# Rovo Chat prompt — Researcher health check (manager)
 
 Converted from `/ux-research-health` in `JIRA Agent/manager/agent-ux-manager.md`.
 Paste into Rovo Chat.

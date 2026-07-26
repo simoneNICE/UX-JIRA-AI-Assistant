@@ -1,4 +1,4 @@
-# Rovo Chat prompt — Annual closed-work report (manager)
+# Rovo Chat prompt — Designer annual report (manager)
 
 Converted from `/ux-annual-report <team|all> <year>` in
 `JIRA Agent/manager/agent-ux-manager.md`. Paste into Rovo Chat. Rosters embedded below.
@@ -15,7 +15,11 @@ Do not query Jira until I reply to both.
 - A region → only that region's roster (Israel, India, or USA).
 - A single designer → just that one person, resolved from the rosters. If the name isn't in the rosters or is ambiguous, tell me and ask again.
 
-Window: Tasks resolved between <year>-01-01 and <year>-12-31 inclusive. Scope of "closed" = issue type Task, status category Done, resolved in that window.
+Window: Tasks resolved between <year>-01-01 and <year>-12-31 inclusive. Scope of "closed" = issue type Task, status = Done, resolved in that window, EXCLUDING tasks whose resolution is "Removed" (cancelled work counts as done in the status category but is not real closed work).
+
+IMPORTANT — field names (this Jira has look-alikes, use the exact ones):
+- Story Points: use the field named exactly "Story Points". Do NOT use "Story point estimate" or "Estimated Story Points" — those are different fields, usually empty on these tasks, and using them makes every SP come out as 0. (Internal id, if needed: Story Points is customfield_10038.)
+- Task Type: the field named exactly "Task Type" (customfield_10286).
 
 ROSTER — Researchers:
 Andrew Wong, Sveta Fomchenko, Lee Winkler, Serena Yang.
@@ -32,8 +36,8 @@ Doug Clement, Janet Gonzales, David Stoker, Sara Evans, Lorina Binning, Serena Y
 Note: Sveta Fomchenko and Lee Winkler appear in BOTH Researchers and Israel; Serena Yang and Andrew Wong appear in BOTH Researchers and USA — they do research and design work. For the whole team, use the union of all rosters, counting each person ONCE (dedup by identity, not by name string), and attribute each to their designer team (Sveta and Lee → Israel; Serena and Andrew → USA) rather than double-counting them under Researchers too.
 
 STEPS:
-1. Find all Tasks in project CXUX assigned to anyone in the roster(s) in scope, with status category Done and resolved within the year window.
-2. For each, read Task Type and Story Points (missing SP = 0).
+1. Find all Tasks in project CXUX assigned to anyone in the roster(s) in scope, status = Done, resolution != Removed, resolved within the year window. Work in small batches to stay reliable — query one designer at a time (or one Task Type at a time per designer) rather than trying to load everyone's tasks at once.
+2. For each, read Task Type and Story Points using the exact fields named above (missing SP = 0).
 3. Bucket per designer, one column per Task Type:
    Discovery · Ideation · Usability test · Validation · Design Spec · Build Review · Marketing activities · Sol migration · Other · (no type).
    Fold unexpected values into Other, note in a footnote. Keep the Sol migration column even if empty for everyone.

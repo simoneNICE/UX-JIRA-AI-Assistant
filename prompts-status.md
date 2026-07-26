@@ -13,7 +13,7 @@ Last updated: 2026-07-26
 
 | Prompt | File | Status | Notes |
 |--------|------|:------:|-------|
-| Create a UX Epic (guided) | `ux-epic-prompt.md` | ✅ | The only prompt that writes to Jira, and only after explicit confirmation |
+| Create a UX Epic | `ux-epic-prompt.md` | ✅ | The only prompt that writes to Jira; runs autonomously and only asks which tasks to create |
 | My health check | `ux-my-health-prompt.md` | ✅ | Self-service, read-only |
 | My annual report | `ux-my-report-prompt.md` | ✅ | Self-service, read-only |
 
@@ -43,13 +43,13 @@ Last updated: 2026-07-26
 
 | Prompt | File | Status | Notes |
 |--------|------|:------:|-------|
-| Team overview | `ux-overview-prompt.md` | ✅ | Active sprint, per designer. Asks scope first: whole team / region / single designer |
+| Team sprint overview | `ux-overview-prompt.md` | ✅ | Active sprint, per designer. Asks scope first: whole team / region / single designer |
 | Designer health check | `ux-designer-health-prompt.md` | ✅ | All projects, sprint-phase lens. Asks scope first: whole team / region / single designer |
-| Researchers health check | `ux-research-health-prompt.md` | ✅ | Researches portfolio under CXUX-12163 |
+| Researcher health check | `ux-research-health-prompt.md` | ✅ | Researches portfolio under CXUX-12163 |
 | Research capability review | `ux-capability-review-prompt.md` | 🚧 | **DRAFT — not validated.** Per-capability portfolio view: status counts, in-progress age, stalls, researches per app, thematic categories, overlaps |
-| Annual report per designer | `ux-annual-report-prompt.md` | ✅ | Breakdown by Task Type, includes people who closed zero. Asks scope first: whole team / region / single designer |
-| LOB Executive Summary | `ux-lob-summary-prompt.md` | ✅ | Design readiness per capability, current + next release |
-| Release Workload | `ux-release-workload-prompt.md` | ✅ | One project + fix version: capability count, how many have a CXUX Epic, total Story Points, statuses |
+| Designer annual report | `ux-annual-report-prompt.md` | ✅ | Breakdown by Task Type, includes people who closed zero. Asks scope first: whole team / region / single designer |
+| Design readiness | `ux-lob-summary-prompt.md` | ✅ | Design readiness per capability, current + next release |
+| Release workload | `ux-release-workload-prompt.md` | ✅ | One project + fix version: capability count, how many have a CXUX Epic, total Story Points, statuses |
 
 ### To do — Managers
 | Prompt | Status | Idea |
@@ -63,7 +63,7 @@ Last updated: 2026-07-26
 
 | Prompt | File | Status | Notes |
 |--------|------|:------:|-------|
-| Capacity vs Demand | `ux-capacity-demand-prompt.md` | 🚧 | **DRAFT — not validated.** Demand vs baseline throughput, both in Story Points on CXUX Epics. Logic and thresholds not yet confirmed against real data. |
+| Capacity vs demand | `ux-capacity-demand-prompt.md` | 🚧 | **DRAFT — not validated.** Demand vs baseline throughput, both in Story Points on CXUX Epics. Logic and thresholds not yet confirmed against real data. |
 
 ### To do — Leadership
 | Prompt | Status | Idea |

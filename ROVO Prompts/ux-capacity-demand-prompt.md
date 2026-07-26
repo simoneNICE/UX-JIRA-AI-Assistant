@@ -1,4 +1,4 @@
-# Rovo Chat prompt — Capacity vs Demand forecast (VP / head of UX)
+# Rovo Chat prompt — Capacity vs demand (VP / head of UX) — DRAFT
 
 > ⚠️ **DRAFT — not validated.** This prompt has not been confirmed against real Jira
 > data yet. The demand/capacity logic and thresholds are a first proposal and may be

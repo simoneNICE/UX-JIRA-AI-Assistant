@@ -1,4 +1,4 @@
-# Rovo Chat prompt — Team overview (manager)
+# Rovo Chat prompt — Team sprint overview (manager)
 
 Converted from `/ux-overview <team|all>` in `JIRA Agent/manager/agent-ux-manager.md`.
 Paste into Rovo Chat. Rosters embedded below.

@@ -34,11 +34,11 @@ MANIFEST = [
     {
         "file": "ux-epic-prompt.md",
         "category": "designers",
-        "title": "Create a UX Epic (guided)",
-        "blurb": "Builds a UX Epic under a Capability in CXUX, one step at a time. Writes only after you confirm.",
+        "title": "Create a UX Epic",
+        "blurb": "Builds a UX Epic under a Capability in CXUX autonomously — you only choose which tasks to add at the end.",
         "inputs": "Capability key or name (e.g. CXUX-12754)",
-        "metrics": "None — guided creation, not measurement",
-        "tags": ["writes", "guided"],
+        "metrics": "None — autonomous creation, not measurement",
+        "tags": ["writes", "autonomous"],
     },
     {
         "file": "ux-my-health-prompt.md",
@@ -63,7 +63,7 @@ MANIFEST = [
     {
         "file": "ux-overview-prompt.md",
         "category": "managers",
-        "title": "Team overview",
+        "title": "Team sprint overview",
         "blurb": "How much work each designer has this sprint — tasks by status and Story Points. CXUX only. Asks first: team, region, or one person.",
         "inputs": "Scope: whole team, a region, or one designer (the prompt asks)",
         "metrics": "Task count by status (New / In Progress / Done) · Story Points",
@@ -81,8 +81,8 @@ MANIFEST = [
     {
         "file": "ux-research-health-prompt.md",
         "category": "managers",
-        "title": "Researchers health check",
-        "blurb": "The same health check, for researchers — on the UX Research portfolio under CXUX-12163.",
+        "title": "Researcher health check",
+        "blurb": "Whether any researcher's overloaded, idle, or stalled — on the UX Research portfolio under CXUX-12163.",
         "metrics": "In-progress band (0 / 1 / 2–4 / 5+) · stalled task >14d · stalled epic >45d · on research tasks",
         "tags": ["team", "research", "read-only"],
     },
@@ -98,7 +98,7 @@ MANIFEST = [
     {
         "file": "ux-annual-report-prompt.md",
         "category": "managers",
-        "title": "Annual report per designer",
+        "title": "Designer annual report",
         "blurb": "Work closed in a year, per designer and Task Type. Includes who closed nothing. Asks first: team, region, or one person.",
         "inputs": "Year · scope: team, region, or one designer (the prompt asks)",
         "metrics": "Task count · Story Points · avg SP/task (excl. Build Review) · by Task Type",
@@ -107,7 +107,7 @@ MANIFEST = [
     {
         "file": "ux-lob-summary-prompt.md",
         "category": "managers",
-        "title": "Design Readiness",
+        "title": "Design readiness",
         "blurb": "A traffic light showing which capabilities are design-ready for this release and next, across all LOB projects. Per capability, not per person.",
         "inputs": "Optional — two release codes like 26.3 and 26.4 (auto-computed if omitted)",
         "metrics": "Design-ready (done/total tasks) · design-deadline flags · 🔴 / 🟠 / 🟢 traffic light",
@@ -116,7 +116,7 @@ MANIFEST = [
     {
         "file": "ux-release-workload-prompt.md",
         "category": "managers",
-        "title": "Release Workload",
+        "title": "Release workload",
         "blurb": "Sizes one project's release: how many Capabilities, how many carry UX work, the Story Points behind it, who owns it, and the status of both.",
         "inputs": "Project key + fix version (e.g. CXREC, 26.4)",
         "metrics": "Capabilities in release · with a CXUX Epic · total Story Points · epic assignees · capability & epic status",
@@ -126,7 +126,7 @@ MANIFEST = [
     {
         "file": "ux-capacity-demand-prompt.md",
         "category": "leadership",
-        "title": "Capacity vs Demand (DRAFT)",
+        "title": "Capacity vs demand (DRAFT)",
         "blurb": "DRAFT, not validated. Forward look: does the team's historical throughput cover the design work in the next releases? Demand and capacity both in Story Points on CXUX Epics.",
         "inputs": "Look-ahead releases (default 3) + baseline releases (default 4)",
         "metrics": "Demand SP per release · baseline capacity (avg SP/release closed) · load % & gap · unestimated epics · Israel/India split",
@@ -145,7 +145,7 @@ CATEGORIES = [
         "id": "managers",
         "label": "Managers",
         "icon": "&#128202;",  # 📊
-        "desc": "Team and portfolio views: overview, health checks, annual reports, LOB readiness.",
+        "desc": "Team and portfolio views: overview, health checks, annual reports, design readiness.",
     },
     {
         "id": "leadership",
@@ -275,6 +275,7 @@ def build():
     for idx, p in enumerate(prompts):
         pid = f"p-{idx}"
         spec_html = spec_table(p.get("inputs", ""), p.get("metrics", ""))
+        draft_badge = '<span class="badge-draft">Draft</span>' if "draft" in p.get("tags", []) else ""
         updated_iso = p["updated"]
         added_iso = p["added"]
         search_text = " ".join(
@@ -285,6 +286,7 @@ def build():
         <article class="card" data-search="{html.escape(search_text.lower())}" data-title="{html.escape(p['title'].lower())}" data-added="{added_iso}" data-modified="{updated_iso}">
           <div class="card-head">
             <h3>{html.escape(p['title'])}</h3>
+            {draft_badge}
           </div>
           <p class="blurb">{html.escape(p['blurb'])}</p>
           {spec_html}
@@ -480,6 +482,10 @@ TEMPLATE = """<!DOCTYPE html>
   .card:hover {{ transform: translateY(-2px); border-color: var(--accent); }}
   .card-head {{ display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }}
   .card h3 {{ font-size: 17px; margin: 0; letter-spacing: -.01em; }}
+  .badge-draft {{ flex: none; align-self: flex-start; font-size: 10px; font-weight: 800;
+                  text-transform: uppercase; letter-spacing: .07em; color: #fff;
+                  background: #d92d20; border-radius: 5px; padding: 2px 7px; line-height: 1.4;
+                  white-space: nowrap; }}
   .blurb {{ color: var(--text-dim); font-size: 14px; margin: 10px 0 14px; flex: 1; }}
   .spec-table {{ margin: 0 0 14px; border-top: 1px solid var(--border); }}
   .spec-row {{ display: grid; grid-template-columns: 68px 1fr; gap: 10px; align-items: start;
