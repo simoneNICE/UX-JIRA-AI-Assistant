@@ -120,6 +120,18 @@
   @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
   .cat-desc { color: var(--text-dim); margin: 0 0 20px; font-size: 14px; }
 
+  .controls { display: flex; align-items: center; gap: 8px; margin: 0 0 20px; }
+  .sort-ctl { font-size: 12px; font-weight: 600; color: var(--text-subtlest);
+               text-transform: uppercase; letter-spacing: .04em; }
+  #sort {
+    appearance: none; font: inherit; font-size: 13px; color: var(--text); cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 6px 30px 6px 10px; outline: none; transition: border-color .15s, box-shadow .15s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23626f86' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 8px center;
+  }
+  #sort:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
   .card {
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
@@ -194,18 +206,27 @@
 <button class="tab" data-tab="leadership" role="tab" aria-selected="false">Leadership (VP) <span class="tab-count">1</span></button>
   </nav>
 
+  <div class="controls">
+    <label class="sort-ctl" for="sort">Sort by</label>
+    <select id="sort">
+      <option value="title" selected>Title (A&ndash;Z)</option>
+      <option value="added">Date added</option>
+      <option value="modified">Date modified</option>
+    </select>
+  </div>
+
   <section class="panel active" id="panel-designers" role="tabpanel"><p class="cat-desc">Self-service prompts for your day-to-day work: create epics, check your health, review your year.</p><div class="grid">
-        <article class="card" data-search="create a ux epic (guided) builds a ux epic under a capability in cxux, one step at a time. writes only after you confirm. capability key or name (e.g. cxux-12754) none — guided creation, not measurement 2026-07-19 writes guided">
+        <article class="card" data-search="create a ux epic (guided) builds a ux epic under a capability in cxux, one step at a time. writes only after you confirm. capability key or name (e.g. cxux-12754) none — guided creation, not measurement 2026-07-19 writes guided" data-title="create a ux epic (guided)" data-added="2026-07-19" data-modified="2026-07-19">
           <div class="card-head">
             <h3>Create a UX Epic (guided)</h3>
           </div>
           <p class="blurb">Builds a UX Epic under a Capability in CXUX, one step at a time. Writes only after you confirm.</p>
           <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Capability key or name (e.g. CXUX-12754)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">None — guided creation, not measurement</span></div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-2">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
           </div>
-          <pre class="prompt-body" id="p-0" hidden>You are helping me create a UX Epic in Jira project CXUX. Follow this process exactly — do not skip steps or create anything until I explicitly confirm.
+          <pre class="prompt-body" id="p-2" hidden>You are helping me create a UX Epic in Jira project CXUX. Follow this process exactly — do not skip steps or create anything until I explicitly confirm.
 
 CAPABILITY: [paste capability key, e.g. CXUX-12754, OR capability name here]
 
@@ -267,17 +288,55 @@ Summarize what you created: the Epic key (linked under its Capability), and the 
 Jira states available (for reference, no native &quot;Blocked&quot;): New, In Progress, Done.</pre>
         </article>
 
-        <article class="card" data-search="my health check how your own workload looks right now, across all projects. flags idle, overload, and stalled tasks or epics.  in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · epic out-of-sync 2026-07-19 self-service read-only">
+        <article class="card" data-search="my annual report your closed work for a year, by task type and story points, with average sp per task. year (e.g. 2025) task count · story points · avg sp/task (excl. build review) · by task type 2026-07-19 self-service read-only" data-title="my annual report" data-added="2026-07-19" data-modified="2026-07-19">
+          <div class="card-head">
+            <h3>My annual report</h3>
+          </div>
+          <p class="blurb">Your closed work for a year, by Task Type and Story Points, with average SP per task.</p>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Year (e.g. 2025)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count</span><span class="spec-chip">Story Points</span><span class="spec-chip">avg SP/task (excl. Build Review)</span><span class="spec-chip">by Task Type</span></div></div></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
+            <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
+          </div>
+          <pre class="prompt-body" id="p-5" hidden>You are helping me build a breakdown of my own closed Jira work for a given year, in project CXUX only.
+
+YEAR: [e.g. 2025 — ask me if I don&#x27;t specify]
+
+Window: Tasks resolved between &lt;year&gt;-01-01 and &lt;year&gt;-12-31 inclusive.
+
+STEPS:
+1. Find all Tasks in project CXUX assigned to me, with status category Done, resolved within that window.
+2. For each, read its Task Type field and its Story Points (treat missing/null Story Points as 0).
+3. Bucket by Task Type — one column per type:
+   Discovery · Ideation · Usability test · Validation · Design Spec · Build Review · Marketing activities · Sol migration · Other · (no type, i.e. field empty/null).
+   Fold any unexpected/unrecognized Task Type value into &quot;Other&quot; and note it in a footnote.
+4. Compute average Story Points per task, EXCLUDING Build Review tasks:
+   sum(SP of tasks where type ≠ Build Review) / count(tasks where type ≠ Build Review), rounded to 1 decimal. Show &quot;—&quot; if there are no non-Build-Review tasks.
+5. Present:
+
+   | Task Type | Count | SP |
+   |-----------|------:|---:|
+   | Ideation  | 5     | 20 |
+   | …         |       |    |
+
+   Summary line: `Total: N tasks · X SP · Avg SP/task (excl. Build Review): Y.Z`
+
+   Footnotes: count of tasks with no Task Type set, and any unexpected types folded into Other.
+
+Read-only — do not create, edit, or transition any issues.</pre>
+        </article>
+
+        <article class="card" data-search="my health check how your own workload looks right now, across all projects. flags idle, overload, and stalled tasks or epics.  in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · epic out-of-sync 2026-07-19 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-07-19">
           <div class="card-head">
             <h3>My health check</h3>
           </div>
           <p class="blurb">How your own workload looks right now, across all projects. Flags idle, overload, and stalled tasks or epics.</p>
           <div class="spec-table"><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">In-progress band (0 / 1 / 2–4 / 5+)</span><span class="spec-chip">stalled task &gt;14d</span><span class="spec-chip">stalled epic &gt;45d</span><span class="spec-chip">epic out-of-sync</span></div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-1">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-6">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
           </div>
-          <pre class="prompt-body" id="p-1" hidden>You are helping me check the health of my own active work in Jira. Scope is ALL projects I work in (not just CXUX) — do not restrict by project. Measure everything against my own assignee identity in this workspace.
+          <pre class="prompt-body" id="p-6" hidden>You are helping me check the health of my own active work in Jira. Scope is ALL projects I work in (not just CXUX) — do not restrict by project. Measure everything against my own assignee identity in this workspace.
 
 HEALTH MODEL — apply these exact rules:
 
@@ -316,64 +375,32 @@ STEPS:
 ```
 
 Lead with the most severe flag. Read-only — do not create, edit, or transition any issues.</pre>
-        </article>
-
-        <article class="card" data-search="my annual report your closed work for a year, by task type and story points, with average sp per task. year (e.g. 2025) task count · story points · avg sp/task (excl. build review) · by task type 2026-07-19 self-service read-only">
-          <div class="card-head">
-            <h3>My annual report</h3>
-          </div>
-          <p class="blurb">Your closed work for a year, by Task Type and Story Points, with average SP per task.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Year (e.g. 2025)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count</span><span class="spec-chip">Story Points</span><span class="spec-chip">avg SP/task (excl. Build Review)</span><span class="spec-chip">by Task Type</span></div></div></div>
-          <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-2">Copy prompt</button>
-            <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
-          </div>
-          <pre class="prompt-body" id="p-2" hidden>You are helping me build a breakdown of my own closed Jira work for a given year, in project CXUX only.
-
-YEAR: [e.g. 2025 — ask me if I don&#x27;t specify]
-
-Window: Tasks resolved between &lt;year&gt;-01-01 and &lt;year&gt;-12-31 inclusive.
-
-STEPS:
-1. Find all Tasks in project CXUX assigned to me, with status category Done, resolved within that window.
-2. For each, read its Task Type field and its Story Points (treat missing/null Story Points as 0).
-3. Bucket by Task Type — one column per type:
-   Discovery · Ideation · Usability test · Validation · Design Spec · Build Review · Marketing activities · Sol migration · Other · (no type, i.e. field empty/null).
-   Fold any unexpected/unrecognized Task Type value into &quot;Other&quot; and note it in a footnote.
-4. Compute average Story Points per task, EXCLUDING Build Review tasks:
-   sum(SP of tasks where type ≠ Build Review) / count(tasks where type ≠ Build Review), rounded to 1 decimal. Show &quot;—&quot; if there are no non-Build-Review tasks.
-5. Present:
-
-   | Task Type | Count | SP |
-   |-----------|------:|---:|
-   | Ideation  | 5     | 20 |
-   | …         |       |    |
-
-   Summary line: `Total: N tasks · X SP · Avg SP/task (excl. Build Review): Y.Z`
-
-   Footnotes: count of tasks with no Task Type set, and any unexpected types folded into Other.
-
-Read-only — do not create, edit, or transition any issues.</pre>
         </article></div></section>
 <section class="panel" id="panel-managers" role="tabpanel"><p class="cat-desc">Team and portfolio views: overview, health checks, annual reports, LOB readiness.</p><div class="grid">
-        <article class="card" data-search="team overview how much work each designer has this sprint — tasks by status and story points. cxux only. asks first: team, region, or one person. scope: whole team, a region, or one designer (the prompt asks) task count by status (new / in progress / done) · story points 2026-07-26 team read-only">
+        <article class="card" data-search="annual report per designer work closed in a year, per designer and task type. includes who closed nothing. asks first: team, region, or one person. year · scope: team, region, or one designer (the prompt asks) task count · story points · avg sp/task (excl. build review) · by task type 2026-07-26 team read-only" data-title="annual report per designer" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
-            <h3>Team overview</h3>
+            <h3>Annual report per designer</h3>
           </div>
-          <p class="blurb">How much work each designer has this sprint — tasks by status and Story Points. CXUX only. Asks first: team, region, or one person.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Scope: whole team, a region, or one designer (the prompt asks)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count by status (New / In Progress / Done)</span><span class="spec-chip">Story Points</span></div></div></div>
+          <p class="blurb">Work closed in a year, per designer and Task Type. Includes who closed nothing. Asks first: team, region, or one person.</p>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Year</span><span class="spec-chip">scope: team, region, or one designer (the prompt asks)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count</span><span class="spec-chip">Story Points</span><span class="spec-chip">avg SP/task (excl. Build Review)</span><span class="spec-chip">by Task Type</span></div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-3">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
           </div>
-          <pre class="prompt-body" id="p-3" hidden>You are helping me get an active-sprint snapshot of my UX designers&#x27; work in Jira, grouped by designer. Scope is project CXUX only, current active sprint only. Measure by task assignee.
+          <pre class="prompt-body" id="p-0" hidden>You are helping me build a per-designer breakdown of Jira Tasks closed in a given year, in project CXUX only.
 
-SCOPE — ask me first. Before running any query, ask me exactly this and wait for my answer:
-&quot;Which scope do you want? (1) the whole team, (2) a specific region — Israel, India, or USA, or (3) a single designer (tell me the name)?&quot;
-Do not query Jira until I reply.
-- Whole team → all rosters combined (no overlap between regions); include a Team column labelling each person.
-- A region → only that region&#x27;s roster (Israel, India, or USA); no Team column.
-- A single designer → just that one person, resolved from the rosters; no Team column. If the name isn&#x27;t in the rosters or is ambiguous, tell me and ask again.
+SCOPE — ask me first. Before running any query, ask me these two things and wait for my answer:
+1. &quot;Which year?&quot; (e.g. 2025)
+2. &quot;Which scope? (1) the whole team, (2) a specific region — Israel, India, or USA, or (3) a single designer (tell me the name)?&quot;
+Do not query Jira until I reply to both.
+- Whole team → the union of all rosters below, counting each person ONCE (dedup by identity, not name string).
+- A region → only that region&#x27;s roster (Israel, India, or USA).
+- A single designer → just that one person, resolved from the rosters. If the name isn&#x27;t in the rosters or is ambiguous, tell me and ask again.
+
+Window: Tasks resolved between &lt;year&gt;-01-01 and &lt;year&gt;-12-31 inclusive. Scope of &quot;closed&quot; = issue type Task, status category Done, resolved in that window.
+
+ROSTER — Researchers:
+Andrew Wong, Sveta Fomchenko, Lee Winkler, Serena Yang.
 
 ROSTER — Israel designers:
 Yaara Bar, Chelsea Franz, Assaf Zinger, Eitan Koren, Tali Silon-Shacham, Erez Bar, Michael Dalal, Yoav Chen, Libi Becker Tidhar, Sveta Fomchenko, Lee Winkler, Lihi Shrem, Tal Segev.
@@ -384,23 +411,106 @@ Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan 
 ROSTER — USA designers:
 Doug Clement, Janet Gonzales, David Stoker, Sara Evans, Lorina Binning, Serena Yang, Andrew Wong.
 
-The &quot;roster&quot; below refers to whichever set the scope resolved to: all rosters (whole team), one region&#x27;s roster, or the single designer.
+Note: Sveta Fomchenko and Lee Winkler appear in BOTH Researchers and Israel; Serena Yang and Andrew Wong appear in BOTH Researchers and USA — they do research and design work. For the whole team, use the union of all rosters, counting each person ONCE (dedup by identity, not by name string), and attribute each to their designer team (Sveta and Lee → Israel; Serena and Andrew → USA) rather than double-counting them under Researchers too.
 
 STEPS:
-1. Find all Tasks in project CXUX assigned to anyone in the roster, in the currently active sprint.
-2. Group by assignee: count tasks by status (New / In Progress / Done) and sum Story Points (treat missing as 0). Roster members with zero tasks still appear, with all-zero counts.
-3. Note separately any tasks in the active sprint assigned to someone NOT in the roster (don&#x27;t fold them into the table).
-4. Present a table sorted by Total Story Points descending:
+1. Find all Tasks in project CXUX assigned to anyone in the roster(s) in scope, with status category Done and resolved within the year window.
+2. For each, read Task Type and Story Points (missing SP = 0).
+3. Bucket per designer, one column per Task Type:
+   Discovery · Ideation · Usability test · Validation · Design Spec · Build Review · Marketing activities · Sol migration · Other · (no type).
+   Fold unexpected values into Other, note in a footnote. Keep the Sol migration column even if empty for everyone.
+4. Per designer, compute average SP/task EXCLUDING Build Review tasks (same formula as above), 1 decimal, &quot;—&quot; if no eligible tasks.
+5. Include every roster member even if they closed zero tasks that year (all-zero row).
+6. Present a table sorted by Total SP descending, one column per task type, plus a TOTAL row (team-wide average = total SP excl. Build Review / total tasks excl. Build Review):
 
-   | Designer | Team | New | In Progress | Done | Total | SP |
-   |----------|------|----:|------------:|-----:|------:|---:|
+   | Designer | Team | Disc | Ideation | Usab.test | Valid | Design Spec | Build Rev | Mktg | Sol mig | Other | (no type) | Tasks | SP | Avg SP/task¹ |
+   |----------|------|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
 
-   Show the Team column only when the scope is the whole team; omit it for a single region or a single designer. Add a final TOTAL row.
+   Show the Team column only when the scope is the whole team; omit it for a single region or a single designer. `¹` = excluding Build Review.
+
+   Footnotes: total tasks, count of (no type), unexpected types folded into Other, roster members with zero closed tasks.
 
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="designer health check whether anyone&#x27;s overloaded, idle, or stalled — across all projects, with a sprint-phase lens. asks first: team, region, or one person. scope: whole team, a region, or one designer (the prompt asks) in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · epic out-of-sync 2026-07-26 team read-only">
+        <article class="card" data-search="design readiness a traffic light showing which capabilities are design-ready for this release and next, across all lob projects. per capability, not per person. optional — two release codes like 26.3 and 26.4 (auto-computed if omitted) design-ready (done/total tasks) · design-deadline flags · 🔴 / 🟠 / 🟢 traffic light 2026-07-19 portfolio read-only" data-title="design readiness" data-added="2026-07-19" data-modified="2026-07-19">
+          <div class="card-head">
+            <h3>Design Readiness</h3>
+          </div>
+          <p class="blurb">A traffic light showing which capabilities are design-ready for this release and next, across all LOB projects. Per capability, not per person.</p>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Optional — two release codes like 26.3 and 26.4 (auto-computed if omitted)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Design-ready (done/total tasks)</span><span class="spec-chip">design-deadline flags</span><span class="spec-chip">🔴 / 🟠 / 🟢 traffic light</span></div></div></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-3">Copy prompt</button>
+            <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
+          </div>
+          <pre class="prompt-body" id="p-3" hidden>You are helping me build an executive summary of UX design coverage and readiness across all LOB (line-of-business) projects, for the current and next release.
+
+STEP 1 — Determine target releases
+RELEASES: [optional — give me two release codes like &quot;26.3 26.4&quot; if you want to override; otherwise compute them]
+If not given: compute today&#x27;s current release (Q+1) and next release (Q+2) in &quot;YY.Q&quot; format, where Q1=Jan–Mar, Q2=Apr–Jun, Q3=Jul–Sep, Q4=Oct–Dec (after X.4 comes (X+1).1).
+Design deadline per release = first day of its work quarter minus 2 months, where work quarter = release quarter − 1.
+Example: release 26.3 → work starts 1 Apr 2026 → design deadline 1 Feb 2026.
+Example: release 26.4 → work starts 1 Jul 2026 → design deadline 1 May 2026.
+
+STEP 2 — Fetch Capabilities in scope
+Find all issues of type Capability, across all projects, with fixVersion matching either of the two target releases, status not &quot;Removed&quot;. Skip Capabilities that belong to project CXUX itself (that&#x27;s the UX-internal project, not a LOB project). For each, keep: key, summary, status, fix version(s), project.
+
+STEP 3 — Fetch UX Epics
+Find Epics in project CXUX whose parent is one of the Capabilities from Step 2 — this is the definition of a &quot;UX Epic&quot; here (don&#x27;t filter by summary text/prefix, naming isn&#x27;t consistent across teams). Keep only Capabilities that have at least one UX Epic; silently discard Capabilities with none. For each UX Epic keep: key, summary, status, parent, assignee.
+
+STEP 4 — Fetch UX Tasks
+Find Tasks in project CXUX whose parent is one of the UX Epics from Step 3. Keep: key, summary, status, parent, assignee.
+
+STEP 5 — Apply red-light logic
+For each Capability → UX Epic → its Tasks:
+- task_count = number of tasks under the epic
+- done_count = tasks with status Done
+- design_ready = (task_count &gt; 0 AND done_count == task_count) OR (task_count == 0 AND epic status == Done)
+- has_no_tasks = (task_count == 0 AND epic status != Done)
+- epic_unassigned = epic has no assignee
+- tasks_unassigned = any task under it has no assignee
+
+Collect ALL applicable red flags:
+- 🔴 &quot;Design overdue&quot; — today is past the design deadline AND NOT design_ready
+- 🔴 &quot;Dev ahead of design&quot; — Capability status is In Progress or Done AND NOT design_ready
+- 🟠 &quot;No tasks&quot; — has_no_tasks
+- 🟠 &quot;Epic unassigned&quot; — epic_unassigned
+- 🟠 &quot;Task(s) unassigned&quot; — tasks_unassigned
+
+Overall traffic light = 🔴 if any 🔴 flag, else 🟠 if any 🟠 flag, else 🟢.
+Notes column = comma-separated list of the triggered flag names.
+
+Status emoji: Done → 🟢 · In Progress / In Definition → 🟡 · New / Ready for Dev → 🟦 · Removed → ⚪.
+
+STEP 6 — Output
+Group results by: product category → project name → fix version (current release first). Within each group, order 🔴 first, then 🟠, then 🟢.
+
+Header:
+```
+# UX Design Readiness — Releases &lt;R1&gt; &amp; &lt;R2&gt;
+*Generated: &lt;date&gt; | Scope: N capabilities across M projects*
+Design deadlines: &lt;R1&gt; → &lt;date&gt; · &lt;R2&gt; → &lt;date&gt;
+```
+
+Table per project + release:
+```
+| 🚦 | Capability | Fix | Cap. Status | UX Epic | Tasks | Notes |
+```
+Example row: `| 🔴 | [CXREC-133289] iHub – hourly deletion | 26.4 | 🟦 New | CXUX-12690 🟦 New | 0/3 | Design overdue, Epic unassigned |`
+
+After each project&#x27;s table, one summary line: `**&lt;Project name&gt; (&lt;release&gt;):** N capabilities — X 🔴 · Y 🟠 · Z 🟢`
+
+Close with a **⚠️ Needs Attention** section: a flat list of every 🔴 item across all projects, sorted by project then capability key — this is the section I should read first.
+
+Final summary table across everything:
+```
+| Product Area | Project | &lt;R1&gt; 🔴 | &lt;R1&gt; 🟢 | &lt;R2&gt; 🔴 | &lt;R2&gt; 🟢 |
+```
+
+Read-only — do not create, edit, or transition any issues.</pre>
+        </article>
+
+        <article class="card" data-search="designer health check whether anyone&#x27;s overloaded, idle, or stalled — across all projects, with a sprint-phase lens. asks first: team, region, or one person. scope: whole team, a region, or one designer (the prompt asks) in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · epic out-of-sync 2026-07-26 team read-only" data-title="designer health check" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Designer health check</h3>
           </div>
@@ -480,78 +590,75 @@ STEPS:
 Do not create, edit, or transition any Jira issues — this is read-only reporting.</pre>
         </article>
 
-        <article class="card" data-search="researchers health check the same health check, for researchers — on the ux research portfolio under cxux-12163.  in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · on research tasks 2026-07-19 team research read-only">
+        <article class="card" data-search="release workload sizes one project&#x27;s release: how many capabilities, how many carry ux work, the story points behind it, who owns it, and the status of both. project key + fix version (e.g. cxrec, 26.4) capabilities in release · with a cxux epic · total story points · epic assignees · capability &amp; epic status 2026-07-20 portfolio read-only" data-title="release workload" data-added="2026-07-20" data-modified="2026-07-20">
           <div class="card-head">
-            <h3>Researchers health check</h3>
+            <h3>Release Workload</h3>
           </div>
-          <p class="blurb">The same health check, for researchers — on the UX Research portfolio under CXUX-12163.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">In-progress band (0 / 1 / 2–4 / 5+)</span><span class="spec-chip">stalled task &gt;14d</span><span class="spec-chip">stalled epic &gt;45d</span><span class="spec-chip">on research tasks</span></div></div></div>
+          <p class="blurb">Sizes one project&#x27;s release: how many Capabilities, how many carry UX work, the Story Points behind it, who owns it, and the status of both.</p>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Project key + fix version (e.g. CXREC, 26.4)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Capabilities in release</span><span class="spec-chip">with a CXUX Epic</span><span class="spec-chip">total Story Points</span><span class="spec-chip">epic assignees</span><span class="spec-chip">capability &amp; epic status</span></div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
-            <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
+            <button class="btn btn-primary" data-copy="p-7">Copy prompt</button>
+            <span class="updated" title="Last updated 2026-07-20">Updated Jul 20, 2026</span>
           </div>
-          <pre class="prompt-body" id="p-5" hidden>You are helping me run a health check on the UX Researches portfolio in Jira project CXUX.
+          <pre class="prompt-body" id="p-7" hidden>You are helping me size the UX workload for one project in one release. This is read-only — do not create, edit, or transition any issue.
 
-HIERARCHY &amp; SCOPE:
-- Root Initiative: CXUX-12163 (&quot;UX Researches Initiative&quot;).
-- Its child Capabilities (one is the &quot;current&quot; semester capability, e.g. &quot;UX Researches / s2.2026&quot; — it rotates, don&#x27;t assume a fixed key, discover it as a child of CXUX-12163).
-- Each Capability&#x27;s child Epics = individual &quot;researches&quot;. In scope: Epics with status In Progress or New only (exclude Done and Removed).
-- Each Epic&#x27;s child Tasks = research tasks.
-- A research&#x27;s owner = its Epic&#x27;s assignee. Only report researches owned by someone in the researcher roster below — other owners under the same Capabilities (other names, or unassigned) are out of scope, skip them in the per-researcher breakdown.
-- Ignore the test epic CXUX-12409 entirely.
-- Flag any in-scope research Epic with no assignee separately (unassigned research), don&#x27;t attribute it to any researcher.
+INPUT — two values I must give you:
+PROJECT: [leave blank or paste the project key, e.g. CXREC]
+FIX VERSION: [leave blank or paste the release/fix version exactly as in Jira, e.g. 26.4]
 
-RESEARCHER ROSTER:
-Andrew Wong (andrew.wong@niceincontact.com), Sveta Fomchenko (sveta.fomchenko@nice.com), Lee Winkler (lee.winkler@nice.com), Serena Yang (serena.yang@niceincontact.com).
+Before doing anything: if either PROJECT or FIX VERSION is blank or still shows the placeholder text, STOP and ask me for the missing one(s) — ask for both if both are missing — and wait for my answer. Do not guess, do not proceed with an empty value, do not run any search until you have both.
 
-HEALTH MODEL — same rules as any health check, applied per researcher using their research TASKS (not epics) as the unit of work:
+CONTEXT — CXUX hierarchy:
+Capabilities live in the line-of-business (LOB) projects. UX design work lives in project CXUX. A &quot;CXUX Epic&quot; here means an Epic in project CXUX whose PARENT is one of those Capabilities — that is the link between a Capability and its UX work. Naming isn&#x27;t consistent across teams, so match on the parent relationship, never on summary text or prefix.
 
-Per-person In Progress task count (the band):
-- 0 tasks → 🔴 idle.
-- 1 task → 🟠 under-engaged.
-- 2–4 tasks → ✅ ok.
-- 5+ tasks → 🔴 too many in progress.
+STEP 1 — Fetch the Capabilities in scope
+Find all issues in PROJECT of type Capability with fixVersion = FIX VERSION and status not &quot;Removed&quot;. For each keep: key, summary, status, fix version(s). This is the set for output metric #1.
 
-Other flags:
-- 🟠 stalled task — In Progress for more than 14 days.
-- 🟠 epic out of sync — a task is In Progress or Done while its parent (research) Epic is still New.
-- 🟠 stalled epic — a research Epic In Progress for more than 45 days.
+STEP 2 — Find the CXUX Epics under each Capability
+For each Capability from Step 1, find Epics in project CXUX whose parent is that Capability. For each such Epic keep: key, summary, status, parent (the Capability), assignee, Story Points.
+A Capability &quot;has UX work&quot; if it has at least one CXUX Epic child. Capabilities with zero CXUX Epics still count in metric #1 but not in metric #2.
 
-Sprint-phase lens: active sprint end date (project CXUX). If ≤7 days remain: elevate &quot;too many in progress&quot; as a won&#x27;t-finish risk, suppress &quot;under-engaged&quot; that week.
+STEP 3 — Sum the Story Points
+Sum the Story Points field across all CXUX Epics found in Step 2 (all Capabilities combined). Treat an Epic with no Story Points value as 0, and note separately how many Epics had no value set (so the total isn&#x27;t read as complete when it isn&#x27;t).
 
-STEPS:
-1. Resolve the tree: Capabilities under CXUX-12163 → their child Epics (keep only those owned by the roster, status In Progress or New, excluding CXUX-12409) → those Epics&#x27; child Tasks.
-2. Check the active sprint&#x27;s end date.
-3. Among the in-scope tasks, find any In Progress for more than 14 days (stalled task).
-4. Find any in-scope research Epic that has been In Progress for more than 45 days (stalled epic).
-5. Per researcher: apply the In Progress task band, stalled tasks, out-of-sync epics, stalled epics, and the sprint-phase lens.
-6. Present, one block per researcher, most severe first:
-
+STEP 4 — Output
+Header:
 ```
-# Researchers — health
-*Researches under CXUX-12163 · today &lt;date&gt;*
-🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only if ≤7 days remain
-
-🔴 &lt;Name&gt; — &lt;verdict&gt;
-&lt;one sentence, every key labelled: task CXUX-NNNNN / epic CXUX-NNNNN&gt;
+# Release Workload — &lt;PROJECT&gt; · &lt;FIX VERSION&gt;
+*Generated: &lt;date&gt; | Read-only*
 ```
 
-Healthy researchers: one 🟢 line, or omit entirely. Mention any unassigned researches once, separately, at the end.
+Then the four headline numbers, up top and unmissable:
+- **Capabilities in release:** N  (project &lt;PROJECT&gt;, fixVersion &lt;FIX VERSION&gt;)
+- **…with a CXUX Epic:** M  (of N — the rest have no UX work attached)
+- **Total Story Points (CXUX Epics):** P  (across Q epics; R epics had no SP set)
+- **Assignees (CXUX Epics):** the distinct people the CXUX Epics are assigned to, each with their epic count, e.g. &quot;Jane Doe (3), John Smith (1)&quot;. Note any unassigned epics as &quot;Unassigned (K)&quot;.
 
-Read-only — do not create, edit, or transition any issues.</pre>
+Status emoji: Done → 🟢 · In Progress / In Definition → 🟡 · New / Ready for Dev → 🟦 · Removed → ⚪.
+
+Then a table of every Capability in scope, Capabilities WITH a CXUX Epic first:
+```
+| Capability | Cap. Status | CXUX Epics | Epic Status | Assignee | Story Points |
+```
+- One row per Capability. If it has several CXUX Epics, list each epic key + status in the &quot;Epic Status&quot; column and its assignee in the &quot;Assignee&quot; column (aligned to the same epic), and put the summed SP for that Capability in &quot;Story Points&quot;.
+- Capabilities with no CXUX Epic: show &quot;—&quot; in the CXUX Epics / Epic Status / Assignee / Story Points columns so the gap is visible.
+Example row: `| [CXREC-133289] iHub – hourly deletion | 🟦 New | CXUX-12690 | 🟡 In Progress | Jane Doe | 8 |`
+
+Close with a one-line recap:
+`**&lt;PROJECT&gt; · &lt;FIX VERSION&gt;:** N capabilities · M with UX work · P Story Points across Q epics.`</pre>
         </article>
 
-        <article class="card" data-search="research capability review (draft) draft, not validated. reviews every research epic in the current semester capability: status counts, how long each is in progress, stalls, out-of-sync tasks, researches per app, thematic categories, and possible duplicate researches. optional — a capability key (defaults to the current semester capability under cxux-12163) epic counts new/in progress/done · days-in-progress per epic · stalled epic &gt;45d / task &gt;14d · out-of-sync · researches per app (component) · thematic categories · overlap detection 2026-07-26 draft team research portfolio read-only">
+        <article class="card" data-search="research capability review (draft) draft, not validated. reviews every research epic in the current semester capability: status counts, how long each is in progress, stalls, out-of-sync tasks, researches per app, thematic categories, and possible duplicate researches. optional — a capability key (defaults to the current semester capability under cxux-12163) epic counts new/in progress/done · days-in-progress per epic · stalled epic &gt;45d / task &gt;14d · out-of-sync · researches per app (component) · thematic categories · overlap detection 2026-07-26 draft team research portfolio read-only" data-title="research capability review (draft)" data-added="2026-07-26" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Research capability review (DRAFT)</h3>
           </div>
           <p class="blurb">DRAFT, not validated. Reviews every research Epic in the current semester Capability: status counts, how long each is in progress, stalls, out-of-sync tasks, researches per app, thematic categories, and possible duplicate researches.</p>
           <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Optional — a Capability key (defaults to the current semester Capability under CXUX-12163)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Epic counts New/In Progress/Done</span><span class="spec-chip">days-in-progress per epic</span><span class="spec-chip">stalled epic &gt;45d / task &gt;14d</span><span class="spec-chip">out-of-sync</span><span class="spec-chip">researches per app (Component)</span><span class="spec-chip">thematic categories</span><span class="spec-chip">overlap detection</span></div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-6">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-8">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
           </div>
-          <pre class="prompt-body" id="p-6" hidden>You are helping me review all the research Epics inside the current UX Researches
+          <pre class="prompt-body" id="p-8" hidden>You are helping me review all the research Epics inside the current UX Researches
 Capability in Jira project CXUX.
 
 HIERARCHY &amp; SCOPE:
@@ -625,30 +732,85 @@ No component — &lt;n&gt;: &lt;keys&gt;   ← only if any
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="annual report per designer work closed in a year, per designer and task type. includes who closed nothing. asks first: team, region, or one person. year · scope: team, region, or one designer (the prompt asks) task count · story points · avg sp/task (excl. build review) · by task type 2026-07-26 team read-only">
+        <article class="card" data-search="researchers health check the same health check, for researchers — on the ux research portfolio under cxux-12163.  in-progress band (0 / 1 / 2–4 / 5+) · stalled task &gt;14d · stalled epic &gt;45d · on research tasks 2026-07-19 team research read-only" data-title="researchers health check" data-added="2026-07-19" data-modified="2026-07-19">
           <div class="card-head">
-            <h3>Annual report per designer</h3>
+            <h3>Researchers health check</h3>
           </div>
-          <p class="blurb">Work closed in a year, per designer and Task Type. Includes who closed nothing. Asks first: team, region, or one person.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Year</span><span class="spec-chip">scope: team, region, or one designer (the prompt asks)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count</span><span class="spec-chip">Story Points</span><span class="spec-chip">avg SP/task (excl. Build Review)</span><span class="spec-chip">by Task Type</span></div></div></div>
+          <p class="blurb">The same health check, for researchers — on the UX Research portfolio under CXUX-12163.</p>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">In-progress band (0 / 1 / 2–4 / 5+)</span><span class="spec-chip">stalled task &gt;14d</span><span class="spec-chip">stalled epic &gt;45d</span><span class="spec-chip">on research tasks</span></div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-7">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-9">Copy prompt</button>
+            <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
+          </div>
+          <pre class="prompt-body" id="p-9" hidden>You are helping me run a health check on the UX Researches portfolio in Jira project CXUX.
+
+HIERARCHY &amp; SCOPE:
+- Root Initiative: CXUX-12163 (&quot;UX Researches Initiative&quot;).
+- Its child Capabilities (one is the &quot;current&quot; semester capability, e.g. &quot;UX Researches / s2.2026&quot; — it rotates, don&#x27;t assume a fixed key, discover it as a child of CXUX-12163).
+- Each Capability&#x27;s child Epics = individual &quot;researches&quot;. In scope: Epics with status In Progress or New only (exclude Done and Removed).
+- Each Epic&#x27;s child Tasks = research tasks.
+- A research&#x27;s owner = its Epic&#x27;s assignee. Only report researches owned by someone in the researcher roster below — other owners under the same Capabilities (other names, or unassigned) are out of scope, skip them in the per-researcher breakdown.
+- Ignore the test epic CXUX-12409 entirely.
+- Flag any in-scope research Epic with no assignee separately (unassigned research), don&#x27;t attribute it to any researcher.
+
+RESEARCHER ROSTER:
+Andrew Wong (andrew.wong@niceincontact.com), Sveta Fomchenko (sveta.fomchenko@nice.com), Lee Winkler (lee.winkler@nice.com), Serena Yang (serena.yang@niceincontact.com).
+
+HEALTH MODEL — same rules as any health check, applied per researcher using their research TASKS (not epics) as the unit of work:
+
+Per-person In Progress task count (the band):
+- 0 tasks → 🔴 idle.
+- 1 task → 🟠 under-engaged.
+- 2–4 tasks → ✅ ok.
+- 5+ tasks → 🔴 too many in progress.
+
+Other flags:
+- 🟠 stalled task — In Progress for more than 14 days.
+- 🟠 epic out of sync — a task is In Progress or Done while its parent (research) Epic is still New.
+- 🟠 stalled epic — a research Epic In Progress for more than 45 days.
+
+Sprint-phase lens: active sprint end date (project CXUX). If ≤7 days remain: elevate &quot;too many in progress&quot; as a won&#x27;t-finish risk, suppress &quot;under-engaged&quot; that week.
+
+STEPS:
+1. Resolve the tree: Capabilities under CXUX-12163 → their child Epics (keep only those owned by the roster, status In Progress or New, excluding CXUX-12409) → those Epics&#x27; child Tasks.
+2. Check the active sprint&#x27;s end date.
+3. Among the in-scope tasks, find any In Progress for more than 14 days (stalled task).
+4. Find any in-scope research Epic that has been In Progress for more than 45 days (stalled epic).
+5. Per researcher: apply the In Progress task band, stalled tasks, out-of-sync epics, stalled epics, and the sprint-phase lens.
+6. Present, one block per researcher, most severe first:
+
+```
+# Researchers — health
+*Researches under CXUX-12163 · today &lt;date&gt;*
+🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only if ≤7 days remain
+
+🔴 &lt;Name&gt; — &lt;verdict&gt;
+&lt;one sentence, every key labelled: task CXUX-NNNNN / epic CXUX-NNNNN&gt;
+```
+
+Healthy researchers: one 🟢 line, or omit entirely. Mention any unassigned researches once, separately, at the end.
+
+Read-only — do not create, edit, or transition any issues.</pre>
+        </article>
+
+        <article class="card" data-search="team overview how much work each designer has this sprint — tasks by status and story points. cxux only. asks first: team, region, or one person. scope: whole team, a region, or one designer (the prompt asks) task count by status (new / in progress / done) · story points 2026-07-26 team read-only" data-title="team overview" data-added="2026-07-19" data-modified="2026-07-26">
+          <div class="card-head">
+            <h3>Team overview</h3>
+          </div>
+          <p class="blurb">How much work each designer has this sprint — tasks by status and Story Points. CXUX only. Asks first: team, region, or one person.</p>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Scope: whole team, a region, or one designer (the prompt asks)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count by status (New / In Progress / Done)</span><span class="spec-chip">Story Points</span></div></div></div>
+          <div class="card-actions">
+            <button class="btn btn-primary" data-copy="p-10">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
           </div>
-          <pre class="prompt-body" id="p-7" hidden>You are helping me build a per-designer breakdown of Jira Tasks closed in a given year, in project CXUX only.
+          <pre class="prompt-body" id="p-10" hidden>You are helping me get an active-sprint snapshot of my UX designers&#x27; work in Jira, grouped by designer. Scope is project CXUX only, current active sprint only. Measure by task assignee.
 
-SCOPE — ask me first. Before running any query, ask me these two things and wait for my answer:
-1. &quot;Which year?&quot; (e.g. 2025)
-2. &quot;Which scope? (1) the whole team, (2) a specific region — Israel, India, or USA, or (3) a single designer (tell me the name)?&quot;
-Do not query Jira until I reply to both.
-- Whole team → the union of all rosters below, counting each person ONCE (dedup by identity, not name string).
-- A region → only that region&#x27;s roster (Israel, India, or USA).
-- A single designer → just that one person, resolved from the rosters. If the name isn&#x27;t in the rosters or is ambiguous, tell me and ask again.
-
-Window: Tasks resolved between &lt;year&gt;-01-01 and &lt;year&gt;-12-31 inclusive. Scope of &quot;closed&quot; = issue type Task, status category Done, resolved in that window.
-
-ROSTER — Researchers:
-Andrew Wong, Sveta Fomchenko, Lee Winkler, Serena Yang.
+SCOPE — ask me first. Before running any query, ask me exactly this and wait for my answer:
+&quot;Which scope do you want? (1) the whole team, (2) a specific region — Israel, India, or USA, or (3) a single designer (tell me the name)?&quot;
+Do not query Jira until I reply.
+- Whole team → all rosters combined (no overlap between regions); include a Team column labelling each person.
+- A region → only that region&#x27;s roster (Israel, India, or USA); no Team column.
+- A single designer → just that one person, resolved from the rosters; no Team column. If the name isn&#x27;t in the rosters or is ambiguous, tell me and ask again.
 
 ROSTER — Israel designers:
 Yaara Bar, Chelsea Franz, Assaf Zinger, Eitan Koren, Tali Silon-Shacham, Erez Bar, Michael Dalal, Yoav Chen, Libi Becker Tidhar, Sveta Fomchenko, Lee Winkler, Lihi Shrem, Tal Segev.
@@ -659,174 +821,33 @@ Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan 
 ROSTER — USA designers:
 Doug Clement, Janet Gonzales, David Stoker, Sara Evans, Lorina Binning, Serena Yang, Andrew Wong.
 
-Note: Sveta Fomchenko and Lee Winkler appear in BOTH Researchers and Israel; Serena Yang and Andrew Wong appear in BOTH Researchers and USA — they do research and design work. For the whole team, use the union of all rosters, counting each person ONCE (dedup by identity, not by name string), and attribute each to their designer team (Sveta and Lee → Israel; Serena and Andrew → USA) rather than double-counting them under Researchers too.
+The &quot;roster&quot; below refers to whichever set the scope resolved to: all rosters (whole team), one region&#x27;s roster, or the single designer.
 
 STEPS:
-1. Find all Tasks in project CXUX assigned to anyone in the roster(s) in scope, with status category Done and resolved within the year window.
-2. For each, read Task Type and Story Points (missing SP = 0).
-3. Bucket per designer, one column per Task Type:
-   Discovery · Ideation · Usability test · Validation · Design Spec · Build Review · Marketing activities · Sol migration · Other · (no type).
-   Fold unexpected values into Other, note in a footnote. Keep the Sol migration column even if empty for everyone.
-4. Per designer, compute average SP/task EXCLUDING Build Review tasks (same formula as above), 1 decimal, &quot;—&quot; if no eligible tasks.
-5. Include every roster member even if they closed zero tasks that year (all-zero row).
-6. Present a table sorted by Total SP descending, one column per task type, plus a TOTAL row (team-wide average = total SP excl. Build Review / total tasks excl. Build Review):
+1. Find all Tasks in project CXUX assigned to anyone in the roster, in the currently active sprint.
+2. Group by assignee: count tasks by status (New / In Progress / Done) and sum Story Points (treat missing as 0). Roster members with zero tasks still appear, with all-zero counts.
+3. Note separately any tasks in the active sprint assigned to someone NOT in the roster (don&#x27;t fold them into the table).
+4. Present a table sorted by Total Story Points descending:
 
-   | Designer | Team | Disc | Ideation | Usab.test | Valid | Design Spec | Build Rev | Mktg | Sol mig | Other | (no type) | Tasks | SP | Avg SP/task¹ |
-   |----------|------|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
+   | Designer | Team | New | In Progress | Done | Total | SP |
+   |----------|------|----:|------------:|-----:|------:|---:|
 
-   Show the Team column only when the scope is the whole team; omit it for a single region or a single designer. `¹` = excluding Build Review.
-
-   Footnotes: total tasks, count of (no type), unexpected types folded into Other, roster members with zero closed tasks.
+   Show the Team column only when the scope is the whole team; omit it for a single region or a single designer. Add a final TOTAL row.
 
 Read-only — do not create, edit, or transition any issues.</pre>
-        </article>
-
-        <article class="card" data-search="design readiness a traffic light showing which capabilities are design-ready for this release and next, across all lob projects. per capability, not per person. optional — two release codes like 26.3 and 26.4 (auto-computed if omitted) design-ready (done/total tasks) · design-deadline flags · 🔴 / 🟠 / 🟢 traffic light 2026-07-19 portfolio read-only">
-          <div class="card-head">
-            <h3>Design Readiness</h3>
-          </div>
-          <p class="blurb">A traffic light showing which capabilities are design-ready for this release and next, across all LOB projects. Per capability, not per person.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Optional — two release codes like 26.3 and 26.4 (auto-computed if omitted)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Design-ready (done/total tasks)</span><span class="spec-chip">design-deadline flags</span><span class="spec-chip">🔴 / 🟠 / 🟢 traffic light</span></div></div></div>
-          <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-8">Copy prompt</button>
-            <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
-          </div>
-          <pre class="prompt-body" id="p-8" hidden>You are helping me build an executive summary of UX design coverage and readiness across all LOB (line-of-business) projects, for the current and next release.
-
-STEP 1 — Determine target releases
-RELEASES: [optional — give me two release codes like &quot;26.3 26.4&quot; if you want to override; otherwise compute them]
-If not given: compute today&#x27;s current release (Q+1) and next release (Q+2) in &quot;YY.Q&quot; format, where Q1=Jan–Mar, Q2=Apr–Jun, Q3=Jul–Sep, Q4=Oct–Dec (after X.4 comes (X+1).1).
-Design deadline per release = first day of its work quarter minus 2 months, where work quarter = release quarter − 1.
-Example: release 26.3 → work starts 1 Apr 2026 → design deadline 1 Feb 2026.
-Example: release 26.4 → work starts 1 Jul 2026 → design deadline 1 May 2026.
-
-STEP 2 — Fetch Capabilities in scope
-Find all issues of type Capability, across all projects, with fixVersion matching either of the two target releases, status not &quot;Removed&quot;. Skip Capabilities that belong to project CXUX itself (that&#x27;s the UX-internal project, not a LOB project). For each, keep: key, summary, status, fix version(s), project.
-
-STEP 3 — Fetch UX Epics
-Find Epics in project CXUX whose parent is one of the Capabilities from Step 2 — this is the definition of a &quot;UX Epic&quot; here (don&#x27;t filter by summary text/prefix, naming isn&#x27;t consistent across teams). Keep only Capabilities that have at least one UX Epic; silently discard Capabilities with none. For each UX Epic keep: key, summary, status, parent, assignee.
-
-STEP 4 — Fetch UX Tasks
-Find Tasks in project CXUX whose parent is one of the UX Epics from Step 3. Keep: key, summary, status, parent, assignee.
-
-STEP 5 — Apply red-light logic
-For each Capability → UX Epic → its Tasks:
-- task_count = number of tasks under the epic
-- done_count = tasks with status Done
-- design_ready = (task_count &gt; 0 AND done_count == task_count) OR (task_count == 0 AND epic status == Done)
-- has_no_tasks = (task_count == 0 AND epic status != Done)
-- epic_unassigned = epic has no assignee
-- tasks_unassigned = any task under it has no assignee
-
-Collect ALL applicable red flags:
-- 🔴 &quot;Design overdue&quot; — today is past the design deadline AND NOT design_ready
-- 🔴 &quot;Dev ahead of design&quot; — Capability status is In Progress or Done AND NOT design_ready
-- 🟠 &quot;No tasks&quot; — has_no_tasks
-- 🟠 &quot;Epic unassigned&quot; — epic_unassigned
-- 🟠 &quot;Task(s) unassigned&quot; — tasks_unassigned
-
-Overall traffic light = 🔴 if any 🔴 flag, else 🟠 if any 🟠 flag, else 🟢.
-Notes column = comma-separated list of the triggered flag names.
-
-Status emoji: Done → 🟢 · In Progress / In Definition → 🟡 · New / Ready for Dev → 🟦 · Removed → ⚪.
-
-STEP 6 — Output
-Group results by: product category → project name → fix version (current release first). Within each group, order 🔴 first, then 🟠, then 🟢.
-
-Header:
-```
-# UX Design Readiness — Releases &lt;R1&gt; &amp; &lt;R2&gt;
-*Generated: &lt;date&gt; | Scope: N capabilities across M projects*
-Design deadlines: &lt;R1&gt; → &lt;date&gt; · &lt;R2&gt; → &lt;date&gt;
-```
-
-Table per project + release:
-```
-| 🚦 | Capability | Fix | Cap. Status | UX Epic | Tasks | Notes |
-```
-Example row: `| 🔴 | [CXREC-133289] iHub – hourly deletion | 26.4 | 🟦 New | CXUX-12690 🟦 New | 0/3 | Design overdue, Epic unassigned |`
-
-After each project&#x27;s table, one summary line: `**&lt;Project name&gt; (&lt;release&gt;):** N capabilities — X 🔴 · Y 🟠 · Z 🟢`
-
-Close with a **⚠️ Needs Attention** section: a flat list of every 🔴 item across all projects, sorted by project then capability key — this is the section I should read first.
-
-Final summary table across everything:
-```
-| Product Area | Project | &lt;R1&gt; 🔴 | &lt;R1&gt; 🟢 | &lt;R2&gt; 🔴 | &lt;R2&gt; 🟢 |
-```
-
-Read-only — do not create, edit, or transition any issues.</pre>
-        </article>
-
-        <article class="card" data-search="release workload sizes one project&#x27;s release: how many capabilities, how many carry ux work, the story points behind it, who owns it, and the status of both. project key + fix version (e.g. cxrec, 26.4) capabilities in release · with a cxux epic · total story points · epic assignees · capability &amp; epic status 2026-07-20 portfolio read-only">
-          <div class="card-head">
-            <h3>Release Workload</h3>
-          </div>
-          <p class="blurb">Sizes one project&#x27;s release: how many Capabilities, how many carry UX work, the Story Points behind it, who owns it, and the status of both.</p>
-          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Project key + fix version (e.g. CXREC, 26.4)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Capabilities in release</span><span class="spec-chip">with a CXUX Epic</span><span class="spec-chip">total Story Points</span><span class="spec-chip">epic assignees</span><span class="spec-chip">capability &amp; epic status</span></div></div></div>
-          <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-9">Copy prompt</button>
-            <span class="updated" title="Last updated 2026-07-20">Updated Jul 20, 2026</span>
-          </div>
-          <pre class="prompt-body" id="p-9" hidden>You are helping me size the UX workload for one project in one release. This is read-only — do not create, edit, or transition any issue.
-
-INPUT — two values I must give you:
-PROJECT: [leave blank or paste the project key, e.g. CXREC]
-FIX VERSION: [leave blank or paste the release/fix version exactly as in Jira, e.g. 26.4]
-
-Before doing anything: if either PROJECT or FIX VERSION is blank or still shows the placeholder text, STOP and ask me for the missing one(s) — ask for both if both are missing — and wait for my answer. Do not guess, do not proceed with an empty value, do not run any search until you have both.
-
-CONTEXT — CXUX hierarchy:
-Capabilities live in the line-of-business (LOB) projects. UX design work lives in project CXUX. A &quot;CXUX Epic&quot; here means an Epic in project CXUX whose PARENT is one of those Capabilities — that is the link between a Capability and its UX work. Naming isn&#x27;t consistent across teams, so match on the parent relationship, never on summary text or prefix.
-
-STEP 1 — Fetch the Capabilities in scope
-Find all issues in PROJECT of type Capability with fixVersion = FIX VERSION and status not &quot;Removed&quot;. For each keep: key, summary, status, fix version(s). This is the set for output metric #1.
-
-STEP 2 — Find the CXUX Epics under each Capability
-For each Capability from Step 1, find Epics in project CXUX whose parent is that Capability. For each such Epic keep: key, summary, status, parent (the Capability), assignee, Story Points.
-A Capability &quot;has UX work&quot; if it has at least one CXUX Epic child. Capabilities with zero CXUX Epics still count in metric #1 but not in metric #2.
-
-STEP 3 — Sum the Story Points
-Sum the Story Points field across all CXUX Epics found in Step 2 (all Capabilities combined). Treat an Epic with no Story Points value as 0, and note separately how many Epics had no value set (so the total isn&#x27;t read as complete when it isn&#x27;t).
-
-STEP 4 — Output
-Header:
-```
-# Release Workload — &lt;PROJECT&gt; · &lt;FIX VERSION&gt;
-*Generated: &lt;date&gt; | Read-only*
-```
-
-Then the four headline numbers, up top and unmissable:
-- **Capabilities in release:** N  (project &lt;PROJECT&gt;, fixVersion &lt;FIX VERSION&gt;)
-- **…with a CXUX Epic:** M  (of N — the rest have no UX work attached)
-- **Total Story Points (CXUX Epics):** P  (across Q epics; R epics had no SP set)
-- **Assignees (CXUX Epics):** the distinct people the CXUX Epics are assigned to, each with their epic count, e.g. &quot;Jane Doe (3), John Smith (1)&quot;. Note any unassigned epics as &quot;Unassigned (K)&quot;.
-
-Status emoji: Done → 🟢 · In Progress / In Definition → 🟡 · New / Ready for Dev → 🟦 · Removed → ⚪.
-
-Then a table of every Capability in scope, Capabilities WITH a CXUX Epic first:
-```
-| Capability | Cap. Status | CXUX Epics | Epic Status | Assignee | Story Points |
-```
-- One row per Capability. If it has several CXUX Epics, list each epic key + status in the &quot;Epic Status&quot; column and its assignee in the &quot;Assignee&quot; column (aligned to the same epic), and put the summed SP for that Capability in &quot;Story Points&quot;.
-- Capabilities with no CXUX Epic: show &quot;—&quot; in the CXUX Epics / Epic Status / Assignee / Story Points columns so the gap is visible.
-Example row: `| [CXREC-133289] iHub – hourly deletion | 🟦 New | CXUX-12690 | 🟡 In Progress | Jane Doe | 8 |`
-
-Close with a one-line recap:
-`**&lt;PROJECT&gt; · &lt;FIX VERSION&gt;:** N capabilities · M with UX work · P Story Points across Q epics.`</pre>
         </article></div></section>
 <section class="panel" id="panel-leadership" role="tabpanel"><p class="cat-desc">Org-wide forward views for UX leadership: capacity vs demand, strategic risk, trends.</p><div class="grid">
-        <article class="card" data-search="capacity vs demand (draft) draft, not validated. forward look: does the team&#x27;s historical throughput cover the design work in the next releases? demand and capacity both in story points on cxux epics. look-ahead releases (default 3) + baseline releases (default 4) demand sp per release · baseline capacity (avg sp/release closed) · load % &amp; gap · unestimated epics · israel/india split 2026-07-26 draft portfolio read-only">
+        <article class="card" data-search="capacity vs demand (draft) draft, not validated. forward look: does the team&#x27;s historical throughput cover the design work in the next releases? demand and capacity both in story points on cxux epics. look-ahead releases (default 3) + baseline releases (default 4) demand sp per release · baseline capacity (avg sp/release closed) · load % &amp; gap · unestimated epics · israel/india split 2026-07-26 draft portfolio read-only" data-title="capacity vs demand (draft)" data-added="2026-07-23" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Capacity vs Demand (DRAFT)</h3>
           </div>
           <p class="blurb">DRAFT, not validated. Forward look: does the team&#x27;s historical throughput cover the design work in the next releases? Demand and capacity both in Story Points on CXUX Epics.</p>
           <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Look-ahead releases (default 3) + baseline releases (default 4)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Demand SP per release</span><span class="spec-chip">baseline capacity (avg SP/release closed)</span><span class="spec-chip">load % &amp; gap</span><span class="spec-chip">unestimated epics</span><span class="spec-chip">Israel/India split</span></div></div></div>
           <div class="card-actions">
-            <button class="btn btn-primary" data-copy="p-10">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-1">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
           </div>
-          <pre class="prompt-body" id="p-10" hidden>You are helping me forecast whether the UX team is sized for the incoming roadmap.
+          <pre class="prompt-body" id="p-1" hidden>You are helping me forecast whether the UX team is sized for the incoming roadmap.
 This is read-only — do not create, edit, or transition any issue.
 
 CONTEXT — CXUX hierarchy:
@@ -959,6 +980,25 @@ Andrew Wong.</pre>
     noResults.style.display = (q && hasCards && visible === 0) ? 'block' : 'none';
   }
   search.addEventListener('input', runSearch);
+
+  // Sort by (reorders cards within every category grid)
+  const sortSel = document.getElementById('sort');
+  function applySort() {
+    const mode = sortSel.value;
+    document.querySelectorAll('.grid').forEach(grid => {
+      const cards = Array.from(grid.querySelectorAll('.card'));
+      cards.sort((a, b) => {
+        if (mode === 'title') return a.dataset.title.localeCompare(b.dataset.title);
+        // dates: newest first, ties broken alphabetically by title
+        const da = a.dataset[mode === 'added' ? 'added' : 'modified'];
+        const db = b.dataset[mode === 'added' ? 'added' : 'modified'];
+        if (da !== db) return db.localeCompare(da);
+        return a.dataset.title.localeCompare(b.dataset.title);
+      });
+      cards.forEach(c => grid.appendChild(c));
+    });
+  }
+  sortSel.addEventListener('change', applySort);
 </script>
 </body>
 </html>

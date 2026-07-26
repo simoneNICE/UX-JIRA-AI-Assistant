@@ -218,6 +218,23 @@ def last_updated(path: pathlib.Path) -> str:
     return datetime.date.fromtimestamp(path.stat().st_mtime).isoformat()
 
 
+def added_date(path: pathlib.Path) -> str:
+    """ISO date (YYYY-MM-DD) the prompt was first added to the repo — the date
+    of its earliest commit. Falls back to the file's modification time when git
+    isn't available or the file isn't committed yet."""
+    rel = str(path)
+    try:
+        log = subprocess.run(
+            ["git", "log", "--reverse", "--format=%cs", "--", rel],
+            cwd=ROOT, capture_output=True, text=True, timeout=5,
+        )
+        if log.returncode == 0 and log.stdout.strip():
+            return log.stdout.strip().splitlines()[0]
+    except Exception:
+        pass
+    return datetime.date.fromtimestamp(path.stat().st_mtime).isoformat()
+
+
 def human_date(iso: str) -> str:
     """'2026-07-19' -> 'Jul 19, 2026' for display; passthrough on parse error."""
     try:
@@ -237,7 +254,14 @@ def build():
         if not path.is_file():
             sys.exit(f"Prompt missing from manifest: {path}")
         body = extract_body(path.read_text(encoding="utf-8"))
-        prompts.append({**entry, "body": body, "updated": last_updated(path)})
+        prompts.append({
+            **entry, "body": body,
+            "updated": last_updated(path),
+            "added": added_date(path),
+        })
+
+    # Default order: alphabetical by title (the JS "Sort by" control can re-order live)
+    prompts.sort(key=lambda p: p["title"].lower())
 
     # Counts per category
     counts = {c["id"]: 0 for c in CATEGORIES}
@@ -252,12 +276,13 @@ def build():
         pid = f"p-{idx}"
         spec_html = spec_table(p.get("inputs", ""), p.get("metrics", ""))
         updated_iso = p["updated"]
+        added_iso = p["added"]
         search_text = " ".join(
             [p["title"], p["blurb"], p.get("inputs", ""), p.get("metrics", ""), updated_iso]
             + p.get("tags", [])
         )
         card = f"""
-        <article class="card" data-search="{html.escape(search_text.lower())}">
+        <article class="card" data-search="{html.escape(search_text.lower())}" data-title="{html.escape(p['title'].lower())}" data-added="{added_iso}" data-modified="{updated_iso}">
           <div class="card-head">
             <h3>{html.escape(p['title'])}</h3>
           </div>
@@ -434,6 +459,18 @@ TEMPLATE = """<!DOCTYPE html>
   @keyframes fade {{ from {{ opacity: 0; transform: translateY(4px); }} to {{ opacity: 1; transform: none; }} }}
   .cat-desc {{ color: var(--text-dim); margin: 0 0 20px; font-size: 14px; }}
 
+  .controls {{ display: flex; align-items: center; gap: 8px; margin: 0 0 20px; }}
+  .sort-ctl {{ font-size: 12px; font-weight: 600; color: var(--text-subtlest);
+               text-transform: uppercase; letter-spacing: .04em; }}
+  #sort {{
+    appearance: none; font: inherit; font-size: 13px; color: var(--text); cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 6px 30px 6px 10px; outline: none; transition: border-color .15s, box-shadow .15s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23626f86' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 8px center;
+  }}
+  #sort:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }}
+
   .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }}
   .card {{
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
@@ -506,6 +543,15 @@ TEMPLATE = """<!DOCTYPE html>
     {tabs}
   </nav>
 
+  <div class="controls">
+    <label class="sort-ctl" for="sort">Sort by</label>
+    <select id="sort">
+      <option value="title" selected>Title (A&ndash;Z)</option>
+      <option value="added">Date added</option>
+      <option value="modified">Date modified</option>
+    </select>
+  </div>
+
   {panels}
 
   <p class="no-results" id="noResults">No prompts match your search.</p>
@@ -558,6 +604,25 @@ TEMPLATE = """<!DOCTYPE html>
     noResults.style.display = (q && hasCards && visible === 0) ? 'block' : 'none';
   }}
   search.addEventListener('input', runSearch);
+
+  // Sort by (reorders cards within every category grid)
+  const sortSel = document.getElementById('sort');
+  function applySort() {{
+    const mode = sortSel.value;
+    document.querySelectorAll('.grid').forEach(grid => {{
+      const cards = Array.from(grid.querySelectorAll('.card'));
+      cards.sort((a, b) => {{
+        if (mode === 'title') return a.dataset.title.localeCompare(b.dataset.title);
+        // dates: newest first, ties broken alphabetically by title
+        const da = a.dataset[mode === 'added' ? 'added' : 'modified'];
+        const db = b.dataset[mode === 'added' ? 'added' : 'modified'];
+        if (da !== db) return db.localeCompare(da);
+        return a.dataset.title.localeCompare(b.dataset.title);
+      }});
+      cards.forEach(c => grid.appendChild(c));
+    }});
+  }}
+  sortSel.addEventListener('change', applySort);
 </script>
 </body>
 </html>
