@@ -130,12 +130,15 @@
   .card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
   .card h3 { font-size: 17px; margin: 0; letter-spacing: -.01em; }
   .blurb { color: var(--text-dim); font-size: 14px; margin: 10px 0 14px; flex: 1; }
-  .inputs, .metrics { font-size: 12.5px; color: var(--text-subtlest); margin: 0 0 14px; }
-  .inputs b, .metrics b { display: block; margin-bottom: 6px; font-size: 11px; font-weight: 700;
-                text-transform: uppercase; letter-spacing: .04em; color: var(--text-dim); }
-  .inputs ul, .metrics ul { margin: 0; padding: 0; list-style: none; }
-  .inputs li, .metrics li { position: relative; padding-left: 14px; line-height: 1.55; }
-  .inputs li::before, .metrics li::before { content: "\2022"; position: absolute; left: 3px; color: var(--accent); }
+  .spec-table { margin: 0 0 14px; border-top: 1px solid var(--border); }
+  .spec-row { display: grid; grid-template-columns: 68px 1fr; gap: 10px; align-items: start;
+               padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .spec-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+                 color: var(--text-dim); padding-top: 3px; }
+  .spec-vals { display: flex; flex-wrap: wrap; gap: 5px; }
+  .spec-chip { font-size: 11.5px; line-height: 1.45; color: var(--text-subtlest);
+                background: var(--surface-2); border: 1px solid var(--border);
+                border-radius: 5px; padding: 2px 7px; }
   .card-actions { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
   .updated { margin-left: auto; font-size: 11.5px; color: var(--text-subtlest); white-space: nowrap; }
   .btn {
@@ -197,8 +200,7 @@
             <h3>Create a UX Epic (guided)</h3>
           </div>
           <p class="blurb">Builds a UX Epic under a Capability in CXUX, one step at a time. Writes only after you confirm.</p>
-          <div class="inputs"><b>Inputs</b><ul><li>Capability key or name (e.g. CXUX-12754)</li></ul></div>
-          <div class="metrics"><b>Output</b><ul><li>None — guided creation, not measurement</li></ul></div>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Capability key or name (e.g. CXUX-12754)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">None — guided creation, not measurement</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
@@ -270,8 +272,7 @@ Jira states available (for reference, no native &quot;Blocked&quot;): New, In Pr
             <h3>My health check</h3>
           </div>
           <p class="blurb">How your own workload looks right now, across all projects. Flags idle, overload, and stalled tasks or epics.</p>
-          
-          <div class="metrics"><b>Output</b><ul><li>In-progress band (0 / 1 / 2–4 / 5+)</li><li>stalled task &gt;14d</li><li>stalled epic &gt;45d</li><li>epic out-of-sync</li></ul></div>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">In-progress band (0 / 1 / 2–4 / 5+)</span><span class="spec-chip">stalled task &gt;14d</span><span class="spec-chip">stalled epic &gt;45d</span><span class="spec-chip">epic out-of-sync</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-1">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
@@ -322,8 +323,7 @@ Lead with the most severe flag. Read-only — do not create, edit, or transition
             <h3>My annual report</h3>
           </div>
           <p class="blurb">Your closed work for a year, by Task Type and Story Points, with average SP per task.</p>
-          <div class="inputs"><b>Inputs</b><ul><li>Year (e.g. 2025)</li></ul></div>
-          <div class="metrics"><b>Output</b><ul><li>Task count</li><li>Story Points</li><li>avg SP/task (excl. Build Review)</li><li>by Task Type</li></ul></div>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Year (e.g. 2025)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count</span><span class="spec-chip">Story Points</span><span class="spec-chip">avg SP/task (excl. Build Review)</span><span class="spec-chip">by Task Type</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-2">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
@@ -361,8 +361,7 @@ Read-only — do not create, edit, or transition any issues.</pre>
             <h3>Team overview</h3>
           </div>
           <p class="blurb">How much work each designer has this sprint — tasks by status and Story Points. CXUX only. Asks first: team, region, or one person.</p>
-          <div class="inputs"><b>Inputs</b><ul><li>Scope: whole team, a region, or one designer (the prompt asks)</li></ul></div>
-          <div class="metrics"><b>Output</b><ul><li>Task count by status (New / In Progress / Done)</li><li>Story Points</li></ul></div>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Scope: whole team, a region, or one designer (the prompt asks)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count by status (New / In Progress / Done)</span><span class="spec-chip">Story Points</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-3">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -406,8 +405,7 @@ Read-only — do not create, edit, or transition any issues.</pre>
             <h3>Designer health check</h3>
           </div>
           <p class="blurb">Whether anyone&#x27;s overloaded, idle, or stalled — across all projects, with a sprint-phase lens. Asks first: team, region, or one person.</p>
-          <div class="inputs"><b>Inputs</b><ul><li>Scope: whole team, a region, or one designer (the prompt asks)</li></ul></div>
-          <div class="metrics"><b>Output</b><ul><li>In-progress band (0 / 1 / 2–4 / 5+)</li><li>stalled task &gt;14d</li><li>stalled epic &gt;45d</li><li>epic out-of-sync</li></ul></div>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Scope: whole team, a region, or one designer (the prompt asks)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">In-progress band (0 / 1 / 2–4 / 5+)</span><span class="spec-chip">stalled task &gt;14d</span><span class="spec-chip">stalled epic &gt;45d</span><span class="spec-chip">epic out-of-sync</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-4">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -487,8 +485,7 @@ Do not create, edit, or transition any Jira issues — this is read-only reporti
             <h3>Researchers health check</h3>
           </div>
           <p class="blurb">The same health check, for researchers — on the UX Research portfolio under CXUX-12163.</p>
-          
-          <div class="metrics"><b>Output</b><ul><li>In-progress band (0 / 1 / 2–4 / 5+)</li><li>stalled task &gt;14d</li><li>stalled epic &gt;45d</li><li>on research tasks</li></ul></div>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">In-progress band (0 / 1 / 2–4 / 5+)</span><span class="spec-chip">stalled task &gt;14d</span><span class="spec-chip">stalled epic &gt;45d</span><span class="spec-chip">on research tasks</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
@@ -549,8 +546,7 @@ Read-only — do not create, edit, or transition any issues.</pre>
             <h3>Research capability review (DRAFT)</h3>
           </div>
           <p class="blurb">DRAFT, not validated. Reviews every research Epic in the current semester Capability: status counts, how long each is in progress, stalls, out-of-sync tasks, researches per app, thematic categories, and possible duplicate researches.</p>
-          <div class="inputs"><b>Inputs</b><ul><li>Optional — a Capability key (defaults to the current semester Capability under CXUX-12163)</li></ul></div>
-          <div class="metrics"><b>Output</b><ul><li>Epic counts New/In Progress/Done</li><li>days-in-progress per epic</li><li>stalled epic &gt;45d / task &gt;14d</li><li>out-of-sync</li><li>researches per app (Component)</li><li>thematic categories</li><li>overlap detection</li></ul></div>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Optional — a Capability key (defaults to the current semester Capability under CXUX-12163)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Epic counts New/In Progress/Done</span><span class="spec-chip">days-in-progress per epic</span><span class="spec-chip">stalled epic &gt;45d / task &gt;14d</span><span class="spec-chip">out-of-sync</span><span class="spec-chip">researches per app (Component)</span><span class="spec-chip">thematic categories</span><span class="spec-chip">overlap detection</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-6">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -634,8 +630,7 @@ Read-only — do not create, edit, or transition any issues.</pre>
             <h3>Annual report per designer</h3>
           </div>
           <p class="blurb">Work closed in a year, per designer and Task Type. Includes who closed nothing. Asks first: team, region, or one person.</p>
-          <div class="inputs"><b>Inputs</b><ul><li>Year</li><li>scope: team, region, or one designer (the prompt asks)</li></ul></div>
-          <div class="metrics"><b>Output</b><ul><li>Task count</li><li>Story Points</li><li>avg SP/task (excl. Build Review)</li><li>by Task Type</li></ul></div>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Year</span><span class="spec-chip">scope: team, region, or one designer (the prompt asks)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Task count</span><span class="spec-chip">Story Points</span><span class="spec-chip">avg SP/task (excl. Build Review)</span><span class="spec-chip">by Task Type</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-7">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
@@ -691,8 +686,7 @@ Read-only — do not create, edit, or transition any issues.</pre>
             <h3>Design Readiness</h3>
           </div>
           <p class="blurb">A traffic light showing which capabilities are design-ready for this release and next, across all LOB projects. Per capability, not per person.</p>
-          <div class="inputs"><b>Inputs</b><ul><li>Optional — two release codes like 26.3 and 26.4 (auto-computed if omitted)</li></ul></div>
-          <div class="metrics"><b>Output</b><ul><li>Design-ready (done/total tasks)</li><li>design-deadline flags</li><li>🔴 / 🟠 / 🟢 traffic light</li></ul></div>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Optional — two release codes like 26.3 and 26.4 (auto-computed if omitted)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Design-ready (done/total tasks)</span><span class="spec-chip">design-deadline flags</span><span class="spec-chip">🔴 / 🟠 / 🟢 traffic light</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-8">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-19">Updated Jul 19, 2026</span>
@@ -769,8 +763,7 @@ Read-only — do not create, edit, or transition any issues.</pre>
             <h3>Release Workload</h3>
           </div>
           <p class="blurb">Sizes one project&#x27;s release: how many Capabilities, how many carry UX work, the Story Points behind it, who owns it, and the status of both.</p>
-          <div class="inputs"><b>Inputs</b><ul><li>Project key + fix version (e.g. CXREC, 26.4)</li></ul></div>
-          <div class="metrics"><b>Output</b><ul><li>Capabilities in release</li><li>with a CXUX Epic</li><li>total Story Points</li><li>epic assignees</li><li>capability &amp; epic status</li></ul></div>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Project key + fix version (e.g. CXREC, 26.4)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Capabilities in release</span><span class="spec-chip">with a CXUX Epic</span><span class="spec-chip">total Story Points</span><span class="spec-chip">epic assignees</span><span class="spec-chip">capability &amp; epic status</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-9">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-20">Updated Jul 20, 2026</span>
@@ -828,8 +821,7 @@ Close with a one-line recap:
             <h3>Capacity vs Demand (DRAFT)</h3>
           </div>
           <p class="blurb">DRAFT, not validated. Forward look: does the team&#x27;s historical throughput cover the design work in the next releases? Demand and capacity both in Story Points on CXUX Epics.</p>
-          <div class="inputs"><b>Inputs</b><ul><li>Look-ahead releases (default 3) + baseline releases (default 4)</li></ul></div>
-          <div class="metrics"><b>Output</b><ul><li>Demand SP per release</li><li>baseline capacity (avg SP/release closed)</li><li>load % &amp; gap</li><li>unestimated epics</li><li>Israel/India split</li></ul></div>
+          <div class="spec-table"><div class="spec-row"><div class="spec-label">Inputs</div><div class="spec-vals"><span class="spec-chip">Look-ahead releases (default 3) + baseline releases (default 4)</span></div></div><div class="spec-row"><div class="spec-label">Output</div><div class="spec-vals"><span class="spec-chip">Demand SP per release</span><span class="spec-chip">baseline capacity (avg SP/release closed)</span><span class="spec-chip">load % &amp; gap</span><span class="spec-chip">unestimated epics</span><span class="spec-chip">Israel/India split</span></div></div></div>
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="p-10">Copy prompt</button>
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>

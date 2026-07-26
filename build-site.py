@@ -156,17 +156,26 @@ CATEGORIES = [
 ]
 
 
-def spec_block(css_class: str, label: str, text: str) -> str:
-    """Render a labelled bullet list (Inputs / KPIs & Metrics) from a '·'-separated string.
-    `label` is inserted as-is (may contain safe entities like &amp;); items are escaped."""
-    if not text:
+def spec_table(inputs: str, metrics: str) -> str:
+    """Render Inputs / Output as a compact two-column spec table (label | values).
+    Each value is a '·'-separated item shown as a chip. Rows with no text are skipped;
+    an empty table returns ''. Labels are inserted as-is; items are escaped."""
+    rows = []
+    for label, text in (("Inputs", inputs), ("Output", metrics)):
+        if not text:
+            continue
+        chips = "".join(
+            f'<span class="spec-chip">{html.escape(item.strip())}</span>'
+            for item in text.split("·")
+            if item.strip()
+        )
+        rows.append(
+            f'<div class="spec-row"><div class="spec-label">{label}</div>'
+            f'<div class="spec-vals">{chips}</div></div>'
+        )
+    if not rows:
         return ""
-    items = "".join(
-        f"<li>{html.escape(item.strip())}</li>"
-        for item in text.split("·")
-        if item.strip()
-    )
-    return f'<div class="{css_class}"><b>{label}</b><ul>{items}</ul></div>'
+    return f'<div class="spec-table">{"".join(rows)}</div>'
 
 
 def extract_body(md_text: str) -> str:
@@ -241,8 +250,7 @@ def build():
     cards_by_cat = {c["id"]: [] for c in CATEGORIES}
     for idx, p in enumerate(prompts):
         pid = f"p-{idx}"
-        inputs_html = spec_block("inputs", "Inputs", p.get("inputs", ""))
-        metrics_html = spec_block("metrics", "Output", p.get("metrics", ""))
+        spec_html = spec_table(p.get("inputs", ""), p.get("metrics", ""))
         updated_iso = p["updated"]
         search_text = " ".join(
             [p["title"], p["blurb"], p.get("inputs", ""), p.get("metrics", ""), updated_iso]
@@ -254,8 +262,7 @@ def build():
             <h3>{html.escape(p['title'])}</h3>
           </div>
           <p class="blurb">{html.escape(p['blurb'])}</p>
-          {inputs_html}
-          {metrics_html}
+          {spec_html}
           <div class="card-actions">
             <button class="btn btn-primary" data-copy="{pid}">Copy prompt</button>
             <span class="updated" title="Last updated {updated_iso}">Updated {html.escape(human_date(updated_iso))}</span>
@@ -437,12 +444,15 @@ TEMPLATE = """<!DOCTYPE html>
   .card-head {{ display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }}
   .card h3 {{ font-size: 17px; margin: 0; letter-spacing: -.01em; }}
   .blurb {{ color: var(--text-dim); font-size: 14px; margin: 10px 0 14px; flex: 1; }}
-  .inputs, .metrics {{ font-size: 12.5px; color: var(--text-subtlest); margin: 0 0 14px; }}
-  .inputs b, .metrics b {{ display: block; margin-bottom: 6px; font-size: 11px; font-weight: 700;
-                text-transform: uppercase; letter-spacing: .04em; color: var(--text-dim); }}
-  .inputs ul, .metrics ul {{ margin: 0; padding: 0; list-style: none; }}
-  .inputs li, .metrics li {{ position: relative; padding-left: 14px; line-height: 1.55; }}
-  .inputs li::before, .metrics li::before {{ content: "\\2022"; position: absolute; left: 3px; color: var(--accent); }}
+  .spec-table {{ margin: 0 0 14px; border-top: 1px solid var(--border); }}
+  .spec-row {{ display: grid; grid-template-columns: 68px 1fr; gap: 10px; align-items: start;
+               padding: 9px 0; border-bottom: 1px solid var(--border); }}
+  .spec-label {{ font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+                 color: var(--text-dim); padding-top: 3px; }}
+  .spec-vals {{ display: flex; flex-wrap: wrap; gap: 5px; }}
+  .spec-chip {{ font-size: 11.5px; line-height: 1.45; color: var(--text-subtlest);
+                background: var(--surface-2); border: 1px solid var(--border);
+                border-radius: 5px; padding: 2px 7px; }}
   .card-actions {{ display: flex; align-items: center; gap: 8px; margin-top: 16px; }}
   .updated {{ margin-left: auto; font-size: 11.5px; color: var(--text-subtlest); white-space: nowrap; }}
   .btn {{
