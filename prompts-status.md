@@ -61,7 +61,9 @@ Last updated: 2026-07-26
 
 ## 🎯 Leadership (VP)
 
-*No leadership prompt ready yet. The category exists on the site and is ready to fill.*
+| Prompt | File | Status | Notes |
+|--------|------|:------:|-------|
+| Portfolio UX demand | `ux-portfolio-demand-prompt.md` | 🚧 | **DRAFT — not validated.** Release Workload run across all ~49 LOB projects; rolls up and highlights only the extremes (too much / too little UX demand). Leads with counts (SP only ~35% populated). Heavy run. |
 
 ### To do — Leadership
 | Prompt | Status | Idea |

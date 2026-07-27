@@ -203,14 +203,14 @@
 </nav>
 <div class="wrap">
   <header class="hero">
-    <p class="lede">Ready-to-use Rovo Chat prompts to monitor and manage UX work on Jira. Pick a category, copy the prompt, paste it into Rovo. <b>10</b> available.</p>
+    <p class="lede">Ready-to-use Rovo Chat prompts to monitor and manage UX work on Jira. Pick a category, copy the prompt, paste it into Rovo. <b>11</b> available.</p>
   </header>
 
   <div class="tabbar">
     <nav class="tabs" role="tablist">
       <button class="tab active" data-tab="designers" role="tab" aria-selected="true">Designers & Researchers <span class="tab-count">3</span></button>
 <button class="tab" data-tab="managers" role="tab" aria-selected="false">Managers <span class="tab-count">7</span></button>
-<button class="tab" data-tab="leadership" role="tab" aria-selected="false">Leadership (VP) <span class="tab-count">0</span></button>
+<button class="tab" data-tab="leadership" role="tab" aria-selected="false">Leadership (VP) <span class="tab-count">1</span></button>
     </nav>
     <div class="controls">
       <label class="sort-ctl" for="sort">Sort by</label>
@@ -645,9 +645,9 @@ Do not create, edit, or transition any Jira issues — this is read-only reporti
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">Size the UX workload of one project in one release.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Project key + fix version (e.g. CXREC, 26.4).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Adds up how much design work a release carries — how many features need it, how much effort it adds up to, and who owns it.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">Four headline numbers plus a per-capability table.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">The Capability↔UX Epic link is by parent, not by name; uses the exact Story Points field.</div></div></div>
           <div class="card-actions">
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
-            <button class="btn btn-primary" data-copy="p-6">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-7">Copy prompt</button>
           </div>
-          <pre class="prompt-body" id="p-6" hidden>You are helping me size the UX workload for one project in one release. This is read-only — do not create, edit, or transition any issue.
+          <pre class="prompt-body" id="p-7" hidden>You are helping me size the UX workload for one project in one release. This is read-only — do not create, edit, or transition any issue.
 
 INPUT — two values I must give you:
 PROJECT: [leave blank or paste the project key, e.g. CXREC]
@@ -703,9 +703,9 @@ Close with a one-line recap:
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">Review all the researches inside the current-semester Capability — a portfolio view, not per person.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Optional — a Capability key (defaults to the current one under CXUX-12163).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Goes through all the researches in the current cycle: how many are new, running, or done, which ones are dragging, how they split across apps and topics, and which look like duplicates.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A report with status counts, health, researches-per-app, categories, and overlap candidates.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">DRAFT, not validated. Overlap detection is advisory AI judgment; age is shown in buckets, not exact days.</div></div></div>
           <div class="card-actions">
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
-            <button class="btn btn-primary" data-copy="p-7">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-8">Copy prompt</button>
           </div>
-          <pre class="prompt-body" id="p-7" hidden>You are helping me review all the research Epics inside the current UX Researches
+          <pre class="prompt-body" id="p-8" hidden>You are helping me review all the research Epics inside the current UX Researches
 Capability in Jira project CXUX.
 
 HIERARCHY &amp; SCOPE:
@@ -801,9 +801,9 @@ Read-only — do not create, edit, or transition any issues.</pre>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The same health check on the Research portfolio (Epics under CXUX-12163), for researchers.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — the researcher roster is built into the prompt.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Goes through the current researches and checks each researcher&#x27;s workload the same way — too much, too little, or stuck.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">One block per researcher, most severe first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Read-only; counts a researcher&#x27;s tasks under their Epics regardless of the task&#x27;s own assignee.</div></div></div>
           <div class="card-actions">
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
-            <button class="btn btn-primary" data-copy="p-8">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-9">Copy prompt</button>
           </div>
-          <pre class="prompt-body" id="p-8" hidden>You are helping me run a health check on the UX Researches portfolio in Jira project CXUX.
+          <pre class="prompt-body" id="p-9" hidden>You are helping me run a health check on the UX Researches portfolio in Jira project CXUX.
 
 HIERARCHY &amp; SCOPE:
 - Root Initiative: CXUX-12163 (&quot;UX Researches Initiative&quot;).
@@ -864,9 +864,9 @@ Read-only — do not create, edit, or transition any issues.</pre>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">A snapshot of the active sprint — how much work each designer has right now.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Asks your scope first: whole team, a region, or a single designer.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">For the current sprint, shows how much each designer has on their plate and how far along it is; people with nothing still show up.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A per-designer table sorted by Story Points, with a total row.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Excludes “Removed” tasks; uses the exact Story Points field.</div></div></div>
           <div class="card-actions">
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
-            <button class="btn btn-primary" data-copy="p-9">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-10">Copy prompt</button>
           </div>
-          <pre class="prompt-body" id="p-9" hidden>You are helping me get an active-sprint snapshot of my UX designers&#x27; work in Jira, grouped by designer. Scope is project CXUX only, current active sprint only. Measure by task assignee.
+          <pre class="prompt-body" id="p-10" hidden>You are helping me get an active-sprint snapshot of my UX designers&#x27; work in Jira, grouped by designer. Scope is project CXUX only, current active sprint only. Measure by task assignee.
 
 SCOPE — ask me first. Before running any query, ask me exactly this and wait for my answer:
 &quot;Which scope do you want? (1) the whole team, (2) a specific region — Israel, India, or USA, or (3) a single designer (tell me the name)?&quot;
@@ -901,7 +901,68 @@ STEPS:
 
 Read-only — do not create, edit, or transition any issues.</pre>
         </article></div></section>
-<section class="panel" id="panel-leadership" role="tabpanel"><p class="cat-desc">Org-wide forward views for UX leadership: strategic risk, blind spots, trends.</p><div class="grid"><div class="empty"><div class="empty-icon">&#128220;</div><p>No prompts ready in this category yet.</p><p class="empty-sub">We're writing them &mdash; see the status in <code>prompts-status.md</code>.</p></div></div></section>
+<section class="panel" id="panel-leadership" role="tabpanel"><p class="cat-desc">Org-wide forward views for UX leadership: strategic risk, blind spots, trends.</p><div class="grid">
+        <article class="card" data-search="portfolio ux demand a portfolio-wide read of ux demand for a release across every product line — where ux is over-stretched and where it&#x27;s barely involved. a release / fix version (e.g. 26.4) — the project list is fixed in the prompt. runs the release-workload check across all ~49 product lines and rolls it up, then calls out only the extremes: where ux demand is high, and where a product line is shipping with little or no ux. two short lists — too much and too little ux demand — plus a portfolio table and totals. draft. leads with counts, not story points (only ~35% of epics are estimated). heavy run — covers ~49 projects; can be split into a subset if it struggles. 2026-07-27 draft portfolio read-only" data-title="portfolio ux demand" data-added="2026-07-27" data-modified="2026-07-27">
+          <div class="card-head">
+            <h3>Portfolio UX demand</h3>
+            <span class="badge-draft">Draft</span>
+          </div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">A portfolio-wide read of UX demand for a release across every product line — where UX is over-stretched and where it&#x27;s barely involved.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">A release / fix version (e.g. 26.4) — the project list is fixed in the prompt.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Runs the release-workload check across all ~49 product lines and rolls it up, then calls out only the extremes: where UX demand is high, and where a product line is shipping with little or no UX.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">Two short lists — too much and too little UX demand — plus a portfolio table and totals.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">DRAFT. Leads with counts, not Story Points (only ~35% of epics are estimated). Heavy run — covers ~49 projects; can be split into a subset if it struggles.</div></div></div>
+          <div class="card-actions">
+            <span class="updated" title="Last updated 2026-07-27">Updated Jul 27, 2026</span>
+            <button class="btn btn-primary" data-copy="p-6">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-6" hidden>You are helping me (UX leadership) get a portfolio-wide view of UX design demand for ONE release, across all line-of-business projects, so I can see where UX is over-stretched and where it is barely involved. This is read-only — do not create, edit, or transition any issue.
+
+INPUT — one value I must give you:
+FIX VERSION: [leave blank or paste the release exactly as in Jira, e.g. 26.4]
+If FIX VERSION is blank or still shows the placeholder, STOP and ask me for it, then wait for my answer. Do not run any search until you have it.
+
+PROJECTS IN SCOPE — the list is fixed; run the same check for every one of these:
+CXUX, PMN, NXQC, CXDSCVR, CSA, UH, AW, CXDV, CXFI, CXWFM, CXREC, SC, CXIRR, CXQM, CXSUP, VOC, CXCN, WFM, CXCO, CXAPP, CXWS, VAAS, CXCROSS, EEM, EMOB, APA, IDE, PSHM, AN, SF, CXMO, DE, NPM, CXIA, CRM, ENG, CXDVI, CARD, CXIFW, PIN, CXCA, CXINT, PRD, AAI, BB, ESP, CXXO, ATT, DL
+
+FIELD NOTES (important):
+- &quot;UX work&quot; for a Capability = an Epic in project CXUX whose PARENT is that Capability. Match on the parent link, never on summary text or prefix.
+- Story Points: use the field named exactly &quot;Story Points&quot; (customfield_10038); NOT &quot;Story point estimate&quot; or &quot;Estimated Story Points&quot; (empty decoys). Only ~35% of epics have Story Points set, so treat SP as an INDICATIVE secondary signal — lead with counts, not SP.
+- fixVersion names are not consistent across LOBs: match by PREFIX — for 26.4 also include &quot;26.4-CSA&quot; and any other &quot;26.4…&quot; name — not only the exact string.
+
+PER PROJECT — work one project at a time to stay reliable. For each project in the list:
+1. Find its Capabilities with a fix version starting with FIX VERSION and status != &quot;Removed&quot;. Count them = CAPS. If CAPS = 0, mark the project &quot;not in this release&quot; and move on.
+2. Find the CXUX Epics whose parent is one of those Capabilities (collect the capability keys, then query `project = CXUX AND issuetype = Epic AND parent in (&lt;keys&gt;)`). Record: how many Capabilities have ≥1 UX epic (CAPS_UX), the number of UX epics (EPICS), and the summed &quot;Story Points&quot; of those epics (SP), plus how many epics had no SP set.
+
+PORTFOLIO ROLL-UP:
+- Totals across all projects: total CAPS, total CAPS_UX, total EPICS, total SP.
+- Average UX demand = total EPICS ÷ (number of projects that have ≥1 Capability in the release). Call this AVG.
+
+HIGHLIGHT ONLY THE EXTREMES — this is the whole point; do not editorialize the middle of the pack:
+- 🔴 Too much UX demand (over-stretched): projects whose EPICS ≥ 2 × AVG (highest first). These are where UX is most loaded this release.
+- 🟠 Too little / no UX (possible gap): projects that HAVE real scope (CAPS ≥ 3) but ZERO or near-zero UX epics (CAPS_UX = 0, or EPICS far below AVG). Flag as &quot;little/no UX attached — either no UX needed, or UX not engaged; worth a check.&quot; Do not assert it&#x27;s a problem — it may be legitimately engineering-only.
+
+OUTPUT:
+```
+# Portfolio UX demand — &lt;FIX VERSION&gt;
+*Generated: &lt;date&gt; | Read-only | &lt;N&gt; of &lt;total&gt; projects have scope this release*
+
+## 🔴 Too much UX demand
+- &lt;PROJECT&gt; — &lt;EPICS&gt; UX epics across &lt;CAPS_UX&gt;/&lt;CAPS&gt; capabilities · &lt;SP&gt; SP
+  …(only projects above the 2× AVG threshold, highest first; &quot;none&quot; if none)
+
+## 🟠 Too little / no UX
+- &lt;PROJECT&gt; — &lt;CAPS&gt; capabilities, &lt;CAPS_UX&gt; with UX (&lt;EPICS&gt; epics) — little/no UX attached
+  …(&quot;none&quot; if none)
+
+## Portfolio overview
+| Project | Capabilities | …with UX | UX epics | Story Points |
+|---------|-------------:|---------:|---------:|-------------:|
+  …(one row per project that has scope this release, sorted by UX epics desc; add a TOTAL row)
+
+Projects not in this release: &lt;comma-separated keys&gt;
+```
+
+Close with one ⚠️ line stating what share of the release&#x27;s epics had Story Points set, so SP is read as indicative and the counts as the reliable signal.
+
+Read-only — do not create, edit, or transition any issues.</pre>
+        </article></div></section>
 
   <p class="no-results" id="noResults">No prompts match your search.</p>
 

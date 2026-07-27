@@ -148,7 +148,17 @@ MANIFEST = [
         "tags": ["portfolio", "read-only"],
     },
     # --- Leadership (VP) ---
-    # (no leadership prompt ready yet — see prompts-status.md)
+    {
+        "file": "ux-portfolio-demand-prompt.md",
+        "category": "leadership",
+        "title": "Portfolio UX demand",
+        "what_for": "A portfolio-wide read of UX demand for a release across every product line — where UX is over-stretched and where it's barely involved.",
+        "input": "A release / fix version (e.g. 26.4) — the project list is fixed in the prompt.",
+        "does": "Runs the release-workload check across all ~49 product lines and rolls it up, then calls out only the extremes: where UX demand is high, and where a product line is shipping with little or no UX.",
+        "output": "Two short lists — too much and too little UX demand — plus a portfolio table and totals.",
+        "note": "DRAFT. Leads with counts, not Story Points (only ~35% of epics are estimated). Heavy run — covers ~49 projects; can be split into a subset if it struggles.",
+        "tags": ["draft", "portfolio", "read-only"],
+    },
 ]
 
 CATEGORIES = [
