@@ -223,14 +223,14 @@
   </div>
 
   <section class="panel active" id="panel-designers" role="tabpanel"><p class="cat-desc">Self-service prompts for your day-to-day work: create epics, check your health, review your year.</p><div class="grid">
-        <article class="card" data-search="create a ux epic create a well-structured ux epic under a capability in cxux, without building it by hand. a capability key (e.g. cxux-12754). reads the capability, writes the epic for you and files it under that capability in your name, then asks which tasks you want and adds them — each already filled in with a starting template. the new epic plus the chosen tasks, all linked and assigned to you. the only prompt that writes to jira — and only after you confirm the tasks. 2026-07-26 writes autonomous" data-title="create a ux epic" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="create a ux epic create a well-structured ux epic under a capability in cxux, without building it by hand. a capability key (e.g. cxux-12754). reads the capability, writes the epic for you and files it under that capability in your name, then asks which tasks you want and adds them — each already filled in with a starting template. the new epic plus the chosen tasks, all linked and assigned to you. the only prompt that writes to jira — and only after you confirm the tasks. 2026-08-18 writes autonomous" data-title="create a ux epic" data-added="2026-07-19" data-modified="2026-08-18">
           <div class="card-head">
             <h3>Create a UX Epic</h3>
             <span class="badge-draft">Draft</span>
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">Create a well-structured UX Epic under a Capability in CXUX, without building it by hand.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">A Capability key (e.g. CXUX-12754).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Reads the capability, writes the epic for you and files it under that capability in your name, then asks which tasks you want and adds them — each already filled in with a starting template.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">The new Epic plus the chosen tasks, all linked and assigned to you.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">The only prompt that writes to Jira — and only after you confirm the tasks.</div></div></div>
           <div class="card-actions">
-            <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <span class="updated" title="Last updated 2026-08-18">Updated Aug 18, 2026</span>
             <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-0" hidden>You are helping me create a UX Epic in Jira project CXUX. Run the whole process in one go.
@@ -246,7 +246,9 @@ Always set the Epic&#x27;s parent to a Capability (level 2); never leave it empt
 STEP 1 — Parent Capability
 - Open the key I gave and confirm its issue type is Capability (level 2). If it&#x27;s not a
   Capability (e.g. it&#x27;s an Initiative), tell me and stop.
-- Only if I gave a name with no key: ask me for the key. Otherwise proceed.
+- If the CAPABILITY line is empty or still shows the placeholder text, or I gave a name with no key, ask me EXACTLY this and wait — nothing more:
+  &quot;Which Capability should this UX Epic sit under? Paste its key (e.g. CXUX-12754) and I&#x27;ll build it from there — the only thing I&#x27;ll ask you afterward is which tasks to add.&quot;
+  Otherwise proceed.
 - Keep the Capability&#x27;s summary text verbatim — reuse it as the &quot;capability name&quot; everywhere below.
   Never invent or reword it.
 

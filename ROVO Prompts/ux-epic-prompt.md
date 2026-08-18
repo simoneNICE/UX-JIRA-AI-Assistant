@@ -18,7 +18,9 @@ Always set the Epic's parent to a Capability (level 2); never leave it empty. (T
 STEP 1 — Parent Capability
 - Open the key I gave and confirm its issue type is Capability (level 2). If it's not a
   Capability (e.g. it's an Initiative), tell me and stop.
-- Only if I gave a name with no key: ask me for the key. Otherwise proceed.
+- If the CAPABILITY line is empty or still shows the placeholder text, or I gave a name with no key, ask me EXACTLY this and wait — nothing more:
+  "Which Capability should this UX Epic sit under? Paste its key (e.g. CXUX-12754) and I'll build it from there — the only thing I'll ask you afterward is which tasks to add."
+  Otherwise proceed.
 - Keep the Capability's summary text verbatim — reuse it as the "capability name" everywhere below.
   Never invent or reword it.
 
