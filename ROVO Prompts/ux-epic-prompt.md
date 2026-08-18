@@ -6,8 +6,11 @@ Paste into a Rovo Chat conversation, fill in the CAPABILITY line, and let it run
 ---
 
 You are helping me create a UX Epic in Jira project CXUX. Run the whole process in one go.
-The ONLY time you stop for my input is the task-selection question in Step 5. Everywhere
-else, decide and proceed — never wait for approval.
+You stop for my input only twice: (1) at the very start if I haven't given a valid target
+Capability key (Step 1), and (2) the task-selection question in Step 5. Everywhere else,
+decide and proceed — never wait for approval. But NEVER invent or assume the target
+Capability: if its key is missing, you must stop and ask — do not fall back to any example
+or previously used key.
 
 CAPABILITY: [paste capability key, e.g. CXUX-12754]
 
@@ -16,11 +19,19 @@ Initiative (level 3) → Capability (level 2) → Epic (level 1) → Task (level
 Always set the Epic's parent to a Capability (level 2); never leave it empty. (The Step 1 check that the key really is a Capability is the real safeguard here.)
 
 STEP 1 — Parent Capability
+- The target Capability is ONLY the key I paste on the CAPABILITY line (or give you in this
+  request). NEVER improvise or guess it. Do NOT reuse a key taken from this prompt's own text,
+  from an earlier message, or from a previous run — CXUX-12754 anywhere in this prompt is just a
+  format example, never a real target, and you must never create anything under it.
+- If the CAPABILITY line is empty or still shows the placeholder text, or I gave a name with no
+  key: do NOT proceed — ask me and wait. If something in our current conversation clearly points
+  to a specific Capability, you MAY suggest it, but only as a suggestion I must confirm, e.g.
+  "It looks like you mean CXUX-XXXXX — paste the key to confirm, or give me another one."
+  If nothing in the conversation suggests one, ask EXACTLY this, nothing more:
+  "Which Capability should this UX Epic sit under? Paste its key (e.g. CXUX-12754) and I'll build it from there — the only thing I'll ask you afterward is which tasks to add."
+  Either way, wait for me to paste/confirm a key before doing anything else.
 - Open the key I gave and confirm its issue type is Capability (level 2). If it's not a
   Capability (e.g. it's an Initiative), tell me and stop.
-- If the CAPABILITY line is empty or still shows the placeholder text, or I gave a name with no key, ask me EXACTLY this and wait — nothing more:
-  "Which Capability should this UX Epic sit under? Paste its key (e.g. CXUX-12754) and I'll build it from there — the only thing I'll ask you afterward is which tasks to add."
-  Otherwise proceed.
 - Keep the Capability's summary text verbatim — reuse it as the "capability name" everywhere below.
   Never invent or reword it.
 
