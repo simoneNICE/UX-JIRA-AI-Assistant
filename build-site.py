@@ -3,7 +3,7 @@
 Generator for the public ROVO Prompts site (GitHub Pages).
 
 Reads the prompts in `ROVO Prompts/`, extracts the copyable body (everything after
-the first `---`) and regenerates `site/index.html`.
+the first `---`) and regenerates `docs/index.html`.
 
 Usage:
     python3 build-site.py
@@ -30,7 +30,7 @@ VALIDATED = {"ux-designer-health-prompt.md"}
 
 ROOT = pathlib.Path(__file__).resolve().parent
 PROMPTS_DIR = ROOT / "ROVO Prompts"
-SITE_DIR = ROOT / "site"
+SITE_DIR = ROOT / "docs"
 OUT = SITE_DIR / "index.html"
 
 # --- Manifest: order, category, clean title and short blurb for each prompt ---

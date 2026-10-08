@@ -378,21 +378,19 @@ Footnotes: count of tasks with no Task Type set, and any unexpected types folded
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="my health check see in seconds whether your current workload is healthy. none — it looks at your own issues across all projects. looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long. a short verdict, most severe flag first. counts only leaf work items (not epics/capabilities); ages measured from the status-change date. 2026-07-26 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="my health check see in seconds whether your current workload is healthy. none — it looks at your own issues across all projects. looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long. a short verdict, most severe flag first. same health model as the manager version (issue type = task); epic out-of-sync checks both directions; ages measured from the status-change date. 2026-10-08 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-10-08">
           <div class="card-head">
             <h3>My health check</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See in seconds whether your current workload is healthy.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — it looks at your own issues across all projects.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A short verdict, most severe flag first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Counts only leaf work items (not Epics/Capabilities); ages measured from the status-change date.</div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See in seconds whether your current workload is healthy.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — it looks at your own issues across all projects.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A short verdict, most severe flag first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Same health model as the manager version (issue type = Task); epic out-of-sync checks both directions; ages measured from the status-change date.</div></div></div>
           <div class="card-actions">
-            <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <span class="updated" title="Last updated 2026-10-08">Updated Oct 8, 2026</span>
             <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-5" hidden>You are helping me check the health of my own active work in Jira. Scope is ALL projects I work in (not just CXUX) — do not restrict by project. Measure everything against my own assignee identity in this workspace.
 
 HEALTH MODEL — apply these exact rules:
-
-IMPORTANT — count only real hands-on work items. CXUX uses a portfolio hierarchy (Initiative &gt; Capability &gt; Epic &gt; Task) and a designer is often assigned at every level. The band must count ONLY leaf work items — issue type Task, Story, Sub-task, or Bug. EXCLUDE Epic, Capability, and Initiative from the &quot;In Progress count&quot;, or the band will read 5+ when you actually have one task in hand.
 
 To measure how long something has been In Progress (the 14d / 45d flags), use the status-change date, e.g. `status CHANGED TO &quot;In Progress&quot; BEFORE -14d` (tasks) / `BEFORE -45d` (epics). Do NOT use the Updated date — any edit bumps it.
 
@@ -404,8 +402,8 @@ My In Progress task count (the band):
 
 Other flags:
 - 🟠 stalled task — a task that has been In Progress for more than 14 days.
-- 🟠 parent out of sync — one of my tasks is In Progress or Done while its immediate parent is still &quot;New&quot;. The parent may be an Epic OR a Capability (my tasks sometimes hang directly off a Capability) — check the immediate parent regardless of its type, and label it by its actual type in the output. If a task has no parent, skip this check for it.
-- 🟠 stalled parent — a parent (Epic or Capability) of mine that has been In Progress for more than 45 days.
+- 🟠 epic out of sync — my task&#x27;s parent Epic status doesn&#x27;t reflect the work inside it. Flag BOTH directions: (a) my task is In Progress or Done while its parent Epic is still &quot;New&quot;; and (b) my task is still In Progress while its parent Epic is already &quot;Done&quot;. If a task has no parent Epic, skip this check for it.
+- 🟠 stalled epic — a parent Epic of mine that has been In Progress for more than 45 days.
 
 Sprint-phase lens:
 - Find the active sprint&#x27;s end date (project CXUX). If 7 days or fewer remain, we&#x27;re in the last week:
@@ -413,11 +411,11 @@ Sprint-phase lens:
   - &quot;under-engaged&quot; is expected that week → suppress that flag.
 
 STEPS:
-1. Find my leaf work items (issue type Task, Story, Sub-task, or Bug — NOT Epic/Capability/Initiative) currently In Progress, across all projects. For each, note its immediate parent and that parent&#x27;s status/type.
-2. Apply the In Progress band (leaf items only).
+1. Find my tasks currently In Progress (issue type = Task, status = In Progress, assignee = me, across ALL projects — no project filter). For each, note the parent Epic and that Epic&#x27;s current status.
+2. Apply the In Progress band.
 3. Flag any task In Progress for more than 14 days (use the status-change date, not Updated).
-4. Flag any task whose immediate parent (Epic or Capability) is still &quot;New&quot; while my task is In Progress or Done.
-5. For my distinct parents that are In Progress, check how long each has been In Progress; flag any over 45 days.
+4. Flag any task whose parent Epic is still &quot;New&quot; while my task is In Progress or Done (epic out of sync — direction a). Flag any task still In Progress while its parent Epic is already &quot;Done&quot; (epic out of sync — direction b).
+5. For my distinct parent Epics that are In Progress, check how long each has been In Progress; flag any over 45 days (stalled epic).
 6. Check the active sprint&#x27;s end date (project CXUX) and apply the sprint-phase lens if within 7 days of the end.
 7. Present:
 
@@ -509,14 +507,14 @@ Close with a **⚠️ Needs Attention** section: a flat list of every 🔴 item,
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="designer annual report the manager version of the annual report — closed work in a year for every designer. year + scope: whole team, a region, or a single designer (the prompt asks). shows what every designer finished that year, sorted by type of work, including anyone who closed nothing. a table sorted by total sp, with a total row and team average. uses the exact story points field, excludes cancelled tasks, works in small batches to stay reliable. 2026-07-26 team read-only" data-title="designer annual report" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="designer annual report the manager version of the annual report — closed work in a year for every designer. year + scope: whole team, a region, or a single designer (the prompt asks). shows what every designer finished that year, sorted by type of work, including anyone who closed nothing. a table sorted by total sp, with a total row and team average. uses the exact story points field, excludes cancelled tasks, works in small batches to stay reliable. 2026-10-08 team read-only" data-title="designer annual report" data-added="2026-07-19" data-modified="2026-10-08">
           <div class="card-head">
             <h3>Designer annual report</h3>
             <span class="badge-draft">Draft</span>
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The manager version of the annual report — closed work in a year for every designer.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Year + scope: whole team, a region, or a single designer (the prompt asks).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Shows what every designer finished that year, sorted by type of work, including anyone who closed nothing.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A table sorted by total SP, with a TOTAL row and team average.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Uses the exact Story Points field, excludes cancelled tasks, works in small batches to stay reliable.</div></div></div>
           <div class="card-actions">
-            <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <span class="updated" title="Last updated 2026-10-08">Updated Oct 8, 2026</span>
             <button class="btn btn-primary" data-copy="p-2">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-2" hidden>You are helping me build a per-designer breakdown of Jira Tasks closed in a given year, in project CXUX only.
@@ -542,7 +540,7 @@ ROSTER — Israel designers:
 Yaara Bar, Chelsea Franz, Assaf Zinger, Eitan Koren, Tali Silon-Shacham, Erez Bar, Michael Dalal, Yoav Chen, Libi Becker Tidhar, Sveta Fomchenko, Lee Winkler, Lihi Shrem, Tal Segev.
 
 ROSTER — India designers:
-Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan Rajput, Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole, Shikha Shukla, Shilpa Sarkar, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam, Kalpesh Gurav, Nirmitee Sisodia, Nutan Doiphode.
+Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan Rajput, Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole, Shikha Shukla, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam, Kalpesh Gurav, Nirmitee Sisodia.
 
 ROSTER — USA designers:
 Doug Clement, Janet Gonzales, David Stoker, Sara Evans, Lorina Binning, Serena Yang, Andrew Wong.
@@ -569,14 +567,14 @@ STEPS:
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="designer health check the team version of the personal health check — who&#x27;s overloaded, idle, or stalled. scope: whole team, a region, or a single designer (the prompt asks). checks each person&#x27;s live workload and points out who&#x27;s stretched thin, who has nothing going, and who&#x27;s stuck. overloaded / idle / watch lists, plus who&#x27;s fine. sprint-phase lens only applies to a single designer; out-of-sync now checks both directions. 2026-07-26 team read-only" data-title="designer health check" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="designer health check the team version of the personal health check — who&#x27;s overloaded, idle, or stalled. scope: whole team, a region, or a single designer (the prompt asks). checks each person&#x27;s live workload and points out who&#x27;s stretched thin, who has nothing going, and who&#x27;s stuck. overloaded / idle / watch lists, plus who&#x27;s fine. sprint-phase lens only applies to a single designer; out-of-sync now checks both directions. 2026-10-08 team read-only" data-title="designer health check" data-added="2026-07-19" data-modified="2026-10-08">
           <div class="card-head">
             <h3>Designer health check</h3>
-            <span class="badge-draft">Draft</span>
+            
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The team version of the personal health check — who&#x27;s overloaded, idle, or stalled.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Scope: whole team, a region, or a single designer (the prompt asks).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Checks each person&#x27;s live workload and points out who&#x27;s stretched thin, who has nothing going, and who&#x27;s stuck.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">Overloaded / Idle / Watch lists, plus who&#x27;s fine.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Sprint-phase lens only applies to a single designer; out-of-sync now checks both directions.</div></div></div>
           <div class="card-actions">
-            <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <span class="updated" title="Last updated 2026-10-08">Updated Oct 8, 2026</span>
             <button class="btn btn-primary" data-copy="p-3">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-3" hidden>You are helping me run a health check across my UX designers&#x27; active work in Jira. Scope is **all projects** the designers work in (CXUX, CXQM, CXDV, CXREC, CXWFM, PMN, CXDSCVR, VOC, etc.) — do NOT restrict to project = CXUX. Measure everything **by task assignee** (the task is the unit of work for designers).
@@ -592,7 +590,7 @@ ROSTER — Israel designers (account_id in parentheses):
 Yaara Bar (557058:f02910b4-7a33-4532-ae52-65b2d02fc245), Chelsea Franz (712020:65c25382-da24-4a4f-9c1a-b9794892207f), Assaf Zinger (712020:0861d082-a1db-4b17-aeba-563afe001639), Eitan Koren (712020:5e21d1f2-366c-4c8e-90fe-3bfb9247687d), Tali Silon-Shacham (70121:f9675544-965d-4261-8c69-dd0b5af1f36b), Erez Bar (63ea3e479e626e54cc5ab8fd), Michael Dalal (712020:e6a03127-1281-4a20-a573-1cc6d59fcf0d), Yoav Chen (61151844627b5600688e908b), Libi Becker Tidhar (61190114650a26006e0f1823), Sveta Fomchenko (712020:d95bc91f-6277-4ae6-988a-bf4a191b66be), Lee Winkler (62cd77d61e326fd9301283b1), Lihi Shrem (712020:b7ff7587-41a6-4539-ba06-e2da1ca0810c), Tal Segev (712020:826cc4e2-1cd8-4e8e-ac09-c37294c8d27e).
 
 ROSTER — India designers (account_id in parentheses):
-Advait Patil (712020:7514f68a-9d45-45f5-8c66-991834165754), Ajit Vaidya (63adc588741248746bf6bdcc), Deepa Bhamare (62b16a22cebad33432f6b5c6), Deepak Badgujar (622ba91e8a4bb60068f70032), Dinesh Koli (712020:721636e8-4f81-48c0-aa3e-d38298047b60), Gajanan Rajput (712020:aa37b218-7608-4133-9500-aac224528ebc), Manashree Thokal (712020:ddc645bb-ccd2-41f5-9cc4-c019304c84e0), Mayur Chaudhari (712020:d488a8df-551b-4325-aa41-7d8e1dababca), Parimal Khanolkar (712020:27f92cd9-b054-4cf2-9ef0-56b974e21536), Prafull Mane (62cdb715dcf59ca4ad0145d2), Sheetal Barge-Gole (712020:c7abe286-b08a-4898-a5c1-9276f430c8df), Shikha Shukla (62baf1fbd752af0e54ebfa75), Shilpa Sarkar (712020:89eeca07-0de1-40bc-b3b2-1c87271ff292), Sushanth Civi (712020:df95749d-30dc-4c39-b333-aa73a4742b7a), Tapas Chowdhury (626094579506d6006fd9fec6), Umajit Mongjam (70121:d43b183a-1a5a-41a1-87ec-cc0e549e8adc), Kalpesh Gurav (712020:8dab633f-0bed-41cd-b93a-d7d95746b0b5), Nirmitee Sisodia (712020:2f630343-f304-4df5-bcb2-ea638aaa72b5), Nutan Doiphode (712020:43f68da3-a554-4afc-ae7d-06fd5df96380).
+Advait Patil (712020:7514f68a-9d45-45f5-8c66-991834165754), Ajit Vaidya (63adc588741248746bf6bdcc), Deepa Bhamare (62b16a22cebad33432f6b5c6), Deepak Badgujar (622ba91e8a4bb60068f70032), Dinesh Koli (712020:721636e8-4f81-48c0-aa3e-d38298047b60), Gajanan Rajput (712020:aa37b218-7608-4133-9500-aac224528ebc), Manashree Thokal (712020:ddc645bb-ccd2-41f5-9cc4-c019304c84e0), Mayur Chaudhari (712020:d488a8df-551b-4325-aa41-7d8e1dababca), Parimal Khanolkar (712020:27f92cd9-b054-4cf2-9ef0-56b974e21536), Prafull Mane (62cdb715dcf59ca4ad0145d2), Sheetal Barge-Gole (712020:c7abe286-b08a-4898-a5c1-9276f430c8df), Shikha Shukla (62baf1fbd752af0e54ebfa75), Sushanth Civi (712020:df95749d-30dc-4c39-b333-aa73a4742b7a), Tapas Chowdhury (626094579506d6006fd9fec6), Umajit Mongjam (70121:d43b183a-1a5a-41a1-87ec-cc0e549e8adc), Kalpesh Gurav (712020:8dab633f-0bed-41cd-b93a-d7d95746b0b5), Nirmitee Sisodia (712020:2f630343-f304-4df5-bcb2-ea638aaa72b5).
 
 ROSTER — USA designers (account_id in parentheses):
 Doug Clement (6077f6ccb5dffc006f4cb020), Janet Gonzales (6307037507b7804d7aa1da43), David Stoker (712020:ba6ab7d2-69f7-44ae-b2dc-e534b51c426e), Sara Evans (712020:8e26db37-d04f-4937-b9fd-0b5779f0485a), Lorina Binning (611cf7d5ee947000719686d9), Serena Yang (6318920b6856bdd60aa03d2b), Andrew Wong (712020:ce3e4425-40fd-4dee-bceb-7a773f98b5b9).
@@ -869,14 +867,14 @@ Healthy researchers: one 🟢 line, or omit entirely. Mention any unassigned res
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="team sprint overview a snapshot of the active sprint — how much work each designer has right now. asks your scope first: whole team, a region, or a single designer. for the current sprint, shows how much each designer has on their plate and how far along it is; people with nothing still show up. a per-designer table sorted by story points, with a total row. excludes “removed” tasks; uses the exact story points field. 2026-07-26 team read-only" data-title="team sprint overview" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="team sprint overview a snapshot of the active sprint — how much work each designer has right now. asks your scope first: whole team, a region, or a single designer. for the current sprint, shows how much each designer has on their plate and how far along it is; people with nothing still show up. a per-designer table sorted by story points, with a total row. excludes “removed” tasks; uses the exact story points field. 2026-10-08 team read-only" data-title="team sprint overview" data-added="2026-07-19" data-modified="2026-10-08">
           <div class="card-head">
             <h3>Team sprint overview</h3>
             <span class="badge-draft">Draft</span>
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">A snapshot of the active sprint — how much work each designer has right now.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Asks your scope first: whole team, a region, or a single designer.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">For the current sprint, shows how much each designer has on their plate and how far along it is; people with nothing still show up.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A per-designer table sorted by Story Points, with a total row.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Excludes “Removed” tasks; uses the exact Story Points field.</div></div></div>
           <div class="card-actions">
-            <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <span class="updated" title="Last updated 2026-10-08">Updated Oct 8, 2026</span>
             <button class="btn btn-primary" data-copy="p-10">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-10" hidden>You are helping me get an active-sprint snapshot of my UX designers&#x27; work in Jira, grouped by designer. Scope is project CXUX only, current active sprint only. Measure by task assignee.
@@ -892,7 +890,7 @@ ROSTER — Israel designers:
 Yaara Bar, Chelsea Franz, Assaf Zinger, Eitan Koren, Tali Silon-Shacham, Erez Bar, Michael Dalal, Yoav Chen, Libi Becker Tidhar, Sveta Fomchenko, Lee Winkler, Lihi Shrem, Tal Segev.
 
 ROSTER — India designers:
-Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan Rajput, Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole, Shikha Shukla, Shilpa Sarkar, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam, Kalpesh Gurav, Nirmitee Sisodia, Nutan Doiphode.
+Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan Rajput, Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole, Shikha Shukla, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam, Kalpesh Gurav, Nirmitee Sisodia.
 
 ROSTER — USA designers:
 Doug Clement, Janet Gonzales, David Stoker, Sara Evans, Lorina Binning, Serena Yang, Andrew Wong.
