@@ -25,6 +25,9 @@ import sys
 # Flag every card as Draft (until each prompt is re-validated in Rovo). See use below.
 DRAFT_ALL = True
 
+# Prompts confirmed working in Rovo after the hardening pass — exempt from DRAFT_ALL.
+VALIDATED = {"ux-designer-health-prompt.md"}
+
 ROOT = pathlib.Path(__file__).resolve().parent
 PROMPTS_DIR = ROOT / "ROVO Prompts"
 SITE_DIR = ROOT / "site"
@@ -309,8 +312,10 @@ def build():
         pid = f"p-{idx}"
         explain_html = explain_block(p)
         # DRAFT_ALL: every prompt is flagged Draft until it's re-validated in Rovo after the
-        # hardening pass. Set to False to go back to per-prompt "draft" tags only.
-        draft_badge = '<span class="badge-draft">Draft</span>' if (DRAFT_ALL or "draft" in p.get("tags", [])) else ""
+        # hardening pass (VALIDATED is the exemption list), or set DRAFT_ALL to False to go
+        # back to per-prompt "draft" tags only.
+        is_draft = p["file"] not in VALIDATED and (DRAFT_ALL or "draft" in p.get("tags", []))
+        draft_badge = '<span class="badge-draft">Draft</span>' if is_draft else ""
         updated_iso = p["updated"]
         added_iso = p["added"]
         search_text = " ".join(
