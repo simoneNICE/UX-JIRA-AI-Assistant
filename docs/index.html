@@ -223,6 +223,59 @@
   </div>
 
   <section class="panel active" id="panel-designers" role="tabpanel"><p class="cat-desc">Self-service prompts for your day-to-day work: create epics, check your health, review your year.</p><div class="grid">
+        <article class="card" data-search="my health check see in seconds whether your current workload is healthy. none — it looks at your own issues across all projects. looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long. a short verdict, most severe flag first. same health model as the manager version (issue type = task); epic out-of-sync checks both directions; ages measured from the status-change date. 2026-10-08 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-10-08">
+          <div class="card-head">
+            <h3>My health check</h3>
+            
+          </div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See in seconds whether your current workload is healthy.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — it looks at your own issues across all projects.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A short verdict, most severe flag first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Same health model as the manager version (issue type = Task); epic out-of-sync checks both directions; ages measured from the status-change date.</div></div></div>
+          <div class="card-actions">
+            <span class="updated" title="Last updated 2026-10-08">Updated Oct 8, 2026</span>
+            <button class="btn btn-primary" data-copy="p-1">Copy prompt</button>
+          </div>
+          <pre class="prompt-body" id="p-1" hidden>You are helping me check the health of my own active work in Jira. Scope is ALL projects I work in (not just CXUX) — do not restrict by project. Measure everything against my own assignee identity in this workspace.
+
+HEALTH MODEL — apply these exact rules:
+
+To measure how long something has been In Progress (the 14d / 45d flags), use the status-change date, e.g. `status CHANGED TO &quot;In Progress&quot; BEFORE -14d` (tasks) / `BEFORE -45d` (epics). Do NOT use the Updated date — any edit bumps it.
+
+My In Progress task count (the band):
+- 0 tasks → 🔴 idle — nothing active.
+- 1 task → 🟠 under-engaged.
+- 2–4 tasks → ✅ ok.
+- 5+ tasks → 🔴 too many in progress.
+
+Other flags:
+- 🟠 stalled task — a task that has been In Progress for more than 14 days.
+- 🟠 epic out of sync — my task&#x27;s parent Epic status doesn&#x27;t reflect the work inside it. Flag BOTH directions: (a) my task is In Progress or Done while its parent Epic is still &quot;New&quot;; and (b) my task is still In Progress while its parent Epic is already &quot;Done&quot;. If a task has no parent Epic, skip this check for it.
+- 🟠 stalled epic — a parent Epic of mine that has been In Progress for more than 45 days.
+
+Sprint-phase lens:
+- Find the active sprint&#x27;s end date (project CXUX). If 7 days or fewer remain, we&#x27;re in the last week:
+  - &quot;too many in progress&quot; becomes a won&#x27;t-finish risk → elevate it.
+  - &quot;under-engaged&quot; is expected that week → suppress that flag.
+
+STEPS:
+1. Find my tasks currently In Progress (issue type = Task, status = In Progress, assignee = me, across ALL projects — no project filter). For each, note the parent Epic and that Epic&#x27;s current status.
+2. Apply the In Progress band.
+3. Flag any task In Progress for more than 14 days (use the status-change date, not Updated).
+4. Flag any task whose parent Epic is still &quot;New&quot; while my task is In Progress or Done (epic out of sync — direction a). Flag any task still In Progress while its parent Epic is already &quot;Done&quot; (epic out of sync — direction b).
+5. For my distinct parent Epics that are In Progress, check how long each has been In Progress; flag any over 45 days (stalled epic).
+6. Check the active sprint&#x27;s end date (project CXUX) and apply the sprint-phase lens if within 7 days of the end.
+7. Present:
+
+```
+# My health check
+*All projects · today &lt;date&gt;*
+🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only if ≤7 days remain
+
+🔴 / 🟠 / ✅ &lt;overall verdict&gt;
+&lt;one sentence per flag, each issue key labelled: task CXUX-NNNNN / epic CXUX-NNNNN&gt;
+```
+
+Lead with the most severe flag. Read-only — do not create, edit, or transition any issues.</pre>
+        </article>
+
         <article class="card" data-search="create a ux epic create a well-structured ux epic under a capability in cxux, without building it by hand. a capability key (e.g. cxux-12754). reads the capability, writes the epic for you and files it under that capability in your name, then asks which tasks you want and adds them — each already filled in with a starting template. the new epic plus the chosen tasks, all linked and assigned to you. the only prompt that writes to jira — and only after you confirm the tasks. 2026-08-18 writes autonomous" data-title="create a ux epic" data-added="2026-07-19" data-modified="2026-08-18">
           <div class="card-head">
             <h3>Create a UX Epic</h3>
@@ -231,9 +284,9 @@
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">Create a well-structured UX Epic under a Capability in CXUX, without building it by hand.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">A Capability key (e.g. CXUX-12754).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Reads the capability, writes the epic for you and files it under that capability in your name, then asks which tasks you want and adds them — each already filled in with a starting template.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">The new Epic plus the chosen tasks, all linked and assigned to you.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">The only prompt that writes to Jira — and only after you confirm the tasks.</div></div></div>
           <div class="card-actions">
             <span class="updated" title="Last updated 2026-08-18">Updated Aug 18, 2026</span>
-            <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-2">Copy prompt</button>
           </div>
-          <pre class="prompt-body" id="p-0" hidden>You are helping me create a UX Epic in Jira project CXUX. Run the whole process in one go.
+          <pre class="prompt-body" id="p-2" hidden>You are helping me create a UX Epic in Jira project CXUX. Run the whole process in one go.
 You stop for my input only twice: (1) at the very start if I haven&#x27;t given a valid target
 Capability key (Step 1), and (2) the task-selection question in Step 5. Everywhere else,
 decide and proceed — never wait for approval. But NEVER invent or assume the target
@@ -337,9 +390,9 @@ New items start as &quot;New&quot;.</pre>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See your closed work for a year, broken down by task type.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">The year (e.g. 2025).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Pulls together everything you finished that year and sorts it by type of work, with totals and an average effort per task.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A Task Type / Count / SP table plus a total line.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Read-only; uses the exact “Story Points” field and excludes cancelled tasks.</div></div></div>
           <div class="card-actions">
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
-            <button class="btn btn-primary" data-copy="p-4">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
           </div>
-          <pre class="prompt-body" id="p-4" hidden>You are helping me build a breakdown of my own closed Jira work for a given year, in project CXUX only.
+          <pre class="prompt-body" id="p-5" hidden>You are helping me build a breakdown of my own closed Jira work for a given year, in project CXUX only.
 
 YEAR: [e.g. 2025 — ask me if I don&#x27;t specify]
 
@@ -376,61 +429,89 @@ Summary line: `Total: N tasks · X SP · Avg SP/task (excl. Build Review): Y.Z`
 Footnotes: count of tasks with no Task Type set, and any unexpected types folded into Other.
 
 Read-only — do not create, edit, or transition any issues.</pre>
-        </article>
-
-        <article class="card" data-search="my health check see in seconds whether your current workload is healthy. none — it looks at your own issues across all projects. looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long. a short verdict, most severe flag first. same health model as the manager version (issue type = task); epic out-of-sync checks both directions; ages measured from the status-change date. 2026-10-08 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-10-08">
+        </article></div></section>
+<section class="panel" id="panel-managers" role="tabpanel"><p class="cat-desc">Team and portfolio views: overview, health checks, annual reports, design readiness.</p><div class="grid">
+        <article class="card" data-search="designer health check the team version of the personal health check — who&#x27;s overloaded, idle, or stalled. scope: whole team, a region, or a single designer (the prompt asks). checks each person&#x27;s live workload and points out who&#x27;s stretched thin, who has nothing going, and who&#x27;s stuck. overloaded / idle / watch lists, plus who&#x27;s fine. sprint-phase lens only applies to a single designer; out-of-sync now checks both directions. 2026-10-08 team read-only" data-title="designer health check" data-added="2026-07-19" data-modified="2026-10-08">
           <div class="card-head">
-            <h3>My health check</h3>
-            <span class="badge-draft">Draft</span>
+            <h3>Designer health check</h3>
+            
           </div>
-          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See in seconds whether your current workload is healthy.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — it looks at your own issues across all projects.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A short verdict, most severe flag first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Same health model as the manager version (issue type = Task); epic out-of-sync checks both directions; ages measured from the status-change date.</div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The team version of the personal health check — who&#x27;s overloaded, idle, or stalled.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Scope: whole team, a region, or a single designer (the prompt asks).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Checks each person&#x27;s live workload and points out who&#x27;s stretched thin, who has nothing going, and who&#x27;s stuck.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">Overloaded / Idle / Watch lists, plus who&#x27;s fine.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Sprint-phase lens only applies to a single designer; out-of-sync now checks both directions.</div></div></div>
           <div class="card-actions">
             <span class="updated" title="Last updated 2026-10-08">Updated Oct 8, 2026</span>
-            <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
           </div>
-          <pre class="prompt-body" id="p-5" hidden>You are helping me check the health of my own active work in Jira. Scope is ALL projects I work in (not just CXUX) — do not restrict by project. Measure everything against my own assignee identity in this workspace.
+          <pre class="prompt-body" id="p-0" hidden>You are helping me run a health check across my UX designers&#x27; active work in Jira. Scope is **all projects** the designers work in (CXUX, CXQM, CXDV, CXREC, CXWFM, PMN, CXDSCVR, VOC, etc.) — do NOT restrict to project = CXUX. Measure everything **by task assignee** (the task is the unit of work for designers).
 
-HEALTH MODEL — apply these exact rules:
+SCOPE — ask me first. Before running any query, ask me exactly this and wait for my answer:
+&quot;Which scope do you want? (1) the whole team, (2) a specific region — Israel, India, or USA, or (3) a single designer (tell me the name)?&quot;
+Do not query Jira until I reply.
+- Whole team → all rosters combined; label each person&#x27;s team in the output.
+- A region → only that region&#x27;s roster (Israel, India, or USA).
+- A single designer → just that one person, resolved from the rosters. If the name isn&#x27;t in the rosters or is ambiguous, tell me and ask again.
 
-To measure how long something has been In Progress (the 14d / 45d flags), use the status-change date, e.g. `status CHANGED TO &quot;In Progress&quot; BEFORE -14d` (tasks) / `BEFORE -45d` (epics). Do NOT use the Updated date — any edit bumps it.
+ROSTER — Israel designers (account_id in parentheses):
+Yaara Bar (557058:f02910b4-7a33-4532-ae52-65b2d02fc245), Chelsea Franz (712020:65c25382-da24-4a4f-9c1a-b9794892207f), Assaf Zinger (712020:0861d082-a1db-4b17-aeba-563afe001639), Eitan Koren (712020:5e21d1f2-366c-4c8e-90fe-3bfb9247687d), Tali Silon-Shacham (70121:f9675544-965d-4261-8c69-dd0b5af1f36b), Erez Bar (63ea3e479e626e54cc5ab8fd), Michael Dalal (712020:e6a03127-1281-4a20-a573-1cc6d59fcf0d), Yoav Chen (61151844627b5600688e908b), Libi Becker Tidhar (61190114650a26006e0f1823), Sveta Fomchenko (712020:d95bc91f-6277-4ae6-988a-bf4a191b66be), Lee Winkler (62cd77d61e326fd9301283b1), Lihi Shrem (712020:b7ff7587-41a6-4539-ba06-e2da1ca0810c), Tal Segev (712020:826cc4e2-1cd8-4e8e-ac09-c37294c8d27e).
 
-My In Progress task count (the band):
+ROSTER — India designers (account_id in parentheses):
+Advait Patil (712020:7514f68a-9d45-45f5-8c66-991834165754), Ajit Vaidya (63adc588741248746bf6bdcc), Deepa Bhamare (62b16a22cebad33432f6b5c6), Deepak Badgujar (622ba91e8a4bb60068f70032), Dinesh Koli (712020:721636e8-4f81-48c0-aa3e-d38298047b60), Gajanan Rajput (712020:aa37b218-7608-4133-9500-aac224528ebc), Manashree Thokal (712020:ddc645bb-ccd2-41f5-9cc4-c019304c84e0), Mayur Chaudhari (712020:d488a8df-551b-4325-aa41-7d8e1dababca), Parimal Khanolkar (712020:27f92cd9-b054-4cf2-9ef0-56b974e21536), Prafull Mane (62cdb715dcf59ca4ad0145d2), Sheetal Barge-Gole (712020:c7abe286-b08a-4898-a5c1-9276f430c8df), Shikha Shukla (62baf1fbd752af0e54ebfa75), Sushanth Civi (712020:df95749d-30dc-4c39-b333-aa73a4742b7a), Tapas Chowdhury (626094579506d6006fd9fec6), Umajit Mongjam (70121:d43b183a-1a5a-41a1-87ec-cc0e549e8adc), Kalpesh Gurav (712020:8dab633f-0bed-41cd-b93a-d7d95746b0b5), Nirmitee Sisodia (712020:2f630343-f304-4df5-bcb2-ea638aaa72b5).
+
+ROSTER — USA designers (account_id in parentheses):
+Doug Clement (6077f6ccb5dffc006f4cb020), Janet Gonzales (6307037507b7804d7aa1da43), David Stoker (712020:ba6ab7d2-69f7-44ae-b2dc-e534b51c426e), Sara Evans (712020:8e26db37-d04f-4937-b9fd-0b5779f0485a), Lorina Binning (611cf7d5ee947000719686d9), Serena Yang (6318920b6856bdd60aa03d2b), Andrew Wong (712020:ce3e4425-40fd-4dee-bceb-7a773f98b5b9).
+
+Apply the health model only to the people the scope resolved to: all rosters (whole team), one region&#x27;s roster, or the single designer. For a single designer, drop the &quot;team&quot; labelling in the output header (use their name).
+
+HEALTH MODEL — apply these exact rules per person:
+
+Per-person In Progress task count (the band):
 - 0 tasks → 🔴 idle — nothing active.
 - 1 task → 🟠 under-engaged.
 - 2–4 tasks → ✅ ok.
 - 5+ tasks → 🔴 too many in progress.
 
 Other flags:
-- 🟠 stalled task — a task that has been In Progress for more than 14 days.
-- 🟠 epic out of sync — my task&#x27;s parent Epic status doesn&#x27;t reflect the work inside it. Flag BOTH directions: (a) my task is In Progress or Done while its parent Epic is still &quot;New&quot;; and (b) my task is still In Progress while its parent Epic is already &quot;Done&quot;. If a task has no parent Epic, skip this check for it.
-- 🟠 stalled epic — a parent Epic of mine that has been In Progress for more than 45 days.
+- 🟠 stalled task — a task that has been In Progress for more than 14 days. Measure from the status-change date (`status CHANGED TO &quot;In Progress&quot; BEFORE -14d`), NOT the Updated field, which any edit bumps.
+- 🟠 epic out of sync — the epic&#x27;s status doesn&#x27;t reflect the work inside it. Flag BOTH directions: (a) a task is In Progress or Done while its parent Epic is still &quot;New&quot;; and (b) a task is still In Progress while its parent Epic is already &quot;Done&quot; (the common real case here). If a task has no parent Epic, skip this check for it.
+- 🟠 stalled epic — an Epic that has been In Progress for more than 45 days (status-change date, same rule as above).
 
-Sprint-phase lens:
-- Find the active sprint&#x27;s end date (project CXUX). If 7 days or fewer remain, we&#x27;re in the last week:
-  - &quot;too many in progress&quot; becomes a won&#x27;t-finish risk → elevate it.
-  - &quot;under-engaged&quot; is expected that week → suppress that flag.
+Sprint-phase lens (not a hard rule — context to apply on top):
+- Because scope is all projects, there is usually NO single active sprint — designers&#x27; In Progress work mostly sits outside any sprint, and different boards have different sprint dates. Only apply this lens when the scope is a single designer who works mostly in one project (use that board&#x27;s current sprint). Otherwise state &quot;sprint lens not applicable (work spans multiple boards)&quot; and skip it — do not guess one sprint&#x27;s date for the whole roster.
+- When it does apply: find the end date of that board&#x27;s active sprint. If 7 days or fewer remain, we&#x27;re in the &quot;last week&quot; of the sprint:
+  - &quot;too many in progress&quot; becomes a won&#x27;t-finish risk → treat as more severe.
+  - &quot;under-engaged&quot; is expected that week (work has converged toward Done) → suppress that flag entirely for the last week.
 
 STEPS:
-1. Find my tasks currently In Progress (issue type = Task, status = In Progress, assignee = me, across ALL projects — no project filter). For each, note the parent Epic and that Epic&#x27;s current status.
-2. Apply the In Progress band.
-3. Flag any task In Progress for more than 14 days (use the status-change date, not Updated).
-4. Flag any task whose parent Epic is still &quot;New&quot; while my task is In Progress or Done (epic out of sync — direction a). Flag any task still In Progress while its parent Epic is already &quot;Done&quot; (epic out of sync — direction b).
-5. For my distinct parent Epics that are In Progress, check how long each has been In Progress; flag any over 45 days (stalled epic).
-6. Check the active sprint&#x27;s end date (project CXUX) and apply the sprint-phase lens if within 7 days of the end.
-7. Present:
+
+1. For every person in scope, find their Jira tasks currently In Progress (issue type = Task, status = In Progress, assignee = that person, across ALL projects — no project filter). For each, note the parent Epic and that Epic&#x27;s current status. Anyone in the roster with zero In Progress tasks is idle (0 tasks), even if you have to check them explicitly.
+2. Apply the In Progress band per person from the Health model above.
+3. Flag any task that has been In Progress for more than 14 days (stalled task).
+4. Flag any task whose parent Epic is still &quot;New&quot; while the task itself is In Progress or Done (epic out of sync).
+5. For the distinct parent Epics that are In Progress, check how long each has been In Progress; flag any epic over 45 days (stalled epic).
+6. Check the active sprint&#x27;s end date and apply the sprint-phase lens if we&#x27;re in the last 7 days.
+7. Present the result exactly in this format, most severe first, English only, every issue key labelled with its type (e.g. &quot;task CXUX-12345&quot; / &quot;epic CXUX-6789&quot;):
 
 ```
-# My health check
+# &lt;Team&gt; — health
 *All projects · today &lt;date&gt;*
-🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only if ≤7 days remain
+🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only include this line if ≤7 days remain
 
-🔴 / 🟠 / ✅ &lt;overall verdict&gt;
-&lt;one sentence per flag, each issue key labelled: task CXUX-NNNNN / epic CXUX-NNNNN&gt;
+## 🔴 Overloaded
+- &lt;Name&gt; — N tasks in progress; M stalled &gt;14d; epic out of sync: epic KEY
+
+## 🔴 Idle
+- &lt;Name&gt; — 0 tasks in progress
+
+## 🟠 Watch
+- &lt;Name&gt; — &lt;under-engaged / stalled task KEY / epic KEY out of sync&gt;
+
+*No issues:* &lt;names with no flags, one line&gt;
 ```
 
-Lead with the most severe flag. Read-only — do not create, edit, or transition any issues.</pre>
-        </article></div></section>
-<section class="panel" id="panel-managers" role="tabpanel"><p class="cat-desc">Team and portfolio views: overview, health checks, annual reports, design readiness.</p><div class="grid">
+8. If a flag is pervasive across most of the team (e.g. most people have an out-of-sync epic), say so once at the top as a process-level note instead of repeating it for every person.
+
+Do not create, edit, or transition any Jira issues — this is read-only reporting.</pre>
+        </article>
+
         <article class="card" data-search="design readiness a traffic light of design readiness per capability, for one lob project + release. project key + fix version (e.g. cxrec, 26.4) — asks if missing. for each feature going into that release, checks whether the design is ready and flags the ones that are behind, or that design never picked up at all. one table with a red/amber/green light per capability, plus a “needs attention” red list. matches fix versions by prefix (catches names like 26.4-csa); ignores cancelled tasks. 2026-07-26 portfolio read-only" data-title="design readiness" data-added="2026-07-19" data-modified="2026-07-26">
           <div class="card-head">
             <h3>Design readiness</h3>
@@ -439,9 +520,9 @@ Lead with the most severe flag. Read-only — do not create, edit, or transition
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">A traffic light of design readiness per capability, for one LOB project + release.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Project key + fix version (e.g. CXREC, 26.4) — asks if missing.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">For each feature going into that release, checks whether the design is ready and flags the ones that are behind, or that design never picked up at all.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">One table with a red/amber/green light per capability, plus a “Needs Attention” red list.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Matches fix versions by prefix (catches names like 26.4-CSA); ignores cancelled tasks.</div></div></div>
           <div class="card-actions">
             <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
-            <button class="btn btn-primary" data-copy="p-1">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-3">Copy prompt</button>
           </div>
-          <pre class="prompt-body" id="p-1" hidden>You are helping me build a design-readiness summary for ONE line-of-business (LOB) project in ONE release: for each Capability in that project+release, is the UX design ready?
+          <pre class="prompt-body" id="p-3" hidden>You are helping me build a design-readiness summary for ONE line-of-business (LOB) project in ONE release: for each Capability in that project+release, is the UX design ready?
 
 INPUT — two values I must give you:
 PROJECT: [leave blank or paste the LOB project key, e.g. CXREC]
@@ -515,9 +596,9 @@ Read-only — do not create, edit, or transition any issues.</pre>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The manager version of the annual report — closed work in a year for every designer.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Year + scope: whole team, a region, or a single designer (the prompt asks).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Shows what every designer finished that year, sorted by type of work, including anyone who closed nothing.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A table sorted by total SP, with a TOTAL row and team average.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Uses the exact Story Points field, excludes cancelled tasks, works in small batches to stay reliable.</div></div></div>
           <div class="card-actions">
             <span class="updated" title="Last updated 2026-10-08">Updated Oct 8, 2026</span>
-            <button class="btn btn-primary" data-copy="p-2">Copy prompt</button>
+            <button class="btn btn-primary" data-copy="p-4">Copy prompt</button>
           </div>
-          <pre class="prompt-body" id="p-2" hidden>You are helping me build a per-designer breakdown of Jira Tasks closed in a given year, in project CXUX only.
+          <pre class="prompt-body" id="p-4" hidden>You are helping me build a per-designer breakdown of Jira Tasks closed in a given year, in project CXUX only.
 
 SCOPE — ask me first. Before running any query, ask me these two things and wait for my answer:
 1. &quot;Which year?&quot; (e.g. 2025)
@@ -565,87 +646,6 @@ STEPS:
    Footnotes: total tasks, count of (no type), unexpected types folded into Other, roster members with zero closed tasks.
 
 Read-only — do not create, edit, or transition any issues.</pre>
-        </article>
-
-        <article class="card" data-search="designer health check the team version of the personal health check — who&#x27;s overloaded, idle, or stalled. scope: whole team, a region, or a single designer (the prompt asks). checks each person&#x27;s live workload and points out who&#x27;s stretched thin, who has nothing going, and who&#x27;s stuck. overloaded / idle / watch lists, plus who&#x27;s fine. sprint-phase lens only applies to a single designer; out-of-sync now checks both directions. 2026-10-08 team read-only" data-title="designer health check" data-added="2026-07-19" data-modified="2026-10-08">
-          <div class="card-head">
-            <h3>Designer health check</h3>
-            
-          </div>
-          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The team version of the personal health check — who&#x27;s overloaded, idle, or stalled.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Scope: whole team, a region, or a single designer (the prompt asks).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Checks each person&#x27;s live workload and points out who&#x27;s stretched thin, who has nothing going, and who&#x27;s stuck.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">Overloaded / Idle / Watch lists, plus who&#x27;s fine.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Sprint-phase lens only applies to a single designer; out-of-sync now checks both directions.</div></div></div>
-          <div class="card-actions">
-            <span class="updated" title="Last updated 2026-10-08">Updated Oct 8, 2026</span>
-            <button class="btn btn-primary" data-copy="p-3">Copy prompt</button>
-          </div>
-          <pre class="prompt-body" id="p-3" hidden>You are helping me run a health check across my UX designers&#x27; active work in Jira. Scope is **all projects** the designers work in (CXUX, CXQM, CXDV, CXREC, CXWFM, PMN, CXDSCVR, VOC, etc.) — do NOT restrict to project = CXUX. Measure everything **by task assignee** (the task is the unit of work for designers).
-
-SCOPE — ask me first. Before running any query, ask me exactly this and wait for my answer:
-&quot;Which scope do you want? (1) the whole team, (2) a specific region — Israel, India, or USA, or (3) a single designer (tell me the name)?&quot;
-Do not query Jira until I reply.
-- Whole team → all rosters combined; label each person&#x27;s team in the output.
-- A region → only that region&#x27;s roster (Israel, India, or USA).
-- A single designer → just that one person, resolved from the rosters. If the name isn&#x27;t in the rosters or is ambiguous, tell me and ask again.
-
-ROSTER — Israel designers (account_id in parentheses):
-Yaara Bar (557058:f02910b4-7a33-4532-ae52-65b2d02fc245), Chelsea Franz (712020:65c25382-da24-4a4f-9c1a-b9794892207f), Assaf Zinger (712020:0861d082-a1db-4b17-aeba-563afe001639), Eitan Koren (712020:5e21d1f2-366c-4c8e-90fe-3bfb9247687d), Tali Silon-Shacham (70121:f9675544-965d-4261-8c69-dd0b5af1f36b), Erez Bar (63ea3e479e626e54cc5ab8fd), Michael Dalal (712020:e6a03127-1281-4a20-a573-1cc6d59fcf0d), Yoav Chen (61151844627b5600688e908b), Libi Becker Tidhar (61190114650a26006e0f1823), Sveta Fomchenko (712020:d95bc91f-6277-4ae6-988a-bf4a191b66be), Lee Winkler (62cd77d61e326fd9301283b1), Lihi Shrem (712020:b7ff7587-41a6-4539-ba06-e2da1ca0810c), Tal Segev (712020:826cc4e2-1cd8-4e8e-ac09-c37294c8d27e).
-
-ROSTER — India designers (account_id in parentheses):
-Advait Patil (712020:7514f68a-9d45-45f5-8c66-991834165754), Ajit Vaidya (63adc588741248746bf6bdcc), Deepa Bhamare (62b16a22cebad33432f6b5c6), Deepak Badgujar (622ba91e8a4bb60068f70032), Dinesh Koli (712020:721636e8-4f81-48c0-aa3e-d38298047b60), Gajanan Rajput (712020:aa37b218-7608-4133-9500-aac224528ebc), Manashree Thokal (712020:ddc645bb-ccd2-41f5-9cc4-c019304c84e0), Mayur Chaudhari (712020:d488a8df-551b-4325-aa41-7d8e1dababca), Parimal Khanolkar (712020:27f92cd9-b054-4cf2-9ef0-56b974e21536), Prafull Mane (62cdb715dcf59ca4ad0145d2), Sheetal Barge-Gole (712020:c7abe286-b08a-4898-a5c1-9276f430c8df), Shikha Shukla (62baf1fbd752af0e54ebfa75), Sushanth Civi (712020:df95749d-30dc-4c39-b333-aa73a4742b7a), Tapas Chowdhury (626094579506d6006fd9fec6), Umajit Mongjam (70121:d43b183a-1a5a-41a1-87ec-cc0e549e8adc), Kalpesh Gurav (712020:8dab633f-0bed-41cd-b93a-d7d95746b0b5), Nirmitee Sisodia (712020:2f630343-f304-4df5-bcb2-ea638aaa72b5).
-
-ROSTER — USA designers (account_id in parentheses):
-Doug Clement (6077f6ccb5dffc006f4cb020), Janet Gonzales (6307037507b7804d7aa1da43), David Stoker (712020:ba6ab7d2-69f7-44ae-b2dc-e534b51c426e), Sara Evans (712020:8e26db37-d04f-4937-b9fd-0b5779f0485a), Lorina Binning (611cf7d5ee947000719686d9), Serena Yang (6318920b6856bdd60aa03d2b), Andrew Wong (712020:ce3e4425-40fd-4dee-bceb-7a773f98b5b9).
-
-Apply the health model only to the people the scope resolved to: all rosters (whole team), one region&#x27;s roster, or the single designer. For a single designer, drop the &quot;team&quot; labelling in the output header (use their name).
-
-HEALTH MODEL — apply these exact rules per person:
-
-Per-person In Progress task count (the band):
-- 0 tasks → 🔴 idle — nothing active.
-- 1 task → 🟠 under-engaged.
-- 2–4 tasks → ✅ ok.
-- 5+ tasks → 🔴 too many in progress.
-
-Other flags:
-- 🟠 stalled task — a task that has been In Progress for more than 14 days. Measure from the status-change date (`status CHANGED TO &quot;In Progress&quot; BEFORE -14d`), NOT the Updated field, which any edit bumps.
-- 🟠 epic out of sync — the epic&#x27;s status doesn&#x27;t reflect the work inside it. Flag BOTH directions: (a) a task is In Progress or Done while its parent Epic is still &quot;New&quot;; and (b) a task is still In Progress while its parent Epic is already &quot;Done&quot; (the common real case here). If a task has no parent Epic, skip this check for it.
-- 🟠 stalled epic — an Epic that has been In Progress for more than 45 days (status-change date, same rule as above).
-
-Sprint-phase lens (not a hard rule — context to apply on top):
-- Because scope is all projects, there is usually NO single active sprint — designers&#x27; In Progress work mostly sits outside any sprint, and different boards have different sprint dates. Only apply this lens when the scope is a single designer who works mostly in one project (use that board&#x27;s current sprint). Otherwise state &quot;sprint lens not applicable (work spans multiple boards)&quot; and skip it — do not guess one sprint&#x27;s date for the whole roster.
-- When it does apply: find the end date of that board&#x27;s active sprint. If 7 days or fewer remain, we&#x27;re in the &quot;last week&quot; of the sprint:
-  - &quot;too many in progress&quot; becomes a won&#x27;t-finish risk → treat as more severe.
-  - &quot;under-engaged&quot; is expected that week (work has converged toward Done) → suppress that flag entirely for the last week.
-
-STEPS:
-
-1. For every person in scope, find their Jira tasks currently In Progress (issue type = Task, status = In Progress, assignee = that person, across ALL projects — no project filter). For each, note the parent Epic and that Epic&#x27;s current status. Anyone in the roster with zero In Progress tasks is idle (0 tasks), even if you have to check them explicitly.
-2. Apply the In Progress band per person from the Health model above.
-3. Flag any task that has been In Progress for more than 14 days (stalled task).
-4. Flag any task whose parent Epic is still &quot;New&quot; while the task itself is In Progress or Done (epic out of sync).
-5. For the distinct parent Epics that are In Progress, check how long each has been In Progress; flag any epic over 45 days (stalled epic).
-6. Check the active sprint&#x27;s end date and apply the sprint-phase lens if we&#x27;re in the last 7 days.
-7. Present the result exactly in this format, most severe first, English only, every issue key labelled with its type (e.g. &quot;task CXUX-12345&quot; / &quot;epic CXUX-6789&quot;):
-
-```
-# &lt;Team&gt; — health
-*All projects · today &lt;date&gt;*
-🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only include this line if ≤7 days remain
-
-## 🔴 Overloaded
-- &lt;Name&gt; — N tasks in progress; M stalled &gt;14d; epic out of sync: epic KEY
-
-## 🔴 Idle
-- &lt;Name&gt; — 0 tasks in progress
-
-## 🟠 Watch
-- &lt;Name&gt; — &lt;under-engaged / stalled task KEY / epic KEY out of sync&gt;
-
-*No issues:* &lt;names with no flags, one line&gt;
-```
-
-8. If a flag is pervasive across most of the team (e.g. most people have an out-of-sync epic), say so once at the top as a process-level note instead of repeating it for every person.
-
-Do not create, edit, or transition any Jira issues — this is read-only reporting.</pre>
         </article>
 
         <article class="card" data-search="release workload size the ux workload of one project in one release. project key + fix version (e.g. cxrec, 26.4). adds up how much design work a release carries — how many features need it, how much effort it adds up to, and who owns it. four headline numbers plus a per-capability table. the capability↔ux epic link is by parent, not by name; uses the exact story points field. 2026-07-26 portfolio read-only" data-title="release workload" data-added="2026-07-20" data-modified="2026-07-26">

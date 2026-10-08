@@ -26,7 +26,7 @@ import sys
 DRAFT_ALL = True
 
 # Prompts confirmed working in Rovo after the hardening pass — exempt from DRAFT_ALL.
-VALIDATED = {"ux-designer-health-prompt.md"}
+VALIDATED = {"ux-designer-health-prompt.md", "ux-my-health-prompt.md"}
 
 ROOT = pathlib.Path(__file__).resolve().parent
 PROMPTS_DIR = ROOT / "ROVO Prompts"
@@ -296,8 +296,12 @@ def build():
             "added": added_date(path),
         })
 
-    # Default order: alphabetical by title (the JS "Sort by" control can re-order live)
-    prompts.sort(key=lambda p: p["title"].lower())
+    # Default order: validated (non-draft) first, then alphabetical by title.
+    # The JS "Sort by" control can re-order live.
+    prompts.sort(key=lambda p: (
+        p["file"] not in VALIDATED and (DRAFT_ALL or "draft" in p.get("tags", [])),
+        p["title"].lower(),
+    ))
 
     # Counts per category
     counts = {c["id"]: 0 for c in CATEGORIES}
