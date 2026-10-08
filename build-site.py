@@ -150,6 +150,17 @@ MANIFEST = [
         "note": "The Capability↔UX Epic link is by parent, not by name; uses the exact Story Points field.",
         "tags": ["portfolio", "read-only"],
     },
+    {
+        "file": "ux-space-map-prompt.md",
+        "category": "managers",
+        "title": "Cross-project space map",
+        "what_for": "See which Jira projects a designer touches and where their work is driven from.",
+        "input": "A designer's name (the prompt asks).",
+        "does": "Finds all active items assigned to that person, then traces the parent and grandparent chain to show which projects own the work upstream — in just two queries.",
+        "output": "Three lines: where they work, where parents live, where grandparents live — cross-project links bolded.",
+        "note": "One person at a time (lightweight). Only active work (New + In Progress); Done and Removed excluded.",
+        "tags": ["draft", "team", "read-only"],
+    },
     # --- Leadership (VP) ---
     {
         "file": "ux-portfolio-demand-prompt.md",

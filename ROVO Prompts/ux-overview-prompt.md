@@ -18,7 +18,7 @@ ROSTER — Israel designers:
 Yaara Bar, Chelsea Franz, Assaf Zinger, Eitan Koren, Tali Silon-Shacham, Erez Bar, Michael Dalal, Yoav Chen, Libi Becker Tidhar, Sveta Fomchenko, Lee Winkler, Lihi Shrem, Tal Segev.
 
 ROSTER — India designers:
-Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan Rajput, Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole, Shikha Shukla, Shilpa Sarkar, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam, Kalpesh Gurav, Nirmitee Sisodia, Nutan Doiphode.
+Advait Patil, Ajit Vaidya, Deepa Bhamare, Deepak Badgujar, Dinesh Koli, Gajanan Rajput, Manashree Thokal, Mayur Chaudhari, Parimal Khanolkar, Prafull Mane, Sheetal Barge-Gole, Shikha Shukla, Sushanth Civi, Tapas Chowdhury, Umajit Mongjam, Kalpesh Gurav, Nirmitee Sisodia.
 
 ROSTER — USA designers:
 Doug Clement, Janet Gonzales, David Stoker, Sara Evans, Lorina Binning, Serena Yang, Andrew Wong.
