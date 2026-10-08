@@ -195,23 +195,43 @@ EXPLAIN_ROWS = [
 ]
 
 
+DETAIL_ROWS = [
+    ("input", "Input"),
+    ("does", "What it does"),
+    ("output", "Output"),
+    ("note", "Note"),
+]
+
+
 def explain_block(entry: dict) -> str:
-    """Render the structured card body: a labelled two-column table
-    (What it's for / Input / What it does / Output / Note). Rows with no text
-    are skipped; the Note row gets a subtler style. Text is escaped."""
-    rows = []
-    for key, label in EXPLAIN_ROWS:
+    """Render the card body: 'What it's for' is always visible; the remaining
+    rows (Input, What it does, Output, Note) sit inside a <details> toggle
+    so the card stays compact."""
+    what_for = entry.get("what_for", "")
+    if not what_for:
+        return ""
+    detail_rows = []
+    for key, label in DETAIL_ROWS:
         text = entry.get(key, "")
         if not text:
             continue
         cls = "ex-row ex-note" if key == "note" else "ex-row"
-        rows.append(
+        detail_rows.append(
             f'<div class="{cls}"><div class="ex-label">{label}</div>'
             f'<div class="ex-val">{html.escape(text)}</div></div>'
         )
-    if not rows:
-        return ""
-    return f'<div class="explain">{"".join(rows)}</div>'
+    details_html = ""
+    if detail_rows:
+        details_html = (
+            f'<details class="ex-details"><summary class="ex-more">More details</summary>'
+            f'{"".join(detail_rows)}</details>'
+        )
+    return (
+        f'<div class="explain">'
+        f'<div class="ex-row"><div class="ex-label">What it\'s for</div>'
+        f'<div class="ex-val">{html.escape(what_for)}</div></div>'
+        f'{details_html}</div>'
+    )
 
 
 def extract_body(md_text: str) -> str:
@@ -542,6 +562,12 @@ TEMPLATE = """<!DOCTYPE html>
                color: var(--text-subtlest); padding-top: 2px; }}
   .ex-val {{ font-size: 13px; line-height: 1.5; color: var(--text-dim); }}
   .ex-note .ex-val {{ font-style: italic; color: var(--text-subtlest); }}
+  .ex-details {{ border-top: 1px solid var(--border); }}
+  .ex-more {{ font-size: 12px; font-weight: 600; color: var(--accent); cursor: pointer;
+              padding: 8px 0; list-style: none; }}
+  .ex-more::-webkit-details-marker {{ display: none; }}
+  .ex-more::before {{ content: "▸ "; }}
+  .ex-details[open] > .ex-more::before {{ content: "▾ "; }}
   .card-actions {{ display: flex; align-items: center; gap: 8px; margin-top: 16px; }}
   .updated {{ font-size: 11.5px; color: var(--text-subtlest); white-space: nowrap; }}
   .card-actions .btn-primary {{ margin-left: auto; }}
