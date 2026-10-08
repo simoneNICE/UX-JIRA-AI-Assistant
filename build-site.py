@@ -56,7 +56,7 @@ MANIFEST = [
         "input": "None — it looks at your own issues across all projects.",
         "does": "Looks at everything you have on the go and tells you whether it's too much, too little, or just right — and points out anything that's been sitting still too long.",
         "output": "A short verdict, most severe flag first.",
-        "note": "Counts only leaf work items (not Epics/Capabilities); ages measured from the status-change date.",
+        "note": "Same health model as the manager version (issue type = Task); epic out-of-sync checks both directions; ages measured from the status-change date.",
         "tags": ["self-service", "read-only"],
     },
     {

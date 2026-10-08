@@ -378,21 +378,19 @@ Footnotes: count of tasks with no Task Type set, and any unexpected types folded
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="my health check see in seconds whether your current workload is healthy. none — it looks at your own issues across all projects. looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long. a short verdict, most severe flag first. counts only leaf work items (not epics/capabilities); ages measured from the status-change date. 2026-07-26 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="my health check see in seconds whether your current workload is healthy. none — it looks at your own issues across all projects. looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long. a short verdict, most severe flag first. same health model as the manager version (issue type = task); epic out-of-sync checks both directions; ages measured from the status-change date. 2026-10-08 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-10-08">
           <div class="card-head">
             <h3>My health check</h3>
             <span class="badge-draft">Draft</span>
           </div>
-          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See in seconds whether your current workload is healthy.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — it looks at your own issues across all projects.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A short verdict, most severe flag first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Counts only leaf work items (not Epics/Capabilities); ages measured from the status-change date.</div></div></div>
+          <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See in seconds whether your current workload is healthy.</div></div><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — it looks at your own issues across all projects.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A short verdict, most severe flag first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Same health model as the manager version (issue type = Task); epic out-of-sync checks both directions; ages measured from the status-change date.</div></div></div>
           <div class="card-actions">
-            <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <span class="updated" title="Last updated 2026-10-08">Updated Oct 8, 2026</span>
             <button class="btn btn-primary" data-copy="p-5">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-5" hidden>You are helping me check the health of my own active work in Jira. Scope is ALL projects I work in (not just CXUX) — do not restrict by project. Measure everything against my own assignee identity in this workspace.
 
 HEALTH MODEL — apply these exact rules:
-
-IMPORTANT — count only real hands-on work items. CXUX uses a portfolio hierarchy (Initiative &gt; Capability &gt; Epic &gt; Task) and a designer is often assigned at every level. The band must count ONLY leaf work items — issue type Task, Story, Sub-task, or Bug. EXCLUDE Epic, Capability, and Initiative from the &quot;In Progress count&quot;, or the band will read 5+ when you actually have one task in hand.
 
 To measure how long something has been In Progress (the 14d / 45d flags), use the status-change date, e.g. `status CHANGED TO &quot;In Progress&quot; BEFORE -14d` (tasks) / `BEFORE -45d` (epics). Do NOT use the Updated date — any edit bumps it.
 
@@ -404,8 +402,8 @@ My In Progress task count (the band):
 
 Other flags:
 - 🟠 stalled task — a task that has been In Progress for more than 14 days.
-- 🟠 parent out of sync — one of my tasks is In Progress or Done while its immediate parent is still &quot;New&quot;. The parent may be an Epic OR a Capability (my tasks sometimes hang directly off a Capability) — check the immediate parent regardless of its type, and label it by its actual type in the output. If a task has no parent, skip this check for it.
-- 🟠 stalled parent — a parent (Epic or Capability) of mine that has been In Progress for more than 45 days.
+- 🟠 epic out of sync — my task&#x27;s parent Epic status doesn&#x27;t reflect the work inside it. Flag BOTH directions: (a) my task is In Progress or Done while its parent Epic is still &quot;New&quot;; and (b) my task is still In Progress while its parent Epic is already &quot;Done&quot;. If a task has no parent Epic, skip this check for it.
+- 🟠 stalled epic — a parent Epic of mine that has been In Progress for more than 45 days.
 
 Sprint-phase lens:
 - Find the active sprint&#x27;s end date (project CXUX). If 7 days or fewer remain, we&#x27;re in the last week:
@@ -413,11 +411,11 @@ Sprint-phase lens:
   - &quot;under-engaged&quot; is expected that week → suppress that flag.
 
 STEPS:
-1. Find my leaf work items (issue type Task, Story, Sub-task, or Bug — NOT Epic/Capability/Initiative) currently In Progress, across all projects. For each, note its immediate parent and that parent&#x27;s status/type.
-2. Apply the In Progress band (leaf items only).
+1. Find my tasks currently In Progress (issue type = Task, status = In Progress, assignee = me, across ALL projects — no project filter). For each, note the parent Epic and that Epic&#x27;s current status.
+2. Apply the In Progress band.
 3. Flag any task In Progress for more than 14 days (use the status-change date, not Updated).
-4. Flag any task whose immediate parent (Epic or Capability) is still &quot;New&quot; while my task is In Progress or Done.
-5. For my distinct parents that are In Progress, check how long each has been In Progress; flag any over 45 days.
+4. Flag any task whose parent Epic is still &quot;New&quot; while my task is In Progress or Done (epic out of sync — direction a). Flag any task still In Progress while its parent Epic is already &quot;Done&quot; (epic out of sync — direction b).
+5. For my distinct parent Epics that are In Progress, check how long each has been In Progress; flag any over 45 days (stalled epic).
 6. Check the active sprint&#x27;s end date (project CXUX) and apply the sprint-phase lens if within 7 days of the end.
 7. Present:
 
