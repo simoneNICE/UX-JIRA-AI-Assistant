@@ -53,24 +53,22 @@ STEPS:
 4. Flag any task whose parent Epic is still "New" while the task itself is In Progress or Done (epic out of sync).
 5. For the distinct parent Epics that are In Progress, check how long each has been In Progress; flag any epic over 45 days (stalled epic).
 6. Check the active sprint's end date and apply the sprint-phase lens if we're in the last 7 days.
-7. Present the result exactly in this format, most severe first, English only, every issue key labelled with its type (e.g. "task CXUX-12345" / "epic CXUX-6789"):
+7. Present the result as a TABLE — one row per person, most severe first (🔴 before 🟠 before ✅), English only. Every issue key must be labelled with its type (e.g. "task CXUX-12345" / "epic CXUX-6789"). Use exactly this format:
 
 ```
 # <Team> — health
 *All projects · today <date>*
 🗓️ Sprint <name> — last week (<days> days left)   ← only include this line if ≤7 days remain
 
-## 🔴 Overloaded
-- <Name> — N tasks in progress; M stalled >14d; epic out of sync: epic KEY
-
-## 🔴 Idle
-- <Name> — 0 tasks in progress
-
-## 🟠 Watch
-- <Name> — <under-engaged / stalled task KEY / epic KEY out of sync>
-
-*No issues:* <names with no flags, one line>
+| Status | Designer | Team | In Progress | Stalled tasks >14d | Epic out of sync | Stalled epics >45d |
+|---|---|---|---|---|---|---|
+| 🔴 Overloaded | <Name> | <Israel/India/USA> | 6 | task KEY, task KEY | epic KEY | — |
+| 🔴 Idle | <Name> | <team> | 0 | — | — | — |
+| 🟠 Watch | <Name> | <team> | 1 (under-engaged) | — | epic KEY | epic KEY |
+| ✅ OK | <Name> | <team> | 3 | — | — | — |
 ```
+
+Table rules: keep it a single table (never bullet lists); use "—" for empty cells; keep cells short (keys and counts only, no sentences); for a single designer drop the Team column and use their name in the header. Put the ✅ OK people as the last rows of the same table.
 
 8. If a flag is pervasive across most of the team (e.g. most people have an out-of-sync epic), say so once at the top as a process-level note instead of repeating it for every person.
 

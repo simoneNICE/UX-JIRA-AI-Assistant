@@ -42,17 +42,22 @@ STEPS:
 3. Among the in-scope tasks, find any In Progress for more than 14 days (stalled task).
 4. Find any in-scope research Epic that has been In Progress for more than 45 days (stalled epic).
 5. Per researcher: apply the In Progress task band, stalled tasks, out-of-sync epics, stalled epics, and the sprint-phase lens.
-6. Present, one block per researcher, most severe first:
+6. Present as a TABLE — one row per researcher, most severe first (🔴 before 🟠 before ✅). Every key labelled: task CXUX-NNNNN / epic CXUX-NNNNN. Use exactly this format:
 
 ```
 # Researchers — health
 *Researches under CXUX-12163 · today <date>*
 🗓️ Sprint <name> — last week (<days> days left)   ← only if ≤7 days remain
 
-🔴 <Name> — <verdict>
-<one sentence, every key labelled: task CXUX-NNNNN / epic CXUX-NNNNN>
+| Status | Researcher | Researches (epics) | In Progress tasks | Stalled tasks >14d | Epic out of sync | Stalled epics >45d |
+|---|---|---|---|---|---|---|
+| 🔴 Overloaded | <Name> | epic KEY, epic KEY | 6 | task KEY | — | epic KEY |
+| 🟠 Watch | <Name> | epic KEY | 1 (under-engaged) | — | — | — |
+| ✅ OK | <Name> | epic KEY | 3 | — | — | — |
 ```
 
-Healthy researchers: one 🟢 line, or omit entirely. Mention any unassigned researches once, separately, at the end.
+Table rules: a single table (no bullet lists); "—" for empty cells; short cells (keys and counts only, no sentences). Healthy researchers stay in the table as ✅ OK rows.
+
+After the table, list any unassigned researches once, as a separate small table: `| Unassigned research | Status |` with `epic CXUX-NNNNN` per row.
 
 Read-only — do not create, edit, or transition any issues.

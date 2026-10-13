@@ -34,15 +34,23 @@ STEPS:
 4. Flag any task whose parent Epic is still "New" while my task is In Progress or Done (epic out of sync — direction a). Flag any task still In Progress while its parent Epic is already "Done" (epic out of sync — direction b).
 5. For my distinct parent Epics that are In Progress, check how long each has been In Progress; flag any over 45 days (stalled epic).
 6. Check the active sprint's end date (project CXUX) and apply the sprint-phase lens if within 7 days of the end.
-7. Present:
+7. Present as a TABLE (not a bullet list), using exactly this format:
 
 ```
 # My health check
 *All projects · today <date>*
 🗓️ Sprint <name> — last week (<days> days left)   ← only if ≤7 days remain
 
-🔴 / 🟠 / ✅ <overall verdict>
-<one sentence per flag, each issue key labelled: task CXUX-NNNNN / epic CXUX-NNNNN>
+**Verdict:** 🔴 / 🟠 / ✅ <one-line overall verdict> — <N> tasks in progress
+
+| Severity | Flag | Item | Detail |
+|---|---|---|---|
+| 🔴 | Too many in progress | — | 6 tasks in progress |
+| 🟠 | Stalled task | task CXUX-NNNNN | In Progress for 21 days |
+| 🟠 | Epic out of sync | task CXUX-NNNNN → epic CXUX-NNNNN | task In Progress, epic Done |
+| 🟠 | Stalled epic | epic CXUX-NNNNN | In Progress for 60 days |
 ```
 
-Lead with the most severe flag. Read-only — do not create, edit, or transition any issues.
+One row per flag, most severe first; keep Detail short (one phrase). Every issue key labelled: task CXUX-NNNNN / epic CXUX-NNNNN. If there are no flags, show only the verdict line (✅) and no table.
+
+Read-only — do not create, edit, or transition any issues.

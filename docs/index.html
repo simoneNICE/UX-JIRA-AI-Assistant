@@ -229,14 +229,14 @@
   </div>
 
   <section class="panel active" id="panel-designers" role="tabpanel"><p class="cat-desc">Self-service prompts for your day-to-day work: create epics, check your health, review your year.</p><div class="grid">
-        <article class="card" data-search="my health check see in seconds whether your current workload is healthy. none — it looks at your own issues across all projects. looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long. a short verdict, most severe flag first. same health model as the manager version (issue type = task); epic out-of-sync checks both directions; ages measured from the status-change date. 2026-10-08 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-10-08">
+        <article class="card" data-search="my health check see in seconds whether your current workload is healthy. none — it looks at your own issues across all projects. looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long. a short verdict, most severe flag first. same health model as the manager version (issue type = task); epic out-of-sync checks both directions; ages measured from the status-change date. 2026-10-13 self-service read-only" data-title="my health check" data-added="2026-07-19" data-modified="2026-10-13">
           <div class="card-head">
             <h3>My health check</h3>
             
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">See in seconds whether your current workload is healthy.</div></div><details class="ex-details"><summary class="ex-more">More details</summary><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — it looks at your own issues across all projects.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Looks at everything you have on the go and tells you whether it&#x27;s too much, too little, or just right — and points out anything that&#x27;s been sitting still too long.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">A short verdict, most severe flag first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Same health model as the manager version (issue type = Task); epic out-of-sync checks both directions; ages measured from the status-change date.</div></div></details></div>
           <div class="card-actions">
-            <span class="updated" title="Last updated 2026-10-08">Updated Oct 8, 2026</span>
+            <span class="updated" title="Last updated 2026-10-13">Updated Oct 13, 2026</span>
             <button class="btn btn-primary" data-copy="p-1">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-1" hidden>You are helping me check the health of my own active work in Jira. Scope is ALL projects I work in (not just CXUX) — do not restrict by project. Measure everything against my own assignee identity in this workspace.
@@ -268,18 +268,26 @@ STEPS:
 4. Flag any task whose parent Epic is still &quot;New&quot; while my task is In Progress or Done (epic out of sync — direction a). Flag any task still In Progress while its parent Epic is already &quot;Done&quot; (epic out of sync — direction b).
 5. For my distinct parent Epics that are In Progress, check how long each has been In Progress; flag any over 45 days (stalled epic).
 6. Check the active sprint&#x27;s end date (project CXUX) and apply the sprint-phase lens if within 7 days of the end.
-7. Present:
+7. Present as a TABLE (not a bullet list), using exactly this format:
 
 ```
 # My health check
 *All projects · today &lt;date&gt;*
 🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only if ≤7 days remain
 
-🔴 / 🟠 / ✅ &lt;overall verdict&gt;
-&lt;one sentence per flag, each issue key labelled: task CXUX-NNNNN / epic CXUX-NNNNN&gt;
+**Verdict:** 🔴 / 🟠 / ✅ &lt;one-line overall verdict&gt; — &lt;N&gt; tasks in progress
+
+| Severity | Flag | Item | Detail |
+|---|---|---|---|
+| 🔴 | Too many in progress | — | 6 tasks in progress |
+| 🟠 | Stalled task | task CXUX-NNNNN | In Progress for 21 days |
+| 🟠 | Epic out of sync | task CXUX-NNNNN → epic CXUX-NNNNN | task In Progress, epic Done |
+| 🟠 | Stalled epic | epic CXUX-NNNNN | In Progress for 60 days |
 ```
 
-Lead with the most severe flag. Read-only — do not create, edit, or transition any issues.</pre>
+One row per flag, most severe first; keep Detail short (one phrase). Every issue key labelled: task CXUX-NNNNN / epic CXUX-NNNNN. If there are no flags, show only the verdict line (✅) and no table.
+
+Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
         <article class="card" data-search="create a ux epic create a well-structured ux epic under a capability in cxux, without building it by hand. a capability key (e.g. cxux-12754). reads the capability, writes the epic for you and files it under that capability in your name, then asks which tasks you want and adds them — each already filled in with a starting template. the new epic plus the chosen tasks, all linked and assigned to you. the only prompt that writes to jira — and only after you confirm the tasks. 2026-08-18 writes autonomous" data-title="create a ux epic" data-added="2026-07-19" data-modified="2026-08-18">
@@ -437,14 +445,14 @@ Footnotes: count of tasks with no Task Type set, and any unexpected types folded
 Read-only — do not create, edit, or transition any issues.</pre>
         </article></div></section>
 <section class="panel" id="panel-managers" role="tabpanel"><p class="cat-desc">Team and portfolio views: overview, health checks, annual reports, design readiness.</p><div class="grid">
-        <article class="card" data-search="designer health check the team version of the personal health check — who&#x27;s overloaded, idle, or stalled. scope: whole team, a region, or a single designer (the prompt asks). checks each person&#x27;s live workload and points out who&#x27;s stretched thin, who has nothing going, and who&#x27;s stuck. overloaded / idle / watch lists, plus who&#x27;s fine. sprint-phase lens only applies to a single designer; out-of-sync now checks both directions. 2026-10-08 team read-only" data-title="designer health check" data-added="2026-07-19" data-modified="2026-10-08">
+        <article class="card" data-search="designer health check the team version of the personal health check — who&#x27;s overloaded, idle, or stalled. scope: whole team, a region, or a single designer (the prompt asks). checks each person&#x27;s live workload and points out who&#x27;s stretched thin, who has nothing going, and who&#x27;s stuck. overloaded / idle / watch lists, plus who&#x27;s fine. sprint-phase lens only applies to a single designer; out-of-sync now checks both directions. 2026-10-13 team read-only" data-title="designer health check" data-added="2026-07-19" data-modified="2026-10-13">
           <div class="card-head">
             <h3>Designer health check</h3>
             
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The team version of the personal health check — who&#x27;s overloaded, idle, or stalled.</div></div><details class="ex-details"><summary class="ex-more">More details</summary><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">Scope: whole team, a region, or a single designer (the prompt asks).</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Checks each person&#x27;s live workload and points out who&#x27;s stretched thin, who has nothing going, and who&#x27;s stuck.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">Overloaded / Idle / Watch lists, plus who&#x27;s fine.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Sprint-phase lens only applies to a single designer; out-of-sync now checks both directions.</div></div></details></div>
           <div class="card-actions">
-            <span class="updated" title="Last updated 2026-10-08">Updated Oct 8, 2026</span>
+            <span class="updated" title="Last updated 2026-10-13">Updated Oct 13, 2026</span>
             <button class="btn btn-primary" data-copy="p-0">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-0" hidden>You are helping me run a health check across my UX designers&#x27; active work in Jira. Scope is **all projects** the designers work in (CXUX, CXQM, CXDV, CXREC, CXWFM, PMN, CXDSCVR, VOC, etc.) — do NOT restrict to project = CXUX. Measure everything **by task assignee** (the task is the unit of work for designers).
@@ -494,24 +502,22 @@ STEPS:
 4. Flag any task whose parent Epic is still &quot;New&quot; while the task itself is In Progress or Done (epic out of sync).
 5. For the distinct parent Epics that are In Progress, check how long each has been In Progress; flag any epic over 45 days (stalled epic).
 6. Check the active sprint&#x27;s end date and apply the sprint-phase lens if we&#x27;re in the last 7 days.
-7. Present the result exactly in this format, most severe first, English only, every issue key labelled with its type (e.g. &quot;task CXUX-12345&quot; / &quot;epic CXUX-6789&quot;):
+7. Present the result as a TABLE — one row per person, most severe first (🔴 before 🟠 before ✅), English only. Every issue key must be labelled with its type (e.g. &quot;task CXUX-12345&quot; / &quot;epic CXUX-6789&quot;). Use exactly this format:
 
 ```
 # &lt;Team&gt; — health
 *All projects · today &lt;date&gt;*
 🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only include this line if ≤7 days remain
 
-## 🔴 Overloaded
-- &lt;Name&gt; — N tasks in progress; M stalled &gt;14d; epic out of sync: epic KEY
-
-## 🔴 Idle
-- &lt;Name&gt; — 0 tasks in progress
-
-## 🟠 Watch
-- &lt;Name&gt; — &lt;under-engaged / stalled task KEY / epic KEY out of sync&gt;
-
-*No issues:* &lt;names with no flags, one line&gt;
+| Status | Designer | Team | In Progress | Stalled tasks &gt;14d | Epic out of sync | Stalled epics &gt;45d |
+|---|---|---|---|---|---|---|
+| 🔴 Overloaded | &lt;Name&gt; | &lt;Israel/India/USA&gt; | 6 | task KEY, task KEY | epic KEY | — |
+| 🔴 Idle | &lt;Name&gt; | &lt;team&gt; | 0 | — | — | — |
+| 🟠 Watch | &lt;Name&gt; | &lt;team&gt; | 1 (under-engaged) | — | epic KEY | epic KEY |
+| ✅ OK | &lt;Name&gt; | &lt;team&gt; | 3 | — | — | — |
 ```
+
+Table rules: keep it a single table (never bullet lists); use &quot;—&quot; for empty cells; keep cells short (keys and counts only, no sentences); for a single designer drop the Team column and use their name in the header. Put the ✅ OK people as the last rows of the same table.
 
 8. If a flag is pervasive across most of the team (e.g. most people have an out-of-sync epic), say so once at the top as a process-level note instead of repeating it for every person.
 
@@ -560,19 +566,26 @@ STEPS — work one person at a time:
    b. **Parent projects** — distinct projects from the parent keys (step 1). Flag any that differ from the &quot;Works in&quot; list.
    c. **Grandparent projects** — distinct projects from the grandparent keys (step 2). Flag any that differ from the &quot;Works in&quot; list.
 
-4. Output — keep it short:
+4. Output — keep it short, split by status:
 
 ```
 # Space map — &lt;Name&gt;
-*Active work (New + In Progress) · &lt;date&gt;*
+*&lt;date&gt;*
 
-Works in: CXUX (14), CXREC (1)
-Parents in: CXUX (8), **CXREC** (5), **PMN** (2)
-Grandparents in: **CXREC** (4), CXUX (3), **PMN** (1)
+## New
+Works in: CXUX (5), CXREC (1)
+Parents in: CXUX (3), **CXREC** (2)
+Grandparents in: **CXREC** (2), CXUX (1)
+
+## In Progress
+Works in: CXUX (9)
+Parents in: CXUX (5), **PMN** (2)
+Grandparents in: **CXREC** (2), CXUX (3), **PMN** (1)
 ```
 
 Bold a project name when it does NOT appear in the &quot;Works in&quot; list — that is true cross-project demand.
-If the person has zero active items, just say so.
+If a status section has zero items, show &quot;None&quot; on one line.
+If the person has zero active items overall, just say so.
 
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
@@ -869,14 +882,14 @@ No component — &lt;n&gt;: &lt;keys&gt;   ← only if any
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
 
-        <article class="card" data-search="researcher health check the same health check on the research portfolio (epics under cxux-12163), for researchers. none — the researcher roster is built into the prompt. goes through the current researches and checks each researcher&#x27;s workload the same way — too much, too little, or stuck. one block per researcher, most severe first. read-only; counts a researcher&#x27;s tasks under their epics regardless of the task&#x27;s own assignee. 2026-07-26 team research read-only" data-title="researcher health check" data-added="2026-07-19" data-modified="2026-07-26">
+        <article class="card" data-search="researcher health check the same health check on the research portfolio (epics under cxux-12163), for researchers. none — the researcher roster is built into the prompt. goes through the current researches and checks each researcher&#x27;s workload the same way — too much, too little, or stuck. one block per researcher, most severe first. read-only; counts a researcher&#x27;s tasks under their epics regardless of the task&#x27;s own assignee. 2026-10-13 team research read-only" data-title="researcher health check" data-added="2026-07-19" data-modified="2026-10-13">
           <div class="card-head">
             <h3>Researcher health check</h3>
             <span class="badge-draft">Draft</span>
           </div>
           <div class="explain"><div class="ex-row"><div class="ex-label">What it's for</div><div class="ex-val">The same health check on the Research portfolio (Epics under CXUX-12163), for researchers.</div></div><details class="ex-details"><summary class="ex-more">More details</summary><div class="ex-row"><div class="ex-label">Input</div><div class="ex-val">None — the researcher roster is built into the prompt.</div></div><div class="ex-row"><div class="ex-label">What it does</div><div class="ex-val">Goes through the current researches and checks each researcher&#x27;s workload the same way — too much, too little, or stuck.</div></div><div class="ex-row"><div class="ex-label">Output</div><div class="ex-val">One block per researcher, most severe first.</div></div><div class="ex-row ex-note"><div class="ex-label">Note</div><div class="ex-val">Read-only; counts a researcher&#x27;s tasks under their Epics regardless of the task&#x27;s own assignee.</div></div></details></div>
           <div class="card-actions">
-            <span class="updated" title="Last updated 2026-07-26">Updated Jul 26, 2026</span>
+            <span class="updated" title="Last updated 2026-10-13">Updated Oct 13, 2026</span>
             <button class="btn btn-primary" data-copy="p-10">Copy prompt</button>
           </div>
           <pre class="prompt-body" id="p-10" hidden>You are helping me run a health check on the UX Researches portfolio in Jira project CXUX.
@@ -916,18 +929,23 @@ STEPS:
 3. Among the in-scope tasks, find any In Progress for more than 14 days (stalled task).
 4. Find any in-scope research Epic that has been In Progress for more than 45 days (stalled epic).
 5. Per researcher: apply the In Progress task band, stalled tasks, out-of-sync epics, stalled epics, and the sprint-phase lens.
-6. Present, one block per researcher, most severe first:
+6. Present as a TABLE — one row per researcher, most severe first (🔴 before 🟠 before ✅). Every key labelled: task CXUX-NNNNN / epic CXUX-NNNNN. Use exactly this format:
 
 ```
 # Researchers — health
 *Researches under CXUX-12163 · today &lt;date&gt;*
 🗓️ Sprint &lt;name&gt; — last week (&lt;days&gt; days left)   ← only if ≤7 days remain
 
-🔴 &lt;Name&gt; — &lt;verdict&gt;
-&lt;one sentence, every key labelled: task CXUX-NNNNN / epic CXUX-NNNNN&gt;
+| Status | Researcher | Researches (epics) | In Progress tasks | Stalled tasks &gt;14d | Epic out of sync | Stalled epics &gt;45d |
+|---|---|---|---|---|---|---|
+| 🔴 Overloaded | &lt;Name&gt; | epic KEY, epic KEY | 6 | task KEY | — | epic KEY |
+| 🟠 Watch | &lt;Name&gt; | epic KEY | 1 (under-engaged) | — | — | — |
+| ✅ OK | &lt;Name&gt; | epic KEY | 3 | — | — | — |
 ```
 
-Healthy researchers: one 🟢 line, or omit entirely. Mention any unassigned researches once, separately, at the end.
+Table rules: a single table (no bullet lists); &quot;—&quot; for empty cells; short cells (keys and counts only, no sentences). Healthy researchers stay in the table as ✅ OK rows.
+
+After the table, list any unassigned researches once, as a separate small table: `| Unassigned research | Status |` with `epic CXUX-NNNNN` per row.
 
 Read-only — do not create, edit, or transition any issues.</pre>
         </article>
